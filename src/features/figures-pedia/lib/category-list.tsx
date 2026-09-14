@@ -1,0 +1,15 @@
+export const categories = [
+  "academia",
+  "ọseghe",
+  "ọdjonẹ",
+  "ọsoine",
+  "ọboine",
+  "ọyona",
+  "activist",
+  "ọchueki",
+  "religious",
+  "military",
+  "ovie iku",
+  "ovie",
+  "ọfa",
+];

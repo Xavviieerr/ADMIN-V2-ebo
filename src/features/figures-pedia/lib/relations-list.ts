@@ -1,0 +1,16 @@
+export const relations = [
+  "ọsẹ",
+  "oni",
+  "orivẹ",
+  "ex-spouse",
+  "ọmọ",
+  "oniovo",
+  "ọsẹ ode",
+  "oni ode",
+  "uvwiomọ",
+  "oniosẹ",
+  "onioni",
+  "uyuvwi",
+  "ọse",
+  "ọfa",
+];

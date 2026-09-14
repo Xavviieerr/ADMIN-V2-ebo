@@ -1,0 +1,1 @@
+export { useWordSearch } from "./useWordSearch";

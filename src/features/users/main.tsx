@@ -30,13 +30,16 @@ const UserManagementFeature = ({ data }: { data: UserStats | null }) => {
     statusFilter,
     sortBy,
     sortOrder,
-    userList: filteredUsers,
+    activeView,
+    userList,
+    contributorList,
     pagination,
     isFetching,
     isError,
     error,
     refetch,
     isSuperAdmin,
+    isAdmin,
     hasPermission,
     handleSearchChange,
     handleSearchText,
@@ -63,7 +66,9 @@ const UserManagementFeature = ({ data }: { data: UserStats | null }) => {
   const hasActiveFilters =
     searchTerm.trim().length > 0 || roleFilter !== "all" || statusFilter !== "all";
 
-  if (isFetching && !filteredUsers.length && !pagination) {
+  const isContributorsView = activeView === "contributors";
+
+  if (isFetching && !userList.length && !contributorList.length && !pagination) {
     return (
       <div className="flex items-center justify-center h-[70vh]">
         <LoadingSpinner size="lg" />
@@ -96,7 +101,9 @@ const UserManagementFeature = ({ data }: { data: UserStats | null }) => {
 
       <UserFilter
         role={roleFilter}
+        activeView={activeView}
         isSuperAdmin={isSuperAdmin}
+        isAdmin={isAdmin}
         handleRoleFilterChange={handleRoleFilterChange}
       />
 
@@ -111,10 +118,13 @@ const UserManagementFeature = ({ data }: { data: UserStats | null }) => {
         sortOrder={sortOrder}
         handleSortByChange={handleSortByChange}
         handleSortOrderChange={handleSortOrderChange}
+        isContributorsView={isContributorsView}
       />
 
       <UserTable
-        filteredUsers={filteredUsers}
+        filteredUsers={userList}
+        contributors={contributorList}
+        isContributorsView={isContributorsView}
         handleViewUser={handleViewUser}
         handleDelete={handleDelete}
         isSuperAdmin={isSuperAdmin}
@@ -122,7 +132,9 @@ const UserManagementFeature = ({ data }: { data: UserStats | null }) => {
       />
 
       <MobileUserCards
-        filteredUsers={filteredUsers}
+        filteredUsers={userList}
+        contributors={contributorList}
+        isContributorsView={isContributorsView}
         handleViewUser={handleViewUser}
         handleDelete={handleDelete}
         isSuperAdmin={isSuperAdmin}

@@ -1,15 +1,10 @@
-import { DashboardFeature } from "@/features/dashboard";
-import { PermissionGate } from "@/features/shared";
+import { HomeFeature } from "@/features/home";
 
-export default async function DashboardPage({
+export default async function HomePage({
   searchParams,
 }: {
   searchParams: Promise<{ page: string }>;
 }) {
   const query = await searchParams;
-  return (
-    <PermissionGate>
-      <DashboardFeature query={query} />
-    </PermissionGate>
-  );
+  return <HomeFeature query={query} />;
 }

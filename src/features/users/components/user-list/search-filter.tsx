@@ -7,7 +7,13 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useKeyboard } from "@/features/shared/components/keyboard-context";
 import { Keyboard, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { STATUS_FILTER_OPTIONS, SORT_BY_OPTIONS, SORT_ORDER_OPTIONS } from "../../constants";
+import {
+  STATUS_FILTER_OPTIONS,
+  SORT_BY_OPTIONS,
+  SORT_ORDER_OPTIONS,
+  CONTRIBUTOR_STATUS_FILTER_OPTIONS,
+  CONTRIBUTOR_SORT_BY_OPTIONS,
+} from "../../constants";
 import SortDropdown from "./sort-dropdown";
 
 const SearchFilter = ({
@@ -21,6 +27,7 @@ const SearchFilter = ({
   sortOrder,
   handleSortByChange,
   handleSortOrderChange,
+  isContributorsView,
 }: {
   searchTerm: string;
   isFetching: boolean;
@@ -32,6 +39,7 @@ const SearchFilter = ({
   sortOrder: string;
   handleSortByChange: (value: string) => void;
   handleSortOrderChange: (value: string) => void;
+  isContributorsView?: boolean;
 }) => {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
@@ -43,6 +51,14 @@ const SearchFilter = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [showOptions, setShowOptions] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
+  const statusRef = useRef<HTMLDivElement>(null);
+
+  const statusOptions = isContributorsView
+    ? CONTRIBUTOR_STATUS_FILTER_OPTIONS
+    : STATUS_FILTER_OPTIONS;
+  const sortByOptions = isContributorsView
+    ? CONTRIBUTOR_SORT_BY_OPTIONS
+    : SORT_BY_OPTIONS;
 
   useEffect(() => {
     valueRef.current = searchTerm;
@@ -56,6 +72,19 @@ const SearchFilter = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!showOptions) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (statusRef.current && !statusRef.current.contains(event.target as Node)) {
+        setShowOptions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showOptions]);
 
   return (
     <div className="flex max-md:flex-col max-md:gap-5 gap-3 w-full justify-between mb-6 mt-10">
@@ -136,6 +165,7 @@ const SearchFilter = ({
 
       <div className="flex max-md:flex-col-reverse max-md:items-end items-center gap-5">
         <div
+          ref={statusRef}
           role="button"
           tabIndex={0}
           aria-haspopup="listbox"
@@ -151,7 +181,7 @@ const SearchFilter = ({
           }}
           className="flex items-center justify-between gap-4 min-w-30 relative bg-gray-txt-100 focus:ring-1 ring-foreground-50 px-5 py-3 rounded-lg outline-none cursor-pointer"
         >
-          <p>{STATUS_FILTER_OPTIONS.find((item) => item.value === statusFilter)?.label || "All"}</p>
+          <p>{statusOptions.find((item) => item.value === statusFilter)?.label || "All"}</p>
           <span className="h-4 w-4 sm:h-5 sm:w-5" />
 
           {showOptions && (
@@ -159,7 +189,7 @@ const SearchFilter = ({
               role="listbox"
               className="absolute top-full left-0 mt-2 w-full transition-all ease-in-out bg-secondary-bg rounded-lg shadow-lg"
             >
-              {STATUS_FILTER_OPTIONS.map((item) => (
+              {statusOptions.map((item) => (
                 <button
                   key={item.value}
                   role="option"
@@ -180,7 +210,7 @@ const SearchFilter = ({
 
         <SortDropdown
           label={t("common.sortBy", "Sort by")}
-          options={SORT_BY_OPTIONS}
+          options={sortByOptions}
           value={sortBy}
           onChange={handleSortByChange}
         />

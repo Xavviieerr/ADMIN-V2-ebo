@@ -13,7 +13,8 @@ export type ValidTags =
   | "permissions"
   | "wordreview"
   | "wordofday"
-  | "wordReviews";
+  | "wordReviews"
+  | "contributors";
 
 export type AppEndpointBuilder = EndpointBuilder<
   BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,

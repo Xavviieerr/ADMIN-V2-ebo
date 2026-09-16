@@ -57,6 +57,3 @@ export { clearLocalSession, performLogoutCleanup } from "./utils/session";
 
 // Auth interceptor (for RTK Query baseQuery)
 export { createBaseQueryWithReauth } from "./utils/authBaseQuery";
-
-// Components
-export { default as AuthGuard } from "./components/AuthGuard";

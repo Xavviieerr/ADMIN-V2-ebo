@@ -144,3 +144,43 @@ export type UserStats = {
   adminUsers: number;
   contributors: number;
 };
+
+export type Contributor = {
+  id: string;
+  user: {
+    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+  };
+  status: "approved" | "pending" | "rejected" | "suspended";
+  applicationNote: string;
+  expertise: string;
+  submissionCount: number;
+  approvedCount: number;
+  approvedBy: string | null;
+  approvedAt: string | null;
+  suspendedBy: string | null;
+  suspensionReason: string | null;
+  rejectionReason?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ContributorStats = {
+  total: number;
+  approved: number;
+  pending: number;
+  rejected: number;
+  suspended: number;
+};
+
+export type ContributorListResponse = {
+  items: Contributor[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+};

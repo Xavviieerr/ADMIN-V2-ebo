@@ -2,7 +2,6 @@ export { default as AdminPermissions } from "./admin-permissions";
 export { default as AdminProfile } from "./admin-profile";
 export { default as AvatarNameSection } from "./avatar-name";
 export { default as ContributorPermissions } from "./contributor-permissions";
-export { default as ContributorProfile } from "./contributor-profile";
 export { default as ErrorWidget } from "./error-widget";
 export { default as PermissionItem } from "./permission-item";
 export { default as SingleAdminCTA } from "./single-admin-cta";

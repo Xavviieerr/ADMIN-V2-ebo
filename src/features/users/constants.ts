@@ -4,6 +4,7 @@ export const STORAGE_KEY_USERS_ROLE = "users_role_filter";
 export const STORAGE_KEY_USERS_STATUS = "users_status_filter";
 export const STORAGE_KEY_USERS_SORT_BY = "users_sort_by";
 export const STORAGE_KEY_USERS_SORT_ORDER = "users_sort_order";
+export const STORAGE_KEY_ACTIVE_VIEW = "users_active_view";
 
 export const USERS_LIST_LIMIT = 8;
 export const USERS_SEARCH_DEBOUNCE_MS = 400;
@@ -34,10 +35,32 @@ export const STATUS_FILTER_OPTIONS: FilterOption[] = [
   { value: "inactive", label: "Inactive" },
 ];
 
+export const CONTRIBUTOR_STATUS_FILTER_OPTIONS: FilterOption[] = [
+  { value: "all", label: "All" },
+  { value: "approved", label: "Approved" },
+  { value: "pending", label: "Pending" },
+  { value: "rejected", label: "Rejected" },
+  { value: "suspended", label: "Suspended" },
+];
+
+export const CONTRIBUTOR_SORT_BY_OPTIONS: FilterOption[] = [
+  { value: "name", label: "Name" },
+  { value: "username", label: "Username" },
+  { value: "expertise", label: "Expertise" },
+  { value: "status", label: "Status" },
+  { value: "createdAt", label: "Joined Date" },
+];
+
 export const ROLE_FILTER_OPTIONS: FilterOption[] = [
   { value: "all", label: "common.allRoles" },
   { value: "admin", label: "common.admin" },
   { value: "user", label: "common.users" },
+  { value: "contributors", label: "common.contributors" },
+];
+
+export const ADMIN_ROLE_FILTER_OPTIONS: FilterOption[] = [
+  { value: "user", label: "common.users" },
+  { value: "contributors", label: "common.contributors" },
 ];
 
 const ALLOWED_ROLE_FILTERS = new Set(

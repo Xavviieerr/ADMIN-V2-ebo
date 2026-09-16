@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 type SortDropdownProps = {
   label: string;
@@ -17,9 +17,24 @@ export default function SortDropdown({
   onChange,
 }: SortDropdownProps) {
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [open]);
 
   return (
     <div
+      ref={ref}
       role="button"
       tabIndex={0}
       aria-haspopup="listbox"

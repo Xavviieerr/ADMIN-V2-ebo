@@ -58,4 +58,5 @@ export type TranslationKey =
   | `login.${string}`
   | `forgotPassword.${string}`
   | `changePassword.${string}`
-  | `profile.${string}`;
+  | `profile.${string}`
+  | `home.${string}`;

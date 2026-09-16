@@ -8,6 +8,8 @@ import { createBaseQueryWithReauth } from "@/features/auth/utils/authBaseQuery";
 import { provinceEndpoints } from "./endpoints/provinceEndpoints";
 import { userEndpoints } from "./endpoints/userEndpoints";
 import { wordEndpoints, WordReview } from "./endpoints/wordEndpoints";
+import { homeEndpoints } from "./endpoints/homeEndpoints";
+import { contributorEndpoints } from "./endpoints/contributorEndpoints";
 import { ValidTags } from "./endpoints/types";
 
 export type { WordReview, ValidTags };
@@ -34,6 +36,7 @@ export const apiSlice = createApi({
     "wordreview",
     "wordofday",
     "wordReviews",
+    "contributors",
   ] as readonly ValidTags[],
   endpoints: (builder) => ({
     genericMutation: builder.mutation<any, MutationArg>({
@@ -47,6 +50,8 @@ export const apiSlice = createApi({
     ...provinceEndpoints(builder),
     ...userEndpoints(builder),
     ...wordEndpoints(builder),
+    ...homeEndpoints(builder),
+    ...contributorEndpoints(builder),
   }),
 });
 
@@ -110,4 +115,13 @@ export const {
   useDeleteUserMutation,
   useInviteAdminMutation,
   useCreateAdminMutation,
+  useLazySearchWordsQuery,
+  useSetWordOfDayMutation,
+  useOverrideWordOfDayMutation,
+  useGetContributorsQuery,
+  useGetContributorStatsQuery,
+  useGetContributorByIdQuery,
+  useApproveContributorMutation,
+  useRejectContributorMutation,
+  useSuspendContributorMutation,
 } = apiSlice;

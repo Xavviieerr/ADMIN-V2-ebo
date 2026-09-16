@@ -1,7 +1,7 @@
 "use client";
 
 import moment from "moment";
-import { BadgeCheck, Cake, Clock, IdCard, Mail, MapPin, User } from "lucide-react";
+import { BadgeCheck, Cake, IdCard, Mail, MapPin, User } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DetailUser } from "../types";
@@ -90,13 +90,6 @@ export default function AccountDetails({ user, onChangeEmail }: AccountDetailsPr
                 : "text-red-400"
             }
           />
-          {user.lastLogin && (
-            <DetailRow
-              icon={Clock}
-              label={t("profile.lastLogin", "Last Login")}
-              value={moment(user.lastLogin).fromNow()}
-            />
-          )}
         </div>
       </div>
     </div>

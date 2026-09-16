@@ -1,20 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useDebounce } from "use-debounce";
-import { useGetAdminUsersQuery } from "@/slice/requestSlice";
+import {
+  useGetAdminUsersQuery,
+  useGetContributorsQuery,
+} from "@/slice/requestSlice";
 import { usePermissions } from "@/hooks/usePermissions";
 import { getUserList, clampPage } from "../utils/listHelpers";
 import {
   DEFAULT_ROLE_FILTER,
-  RESTRICTED_ROLE_FILTER,
   STORAGE_KEY_USERS_PAGE,
   STORAGE_KEY_USERS_ROLE,
   STORAGE_KEY_USERS_SEARCH,
   STORAGE_KEY_USERS_STATUS,
   STORAGE_KEY_USERS_SORT_BY,
   STORAGE_KEY_USERS_SORT_ORDER,
+  STORAGE_KEY_ACTIVE_VIEW,
   USERS_LIST_LIMIT,
   USERS_SEARCH_DEBOUNCE_MS,
   sanitizeRoleFilter,
@@ -27,12 +30,15 @@ import {
   readStorageInt,
 } from "./usePersistedState";
 
-const PAGE_BEFORE_SEARCH_KEY = "users_page_before_search";
+const ADMIN_ALLOWED_ROLES = new Set(["user", "contributors"]);
+
+export type ActiveView = "users" | "contributors";
 
 export function useUsersList() {
   const router = useRouter();
   const pathname = usePathname();
   const { hasPermission, isSuperAdmin } = usePermissions();
+  const isAdmin = hasPermission("view_user");
 
   const [searchTerm, setSearchTerm] = usePersistedString(STORAGE_KEY_USERS_SEARCH, "");
   const [page, setPage] = usePersistedInt(STORAGE_KEY_USERS_PAGE, 1);
@@ -40,37 +46,88 @@ export function useUsersList() {
   const [statusFilter, setStatusFilter] = usePersistedString(STORAGE_KEY_USERS_STATUS, "all");
   const [sortBy, setSortBy] = usePersistedString(STORAGE_KEY_USERS_SORT_BY, "");
   const [sortOrder, setSortOrder] = usePersistedString(STORAGE_KEY_USERS_SORT_ORDER, "ASC");
+  const [activeView, setActiveView] = useState<ActiveView>(() => {
+    const stored = readStorage(STORAGE_KEY_ACTIVE_VIEW, "users");
+    return stored === "contributors" ? "contributors" : "users";
+  });
 
-  const effectiveRoleFilter = isSuperAdmin ? sanitizeRoleFilter(roleFilter) : RESTRICTED_ROLE_FILTER;
+  // For non-super admins, restrict to user-only roles
+  const sanitizedRole = sanitizeRoleFilter(roleFilter);
+  const effectiveRoleFilter = isSuperAdmin
+    ? sanitizedRole
+    : ADMIN_ALLOWED_ROLES.has(sanitizedRole)
+      ? sanitizedRole
+      : "user";
+
   const [debouncedSearch] = useDebounce(searchTerm.trim(), USERS_SEARCH_DEBOUNCE_MS);
+
+  const isContributorsView = activeView === "contributors";
 
   const {
     data: users,
-    isFetching,
-    isError,
-    error,
-    refetch,
-  } = useGetAdminUsersQuery({
-    search: debouncedSearch,
-    limit: USERS_LIST_LIMIT,
-    page,
-    role: effectiveRoleFilter,
-    status: statusFilter,
-    sortBy: sortBy || undefined,
-    sortOrder: sortBy ? sortOrder : undefined,
-  });
+    isFetching: isUsersFetching,
+    isError: isUsersError,
+    error: usersError,
+    refetch: refetchUsers,
+  } = useGetAdminUsersQuery(
+    {
+      search: debouncedSearch,
+      limit: USERS_LIST_LIMIT,
+      page,
+      role: effectiveRoleFilter,
+      status: statusFilter,
+      sortBy: sortBy || undefined,
+      sortOrder: sortBy ? sortOrder : undefined,
+    },
+    { skip: isContributorsView },
+  );
 
-  const pagination = users?.data
+  const {
+    data: contributorsData,
+    isFetching: isContributorsFetching,
+    isError: isContributorsError,
+    error: contributorsError,
+    refetch: refetchContributors,
+  } = useGetContributorsQuery(
+    {
+      page,
+      limit: USERS_LIST_LIMIT,
+      sortBy: sortBy || undefined,
+      status: statusFilter,
+      sortDir: sortBy ? sortOrder : undefined,
+    },
+    { skip: !isContributorsView },
+  );
+
+  const isFetching = isContributorsView ? isContributorsFetching : isUsersFetching;
+  const isError = isContributorsView ? isContributorsError : isUsersError;
+  const error = isContributorsView ? contributorsError : usersError;
+  const refetch = isContributorsView ? refetchContributors : refetchUsers;
+
+  const contributorList = contributorsData?.data?.items ?? [];
+  const contributorsPagination = contributorsData?.data
     ? {
-        page: users.data.page || 1,
-        totalPages: users.data.totalPages || 1,
-        totalItems: users.data.total || 0,
-        hasNext: users.data.hasNext || false,
-        hasPrev: users.data.hasPrev || false,
+        page: contributorsData.data.page || 1,
+        totalPages: contributorsData.data.totalPages || 1,
+        totalItems: contributorsData.data.total || 0,
+        hasNext: contributorsData.data.hasNext || false,
+        hasPrev: contributorsData.data.hasPrev || false,
       }
     : null;
 
-  const userList = getUserList(users?.data);
+  const pagination = isContributorsView
+    ? contributorsPagination
+    : users?.data
+      ? {
+          page: users.data.page || 1,
+          totalPages: users.data.totalPages || 1,
+          totalItems: users.data.total || 0,
+          hasNext: users.data.hasNext || false,
+          hasPrev: users.data.hasPrev || false,
+        }
+      : null;
+
+  const userList = isContributorsView ? [] : getUserList(users?.data);
 
   // Clamp page when result set shrinks
   useEffect(() => {
@@ -140,7 +197,7 @@ export function useUsersList() {
   };
 
   const resetAllFilters = () => {
-    const defaultRole = isSuperAdmin ? DEFAULT_ROLE_FILTER : RESTRICTED_ROLE_FILTER;
+    const defaultRole = isSuperAdmin ? DEFAULT_ROLE_FILTER : "user";
     setSearchTerm("");
     setRoleFilter(defaultRole);
     setStatusFilter("all");
@@ -158,6 +215,18 @@ export function useUsersList() {
   };
 
   const handleRoleFilterChange = (value: string) => {
+    if (value === "contributors") {
+      setActiveView("contributors");
+      setPage(1);
+      writeBulkStorage([
+        [STORAGE_KEY_ACTIVE_VIEW, "contributors"],
+        [STORAGE_KEY_USERS_PAGE, "1"],
+      ]);
+      return;
+    }
+
+    setActiveView("users");
+    writeBulkStorage([[STORAGE_KEY_ACTIVE_VIEW, "users"]]);
     setRoleFilter(sanitizeRoleFilter(value));
     setPage(1);
   };
@@ -177,7 +246,7 @@ export function useUsersList() {
     setPage(1);
   };
 
-  const handleViewUser = (userId: string) => {
+  const handleViewUser = (userId: string, contributorId?: string) => {
     writeBulkStorage([
       [STORAGE_KEY_USERS_PAGE, page.toString()],
       [STORAGE_KEY_USERS_SEARCH, searchTerm],
@@ -185,8 +254,15 @@ export function useUsersList() {
       [STORAGE_KEY_USERS_STATUS, statusFilter],
       [STORAGE_KEY_USERS_SORT_BY, sortBy],
       [STORAGE_KEY_USERS_SORT_ORDER, sortOrder],
+      [STORAGE_KEY_ACTIVE_VIEW, activeView],
     ]);
-    router.push(`/users/${userId}`);
+    const params = new URLSearchParams();
+    if (isContributorsView || contributorId) {
+      params.set("role", "contributor");
+      if (contributorId) params.set("contributorId", contributorId);
+    }
+    const queryString = params.toString();
+    router.push(`/users/${userId}${queryString ? `?${queryString}` : ""}`);
   };
 
   const goToPage = (next: number) => {
@@ -203,7 +279,9 @@ export function useUsersList() {
     statusFilter,
     sortBy,
     sortOrder,
+    activeView,
     userList,
+    contributorList,
     pagination,
     isFetching,
     isError,
@@ -211,6 +289,7 @@ export function useUsersList() {
     refetch,
     hasPermission,
     isSuperAdmin,
+    isAdmin,
     handleSearchChange,
     handleSearchText,
     clearSearch,

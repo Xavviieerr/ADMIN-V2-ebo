@@ -13,9 +13,6 @@ export type PlaceInfoStage = "basicInfo" | "history" | "metadata" | "preview";
 // Re-export users-specific types from their canonical location
 export type { UserStats } from "@/features/users/types";
 
-// Dashboard types (canonical source: features/dashboard/types.ts)
-export type { DashboardStats, WordRecord, SimpleRecord } from "@/features/dashboard/types";
-
 export type SingleName = {
   id: string;
   name: string;

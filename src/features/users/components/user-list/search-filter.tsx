@@ -5,14 +5,12 @@ import VirtualUrhoboKeyboard from "@/components/virtualUrhoboKeyboard";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useKeyboard } from "@/features/shared/components/keyboard-context";
-import { Keyboard, X } from "lucide-react";
+import { Keyboard, X, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
   STATUS_FILTER_OPTIONS,
-  SORT_BY_OPTIONS,
   SORT_ORDER_OPTIONS,
   CONTRIBUTOR_STATUS_FILTER_OPTIONS,
-  CONTRIBUTOR_SORT_BY_OPTIONS,
 } from "../../constants";
 import SortDropdown from "./sort-dropdown";
 
@@ -23,9 +21,7 @@ const SearchFilter = ({
   handleSearchText,
   clearSearch,
   handleStatusFilterChange,
-  sortBy,
   sortOrder,
-  handleSortByChange,
   handleSortOrderChange,
   isContributorsView,
 }: {
@@ -35,9 +31,7 @@ const SearchFilter = ({
   handleSearchText: (text: string) => void;
   clearSearch: () => void;
   handleStatusFilterChange: (status: string) => void;
-  sortBy: string;
   sortOrder: string;
-  handleSortByChange: (value: string) => void;
   handleSortOrderChange: (value: string) => void;
   isContributorsView?: boolean;
 }) => {
@@ -56,9 +50,6 @@ const SearchFilter = ({
   const statusOptions = isContributorsView
     ? CONTRIBUTOR_STATUS_FILTER_OPTIONS
     : STATUS_FILTER_OPTIONS;
-  const sortByOptions = isContributorsView
-    ? CONTRIBUTOR_SORT_BY_OPTIONS
-    : SORT_BY_OPTIONS;
 
   useEffect(() => {
     valueRef.current = searchTerm;
@@ -181,8 +172,8 @@ const SearchFilter = ({
           }}
           className="flex items-center justify-between gap-4 min-w-30 relative bg-gray-txt-100 focus:ring-1 ring-foreground-50 px-5 py-3 rounded-lg outline-none cursor-pointer"
         >
-          <p>{statusOptions.find((item) => item.value === statusFilter)?.label || "All"}</p>
-          <span className="h-4 w-4 sm:h-5 sm:w-5" />
+          <p><span className="text-gray-400 mr-2">Status:</span>{statusOptions.find((item) => item.value === statusFilter)?.label || "All"}</p>
+          <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5" />
 
           {showOptions && (
             <div
@@ -208,12 +199,6 @@ const SearchFilter = ({
           )}
         </div>
 
-        <SortDropdown
-          label={t("common.sortBy", "Sort by")}
-          options={sortByOptions}
-          value={sortBy}
-          onChange={handleSortByChange}
-        />
         <SortDropdown
           label={t("common.sortOrder", "Order")}
           options={SORT_ORDER_OPTIONS}

@@ -39,7 +39,7 @@ export default function NotificationBell({ className }: NotificationBellProps) {
 
   const [markAllRead] = useMarkAllNotificationsReadMutation();
 
-  const unreadCount = unreadData?.data?.unreadCount ?? 0;
+  const unreadCount = unreadData?.data?.count ?? 0;
   const notifications = notificationsData?.data?.items ?? [];
 
   const handleMarkAllRead = async () => {

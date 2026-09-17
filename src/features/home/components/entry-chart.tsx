@@ -25,7 +25,7 @@ const EntryChart = ({
     <div className="rounded-[20px] bg-secondary-bg py-6 md:py-8 px-3 md:px-5 shadow w-full text-primary-bg">
       <div className="flex items-center justify-between pb-4">
         <h2 className="max-md:text-lg max-md:font-medium text-xl font-semibold text-white">
-          {t("common.dictionaryOverview")}
+          {t("home.contentGrowth")}
         </h2>
       </div>
 

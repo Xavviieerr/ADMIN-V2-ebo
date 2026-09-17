@@ -114,9 +114,7 @@ const UserManagementFeature = ({ data }: { data: UserStats | null }) => {
         handleSearchText={handleSearchText}
         clearSearch={clearSearch}
         handleStatusFilterChange={handleStatusFilterChange}
-        sortBy={sortBy}
         sortOrder={sortOrder}
-        handleSortByChange={handleSortByChange}
         handleSortOrderChange={handleSortOrderChange}
         isContributorsView={isContributorsView}
       />

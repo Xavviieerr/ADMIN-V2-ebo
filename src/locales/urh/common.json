@@ -525,6 +525,7 @@
   },
   "home": {
     "wordOfTheDay": "Ubiota Ẹdẹ",
+    "contentGrowth": "Ọbeta Eneje",
     "scheduledWords": "Ubiota Eruwọya",
     "recentUsers": "Eroruẹ Enena",
     "topUsers": "Top Users",
@@ -565,8 +566,8 @@
     "totalCustomsDesc": "Ukuemu ne ọrhọvwa",
     "totalFiguresStat": "Emoma",
     "totalFiguresDesc": "Emoma eje",
-    "totalProverbsStat": "Isẹ",
-    "totalProverbsDesc": "Isẹ eje",
+    "totalProverbsStat": "Isẹ ne Ise",
+    "totalProverbsDesc": "Isẹ ne Ise eje",
     "totalFolktalesStat": "Esia",
     "totalFolktalesDesc": "Esia eje",
     "dialect": "Ẹrẹvwe",

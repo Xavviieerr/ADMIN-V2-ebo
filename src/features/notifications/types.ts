@@ -8,7 +8,7 @@ export interface Notification {
 }
 
 export interface NotificationUnreadCountResponse {
-  unreadCount: number;
+  count: number;
 }
 
 export interface NotificationsResponse {

@@ -15,7 +15,8 @@ export type ValidTags =
   | "wordofday"
   | "wordReviews"
   | "contributors"
-  | "notifications";
+  | "notifications"
+  | "supportTickets";
 
 export type AppEndpointBuilder = EndpointBuilder<
   BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,

@@ -81,10 +81,6 @@ export default function NotificationPage({
     updateParams({ page: String(newPage) });
   };
 
-  const handleSearch = (newSearch: string) => {
-    updateParams({ search: newSearch, page: "1" });
-  };
-
   const handleTypeChange = (newType: string) => {
     updateParams({ type: newType, page: "1" });
   };
@@ -147,11 +143,9 @@ export default function NotificationPage({
       </div>
 
       <NotificationFilters
-        search={search}
         type={type}
         sortBy={sortBy}
         sortDir={sortDir}
-        onSearch={handleSearch}
         onTypeChange={handleTypeChange}
         onSortChange={handleSortChange}
       />

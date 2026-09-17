@@ -8,7 +8,7 @@ import {
 	ChevronDownIcon,
 	ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import { FileText, LogOut } from "lucide-react";
+import { FileText, LogOut, LifeBuoy } from "lucide-react";
 import clsx from "clsx";
 import { useState, useEffect } from "react";
 import { usePermissions } from "@/hooks/usePermissions";
@@ -235,6 +235,26 @@ export default function Sidebar() {
 							)}
 						/>
 						{t("sidebar.guidelines")}
+					</Link>
+					<Link
+						href="/support"
+						onClick={() => setMobileOpen(false)}
+						className={clsx(
+							"flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition w-full",
+							pathname === "/support" || pathname.startsWith("/support/")
+								? "bg-[#ffe6b0] text-black shadow"
+								: "text-[#f5f5f5] hover:bg-[#23232a] hover:text-[#ffe6b0]",
+						)}
+					>
+						<LifeBuoy
+							className={clsx(
+								"h-6 w-6",
+								pathname === "/support" || pathname.startsWith("/support/")
+									? "text-black"
+									: "text-[#ffe6b0]",
+							)}
+						/>
+						{t("sidebar.helpSupport")}
 					</Link>
 					<button
 						type="button"

@@ -11,6 +11,7 @@ import { wordEndpoints, WordReview } from "./endpoints/wordEndpoints";
 import { homeEndpoints } from "./endpoints/homeEndpoints";
 import { contributorEndpoints } from "./endpoints/contributorEndpoints";
 import { notificationEndpoints } from "@/features/notifications/api/notificationEndpoints";
+import { supportTicketEndpoints } from "@/features/support-tickets/api/supportTicketEndpoints";
 import { ValidTags } from "./endpoints/types";
 
 export type { WordReview, ValidTags };
@@ -39,6 +40,7 @@ export const apiSlice = createApi({
     "wordReviews",
     "contributors",
     "notifications",
+    "supportTickets",
   ] as readonly ValidTags[],
   endpoints: (builder) => ({
     genericMutation: builder.mutation<any, MutationArg>({
@@ -55,6 +57,7 @@ export const apiSlice = createApi({
     ...homeEndpoints(builder),
     ...contributorEndpoints(builder),
     ...notificationEndpoints(builder),
+    ...supportTicketEndpoints(builder),
   }),
 });
 
@@ -133,4 +136,7 @@ export const {
   useMarkAllNotificationsReadMutation,
   useDeleteNotificationMutation,
   useClearAllNotificationsMutation,
+  useGetSupportTicketsQuery,
+  useGetSupportTicketByIdQuery,
+  useUpdateSupportTicketStatusMutation,
 } = apiSlice;

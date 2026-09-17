@@ -10,6 +10,7 @@ import { userEndpoints } from "./endpoints/userEndpoints";
 import { wordEndpoints, WordReview } from "./endpoints/wordEndpoints";
 import { homeEndpoints } from "./endpoints/homeEndpoints";
 import { contributorEndpoints } from "./endpoints/contributorEndpoints";
+import { notificationEndpoints } from "@/features/notifications/api/notificationEndpoints";
 import { ValidTags } from "./endpoints/types";
 
 export type { WordReview, ValidTags };
@@ -37,6 +38,7 @@ export const apiSlice = createApi({
     "wordofday",
     "wordReviews",
     "contributors",
+    "notifications",
   ] as readonly ValidTags[],
   endpoints: (builder) => ({
     genericMutation: builder.mutation<any, MutationArg>({
@@ -52,6 +54,7 @@ export const apiSlice = createApi({
     ...wordEndpoints(builder),
     ...homeEndpoints(builder),
     ...contributorEndpoints(builder),
+    ...notificationEndpoints(builder),
   }),
 });
 
@@ -124,4 +127,10 @@ export const {
   useApproveContributorMutation,
   useRejectContributorMutation,
   useSuspendContributorMutation,
+  useGetNotificationsQuery,
+  useGetUnreadCountQuery,
+  useMarkNotificationReadMutation,
+  useMarkAllNotificationsReadMutation,
+  useDeleteNotificationMutation,
+  useClearAllNotificationsMutation,
 } = apiSlice;

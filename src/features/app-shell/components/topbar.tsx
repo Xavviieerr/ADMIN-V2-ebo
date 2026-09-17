@@ -1,7 +1,8 @@
 "use client";
 
 import { LocaleSwitcher } from "@/components/i18n/LocaleSwitcher";
-import { Bell, ChevronDown, LogOut, User } from "lucide-react";
+import NotificationBell from "@/features/notifications/components/notification-bell";
+import { ChevronDown, LogOut, User } from "lucide-react";
 import {
   useParams,
   usePathname,
@@ -16,7 +17,6 @@ import { useLocale } from "@/contexts/LocaleContext";
 import Image from "next/image";
 
 export default function Topbar() {
-  const [notificationCount] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
@@ -72,19 +72,7 @@ export default function Topbar() {
       <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
         <LocaleSwitcher />
 
-        <button
-          type="button"
-          className="relative p-2 rounded-lg text-[#f5f5f5] hover:bg-[#23232a] hover:text-[#ffe6b0] transition-colors"
-          aria-label="Notifications"
-          title="Notifications"
-        >
-          <Bell className="h-5 w-5 md:h-6 md:w-6" />
-          {notificationCount > 0 && (
-            <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#ffe6b0] text-[#1e1e1e] text-xs font-semibold">
-              {notificationCount > 9 ? "9+" : notificationCount}
-            </span>
-          )}
-        </button>
+        <NotificationBell />
 
         <div className="relative" ref={dropdownRef}>
           <button

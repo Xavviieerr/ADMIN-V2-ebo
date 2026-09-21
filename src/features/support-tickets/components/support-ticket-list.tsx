@@ -22,13 +22,11 @@ export default function SupportTicketList() {
     page,
     status,
     category,
-    sortDir,
     isLoading,
     isError,
     refetch,
     handleStatusChange,
     handleCategoryChange,
-    handleSortDirChange,
     handlePageChange,
     handlePrev,
     handleNext,
@@ -48,10 +46,8 @@ export default function SupportTicketList() {
       <SupportTicketFilters
         status={status}
         category={category}
-        sortDir={sortDir}
         onStatusChange={handleStatusChange}
         onCategoryChange={handleCategoryChange}
-        onSortDirChange={handleSortDirChange}
       />
 
       {isLoading ? (

@@ -16,8 +16,7 @@ export const supportTicketEndpoints = (builder: AppEndpointBuilder) => ({
       params.append("page", page.toString());
       params.append("limit", limit.toString());
       if (status && status !== "all") {
-        const apiStatus = status === "in_progress" ? "in-progress" : status === "closed" ? "close" : status;
-        params.append("status", apiStatus);
+        params.append("status", status);
       }
       if (category && category !== "all") params.append("category", category);
       if (sortDir) params.append("sortDir", sortDir);

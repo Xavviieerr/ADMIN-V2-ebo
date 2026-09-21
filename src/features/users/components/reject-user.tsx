@@ -45,7 +45,7 @@ const RejectUser = ({
       setShow(false);
       router.refresh();
       return data;
-    } catch (error) {
+    } catch (_error) {
       toast.error("Failed to reject user");
     } finally {
       setLoading(false);

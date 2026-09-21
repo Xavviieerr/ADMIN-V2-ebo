@@ -14,7 +14,7 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Checkbox } from "../ui/checkbox"
 import { useGenericMutationMutation, useGetAllProvincesQuery } from "@/slice/requestSlice"
-import { Province, ProvinceResponse } from "@/types/provinceTypes"
+import { Province } from "@/types/provinceTypes"
 import { toast } from "sonner"
 import { getErrorMessage } from "@/utils/errorHandler";
 import LoadingSpinner from "../ui/LoadingSpinner"
@@ -32,12 +32,12 @@ interface AddTownProps {
 }
 
 export default function AddTown({ onSuccess, provinceId }: AddTownProps) {
-    const { data: getAllProvinces, isLoading, isError } = useGetAllProvincesQuery({page: 1, limit: 10000000000000});
+    const { data: getAllProvinces } = useGetAllProvincesQuery({page: 1, limit: 10000000000000});
 
     const allProvinces = getAllProvinces?.data?.data
 
     console.log(allProvinces);
-    const [addTown, {isLoading:loading, isError:error}] = useGenericMutationMutation();
+    const [addTown, {isLoading:loading}] = useGenericMutationMutation();
 
     const form = useForm<z.infer<typeof createTownSchema>>({
         resolver: zodResolver(createTownSchema),

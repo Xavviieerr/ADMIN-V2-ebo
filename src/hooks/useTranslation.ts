@@ -11,6 +11,7 @@ import { getTranslations, getTranslation, type Locale, type TranslationKey } fro
  * const homeText = t('sidebar.home');
  */
 export function useTranslation(locale: Locale = 'en') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [translations, setTranslations] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
 

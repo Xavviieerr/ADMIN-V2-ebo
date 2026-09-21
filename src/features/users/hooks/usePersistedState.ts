@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export function readStorage(key: string, fallback: string): string {
   if (typeof window === "undefined") return fallback;

@@ -23,7 +23,7 @@ export default function PermissionsPage() {
     if (!allPermissions?.data) return [];
 
     return Object.entries(PERMISSION_MAPPING)
-      .filter(([_, mapping]) => mapping.category === category)
+      .filter(([, mapping]) => mapping.category === category)
       .map(([uiName, mapping]) => ({
         uiName,
         mapping,

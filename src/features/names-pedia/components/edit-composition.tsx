@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { MultiInput, NameFormDataType } from "@/features/shared";
-import { X, Plus } from "lucide-react";
 
 const EditNameComposition = ({
   formData,
@@ -11,7 +10,7 @@ const EditNameComposition = ({
   formData: NameFormDataType;
   setFormData: React.Dispatch<React.SetStateAction<NameFormDataType>>;
 }) => {
-  const [compositionForm, setCompositionForm] = useState("");
+  const [_compositionForm, _setCompositionForm] = useState("");
   return (
     <div className=" flex flex-col md:px-8 px-4 py-6 bg-gray-txt-100 rounded-md w-full h-fit">
       <div className="flex items-center gap-3 text-base font-medium mb-6">

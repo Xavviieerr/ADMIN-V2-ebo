@@ -6,12 +6,10 @@ import {
   useSetAdminPermissionMutation,
 } from "@/slice/requestSlice";
 import { PERMISSION_MAPPING, convertToApiName } from "@/types/permissions";
-import { useRouter } from "next/navigation";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/errorHandler";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import { Button } from "@/components/ui/button";
 
 const AdminPermissions = ({ userId }: { userId: string }) => {
   // State for permissions - using API permission names
@@ -35,7 +33,9 @@ const AdminPermissions = ({ userId }: { userId: string }) => {
   // Determine if this is an admin user (check if admin data exists)
   const isAdmin = singleAdminUser !== undefined;
   const user = isAdmin
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ? (singleAdminUser as any)?.data?.user
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     : (singleUser as any)?.data;
   const isLoading =
     isLoadingUser ||
@@ -55,7 +55,7 @@ const AdminPermissions = ({ userId }: { userId: string }) => {
     if (!allPermissions?.data) return [];
 
     return Object.entries(PERMISSION_MAPPING)
-      .filter(([_, mapping]) => mapping.category === category)
+      .filter(([, mapping]) => mapping.category === category)
       .map(([uiName, mapping]) => ({
         uiName,
         mapping,
@@ -175,7 +175,7 @@ const AdminPermissions = ({ userId }: { userId: string }) => {
             User not found
           </h2>
           <p className="text-gray-400">
-            The user you're looking for doesn't exist.
+            The user you&apos;re looking for doesn&apos;t exist.
           </p>
         </div>
       </div>

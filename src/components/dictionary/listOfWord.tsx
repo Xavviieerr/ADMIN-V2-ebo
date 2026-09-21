@@ -8,8 +8,8 @@ import LoadingSpinner from '../ui/LoadingSpinner'
 import { usePermissions } from '@/hooks/usePermissions'
 
 export default function ListOfWord() {
-    const [page, setPage] = useState(1)
-    const [isLoading, setIsLoading] = useState(false)
+    const [, setPage] = useState(1)
+    const [isLoading] = useState(false)
     const router = useRouter()
     const { hasPermission, isSuperAdmin } = usePermissions()
 
@@ -112,7 +112,7 @@ export default function ListOfWord() {
                                         <span className="text-[#F5DEB3] font-semibold">Meaning:</span> {word.meaning}
                                     </p>
                                     <p className="mb-2 text-sm">
-                                        <span className="text-[#F5DEB3] font-semibold">Example:</span> "{word.example}"
+                                        <span className="text-[#F5DEB3] font-semibold">Example:</span> &quot;{word.example}&quot;
                                     </p>
                                     <p className="text-sm text-gray-400">
                                         Added on: {new Date(word.createdAt).toLocaleDateString()}

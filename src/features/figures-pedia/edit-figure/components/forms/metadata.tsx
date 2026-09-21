@@ -63,7 +63,7 @@ const Metadata = () => {
     clearData();
   };
 
-  const getYear = (date: string) => {
+  const _getYear = (date: string) => {
     if (!date) return "n/a";
     return new Date(date).getFullYear();
   };
@@ -205,7 +205,7 @@ const Metadata = () => {
                     <span className="font-medium text-base">{idx + 1}.</span>
 
                     <span className="break-all">
-                      "{source.title}".{" website, "}
+                      &quot;{source.title}&quot;.{" website, "}
                       {source.url}.
                       {/* <span>{" Accessed "}
                       {getYear(source.accessDate)}.

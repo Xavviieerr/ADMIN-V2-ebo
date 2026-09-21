@@ -38,7 +38,7 @@ const ExternalLinks = ({ sources }: { sources: Figure["externalLinks"] }) => {
               <p className="flex items-start  gap-3 text-gray-txt-500">
                 <span className="font-medium text-base">{idx + 1}.</span>
                 <span className="">
-                  "{source.title}".{" "}
+                  &quot;{source.title}&quot;.{" "}
                   <span className="italic capitalize">{source.type},</span>{" "}
                   {source.url && (
                     <a

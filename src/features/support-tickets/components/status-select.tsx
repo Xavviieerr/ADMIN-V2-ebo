@@ -7,6 +7,8 @@ import { useUpdateSupportTicketStatusMutation } from "@/slice/requestSlice";
 import { STATUS_OPTIONS, STATUS_COLORS } from "../constants";
 import type { TicketStatus } from "../types";
 import { ChevronDown } from "lucide-react";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/utils/errorHandler";
 
 interface StatusSelectProps {
   ticketId: string;
@@ -37,8 +39,9 @@ export default function StatusSelect({ ticketId, currentStatus, onStatusChange }
     try {
       await updateStatus({ id: ticketId, status: newStatus }).unwrap();
       onStatusChange?.(newStatus);
-    } catch {
-      // Error handled by RTK Query
+      toast.success(t("supportTickets.statusUpdated"));
+    } catch (error) {
+      toast.error(getErrorMessage(error, t("supportTickets.statusUpdateFailed")));
     }
   };
 

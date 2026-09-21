@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 import { Lock, Pencil } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -50,9 +51,11 @@ export default function ProfileHeader({
       </div>
       <div className="px-6 md:px-8 pb-6 md:pb-8">
         <div className="flex flex-col sm:flex-row sm:items-end gap-5 -mt-10 md:-mt-12 mb-6">
-          <img
+          <Image
             src={avatarUrl}
             alt={displayName}
+            width={112}
+            height={112}
             className="h-24 w-24 md:h-28 md:w-28 rounded-full object-cover border-4 border-[#23232a] ring-2 ring-[#404040] cursor-pointer hover:opacity-80 transition-opacity shrink-0"
             onError={(e) => {
               e.currentTarget.src = "/default-avatar.svg";

@@ -1,7 +1,6 @@
 import AddAdmin from "@/components/addAdmin/addAdmin";
-import { DialogHeader } from "@/components/ui/dialog";
 import { LocaleWrapper } from "@/features/shared";
-import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+import { Dialog, DialogContent } from "@radix-ui/react-dialog";
 import React from "react";
 
 const AddAdminModal = ({

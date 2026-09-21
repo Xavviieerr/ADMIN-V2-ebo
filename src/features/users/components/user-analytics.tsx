@@ -10,7 +10,7 @@ import {
   UserStats,
 } from "@/features/shared";
 
-const UserAnalytics = ({ role, data }: { role: string; data: UserStats }) => {
+const UserAnalytics = ({ role: _role, data }: { role: string; data: UserStats }) => {
   return (
     <div className="flex flex-col gap-4 w-full pr-4">
       <div className="flex max-md:flex-col md:items-center justify-between w-full md:gap-4 gap-6 ">

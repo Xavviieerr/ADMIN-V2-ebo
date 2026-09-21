@@ -615,7 +615,15 @@
     "markAsUnread": "Khọ mwọn vba rie",
     "notificationPreferences": "Ikye ihimhiobọ rẹi",
     "enableAllNotifications": "Siyọ ihimhiobọ mọ",
-    "soundEnabled": "Ikpọkọ yi"
+    "soundEnabled": "Ikpọkọ yi",
+    "markAllReadSuccess": "Ihimhiobọ mọ ni aka mwọn rie",
+    "markAllReadError": "Ihimhiobọ mọ ni aka mwọn rie ghara",
+    "markReadSuccess": "Ihimhiobọ yi ni aka mwọn rie",
+    "markReadError": "Ihimhiobọ yi ni aka mwọn rie ghara",
+    "deleteSuccess": "Ihimhiobọ yi phro",
+    "deleteError": "Ihimhiobọ yi phro ghara",
+    "clearAllSuccess": "Ihimhiobọ mọ ni aka phro rie",
+    "clearAllError": "Ihimhiobọ mọ ni aka phro rie ghara"
   },
   "supportTickets": {
     "title": "Edemagben",

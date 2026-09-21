@@ -68,7 +68,7 @@ const StagesTable = ({ stage }: { stage: PlaceInfoStage }) => {
                     status: "Not Started",
                     value: "metadata",
                   },
-                ].map((item, index) => (
+                ].map((item) => (
                   <tr
                     key={item.value}
                     onClick={() => router.push(`?stage=${item.value}`)}

@@ -2,11 +2,11 @@
 
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
-import { ChevronDown, Keyboard, Search, X } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BaseInput } from "@/features/shared";
-import { useKeyboard } from "@/features/shared/components/keyboard-context";
+
 import { useDebounce } from "@/hooks/use-debounce";
 
 const filters = [
@@ -20,7 +20,6 @@ const filters = [
 const WordsFilter = ({ filter }: { filter: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setShowKeyboard } = useKeyboard();
 
   const searchTerm = searchParams.get("search") ?? "";
 
@@ -35,11 +34,7 @@ const WordsFilter = ({ filter }: { filter: string }) => {
   // const [showKeyboard, setShowKeyboard] = useState(false);
   const debouncedValue = useDebounce(query, 300);
 
-  useEffect(() => {
-    handleSearch(debouncedValue);
-  }, [debouncedValue]);
-
-  const handleSearch = (v: string) => {
+  const handleSearch = useCallback((v: string) => {
     const currentParams = new URLSearchParams(searchParams.toString());
 
     if (v) {
@@ -50,7 +45,11 @@ const WordsFilter = ({ filter }: { filter: string }) => {
 
     const newPath = `/guonopedia/dictionary?${currentParams.toString()}`;
     router.replace(newPath);
-  };
+  }, [searchParams, router]);
+
+  useEffect(() => {
+    handleSearch(debouncedValue);
+  }, [debouncedValue, handleSearch]);
 
   const handleFilter = (filterValue: string) => {
     setType(filterValue);

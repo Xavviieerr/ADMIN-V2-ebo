@@ -1,6 +1,6 @@
 import ModalLayout from "@/features/shared/modal-layout";
 import { BASE_URL } from "@/utils/constants";
-import { Info, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import React, { useState } from "react";
 import { toast } from "sonner";

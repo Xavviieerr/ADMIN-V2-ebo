@@ -40,7 +40,7 @@ const RejectName = ({
             toast.success("Name rejected successfully");
             setShow(false);
             router.refresh();
-        } catch (error) {
+        } catch (_error) {
             toast.error("Failed to reject name");
         } finally {
             setLoading(false);

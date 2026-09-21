@@ -1,5 +1,5 @@
 "use client"
-import { CheckCheck, X, Trash2, Pen, PenBox } from 'lucide-react';
+import { CheckCheck, X, Trash2, PenBox } from 'lucide-react';
 import { useState } from 'react'
 import React from 'react'
 import RejectName from './reject-name';

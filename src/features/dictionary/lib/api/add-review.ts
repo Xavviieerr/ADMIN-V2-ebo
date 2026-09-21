@@ -8,6 +8,7 @@ export const addReview = async ({
   payload,
 }: {
   token: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any;
   id: string;
 }) => {

@@ -27,7 +27,7 @@ const SingleWordFeature = async ({ id }: { id: string }) => {
   const dialects: { id: string; name: string }[] = await fetchDialects({
     token: token as string,
   });
-  const { msg, data }: { msg: string; data: SingleWord } =
+  const { data }: { data: SingleWord } =
     await fetchSingleWord({
       token: token as string,
       id,

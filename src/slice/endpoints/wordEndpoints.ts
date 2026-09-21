@@ -142,6 +142,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     },
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createWord: builder.mutation<any, any>({
     query: (wordData) => ({
       url: "/word",
@@ -151,6 +152,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     invalidatesTags: ["words"],
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   approveWord: builder.mutation<any, { id: string }>({
     query: ({ id }) => ({
       url: `/word/${id}/approve`,
@@ -159,6 +161,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     invalidatesTags: ["words"],
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rejectWord: builder.mutation<any, { id: string; reason?: string }>({
     query: ({ id, reason }) => ({
       url: `/word/${id}/reject`,
@@ -168,6 +171,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     invalidatesTags: ["words"],
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setWordToReview: builder.mutation<any, { id: string }>({
     query: ({ id }) => ({
       url: `/word/${id}/review`,
@@ -177,6 +181,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   submitWordReview: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     { id: string; rating: number; review: string }
   >({
@@ -201,6 +206,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   replyToReview: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     { wordId: string; parentId: string; review: string }
   >({
@@ -214,6 +220,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     ],
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deleteWord: builder.mutation<any, { id: string }>({
     query: ({ id }) => ({
       url: `/word/${id}`,
@@ -223,6 +230,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateSenseImage: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -246,6 +254,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateSenseAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -267,6 +276,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateSenseOtoAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -288,6 +298,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateSenseExampleSentenceAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -311,6 +322,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateTranslationOtoAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -340,6 +352,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateTranslationExampleSentenceAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -372,6 +385,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   deleteSenseImage: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -395,6 +409,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   deleteSenseAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -415,6 +430,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     invalidatesTags: ["words"],
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createSense: builder.mutation<any, { wordId: string; senseData: any }>({
     query: ({ wordId, senseData }) => ({
       url: `/word/${wordId}/sense`,
@@ -424,6 +440,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     invalidatesTags: ["words"],
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateSense: builder.mutation<any, { wordId: string; senseData: any }>({
     query: ({ wordId, senseData }) => ({
       url: `/word/${wordId}/sense`,
@@ -434,6 +451,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   deleteSense: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -453,9 +471,11 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   createTranslation: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       translationData: any;
     }
   >({
@@ -468,6 +488,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   deleteTranslation: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -489,9 +510,11 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateTranslation: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       translationData: any;
     }
   >({
@@ -504,6 +527,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateTranslationAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -533,6 +557,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   deleteTranslationAudio: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -562,6 +587,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateTranslationImage: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -594,6 +620,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   deleteTranslationImage: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -626,6 +653,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   approveTranslation: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;
@@ -648,6 +676,7 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   commentTranslation: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       wordId: string;

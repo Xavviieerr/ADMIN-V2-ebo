@@ -97,7 +97,6 @@ export default function ProvinceOverview() {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   // Listen for nav click events: when Province tab is clicked in sidebar, reset pagination (even if already on that page)

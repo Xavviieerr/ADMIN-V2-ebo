@@ -11,7 +11,6 @@ import {
   ChevronLeft, 
   Check, 
   X, 
-  Image as ImageIcon,
   Upload,
   Eye,
   Save,
@@ -20,7 +19,6 @@ import {
   FileQuestion,
   Layers,
   Edit,
-  List,
   ArrowLeft,
   Download
 } from 'lucide-react'
@@ -89,8 +87,8 @@ export default function Games() {
   })
   const [gamesList, setGamesList] = useState<GameData[]>([])
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null)
-  const [selectedLevelIndex, setSelectedLevelIndex] = useState<number | null>(null)
-  const [selectedLessonIndex, setSelectedLessonIndex] = useState<number | null>(null)
+  const [_selectedLevelIndex, _setSelectedLevelIndex] = useState<number | null>(null)
+  const [_selectedLessonIndex, _setSelectedLessonIndex] = useState<number | null>(null)
 
   // Load games from localStorage on mount
   useEffect(() => {
@@ -423,7 +421,7 @@ export default function Games() {
     }
 
     // Format data according to quiz 2.json structure
-    const formattedData = {
+    const _formattedData = {
       levels: gameData.levels.map(level => ({
         level: level.level,
         intro: level.intro,
@@ -571,7 +569,7 @@ export default function Games() {
               {gameData.levels.length === 0 && (
                 <div className="text-center py-12 text-gray-400">
                   <Layers className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>No levels added yet. Click "Add Level" to get started.</p>
+                  <p>No levels added yet. Click &quot;Add Level&quot; to get started.</p>
                 </div>
               )}
             </div>

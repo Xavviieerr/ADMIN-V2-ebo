@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { Search, ChevronUp, Eye, Edit, Check, X, Star, MessageSquare, BarChart3, Keyboard, BadgeCheck } from 'lucide-react'
+import { Eye, Edit, X, Star, MessageSquare, Keyboard, BadgeCheck } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
@@ -17,6 +17,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { useLocale } from '@/contexts/LocaleContext'
 
 // Helper function to extract sentence from idje (handles both string and object formats)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getIdjeSentence = (idjeItem: any): string => {
   if (!idjeItem) return ''
   if (typeof idjeItem === 'string') {
@@ -213,7 +214,7 @@ export default function DictionaryOverview() {
     return 1
   })
 
-  const [limit, setLimit] = useState(10)
+  const [limit] = useState(10)
   const [openAccordionValue, setOpenAccordionValue] = useState<string | null>(null)
   const pendingNavigationRef = useRef<string | null>(null)
   const router = useRouter()
@@ -423,6 +424,7 @@ export default function DictionaryOverview() {
   // Map API words to component format
   const mapAPIWordToWord = (apiWord: APIWord): Word => {
     const firstOho = apiWord.oho && apiWord.oho.length > 0 ? apiWord.oho[0] : null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dialect = (apiWord as any).erevwe || (firstOho as any)?.erevwe || '';
     // Standard = show Twitter check, no text. Agbarho is treated as standard (verified) for display.
     const isStandard = dialect?.toLowerCase() === 'standard' || dialect?.toLowerCase() === 'agbarho';
@@ -548,15 +550,6 @@ export default function DictionaryOverview() {
   const pagination = allWordsData?.data?.pagination
 
 
-  // Calculate my words statistics
-  const myWordsStats: WordStats = {
-    approved: getMyWords().filter(word => word.status === 'approved').length,
-    rejected: getMyWords().filter(word => word.status === 'rejected').length,
-    pending: getMyWords().filter(word => word.status === 'pending').length,
-    inReview: getMyWords().filter(word => word.status === 'in-review').length,
-    total: getMyWords().length
-  }
-
   // Calculate all words statistics from API (using unfiltered stats)
   const statsPagination = statsData?.data?.pagination
   const allWordsStats: WordStats = {
@@ -587,6 +580,7 @@ export default function DictionaryOverview() {
       toast.success(t('messages.wordSetToReviewSuccessfully', 'Word set to review successfully!'))
       console.log('Word set to review:', wordId)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error setting word to review:', error as any)
       toast.error(getErrorMessage(error, t('messages.failedToSetWordToReview', 'Failed to set word to review. Please try again.')))
     }
@@ -1456,7 +1450,7 @@ export default function DictionaryOverview() {
       {showKeyboard && (
         <VirtualUrhoboKeyboard
           targetInputId="dictionary-search-input"
-          onInput={(text) => {
+          onInput={() => {
             const targetInput = document.getElementById('dictionary-search-input') as HTMLInputElement;
             if (targetInput) {
               setSearchTerm(targetInput.value);

@@ -10,7 +10,7 @@ const RejectContributor = ({
   show: boolean;
   setShow: (value: boolean) => void;
 }) => {
-  const [reason, setReason] = useState("");
+  const [_reason, _setReason] = useState("");
 
   if (!show) return;
 

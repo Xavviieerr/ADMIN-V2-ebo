@@ -62,6 +62,7 @@ const EditTranslations = ({
       }));
       toast.success("Translation added successfully");
       setTranslationForm({ id: "", translation: "", notes: "" });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message ?? "An error occurred");
     } finally {
@@ -112,6 +113,7 @@ const EditTranslations = ({
       }));
       toast.success("Translation updated successfully");
       setTranslationForm({ id: "", translation: "", notes: "" });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message ?? "An error occurred");
     } finally {
@@ -151,7 +153,7 @@ const EditTranslations = ({
 
   const handleDeleteTranslation = (id: string) => {
     const newTranslations = formData.translations.filter(
-      (item, idx) => item.id !== id,
+      (item, _idx) => item.id !== id,
     );
     setFormData((prev) => ({ ...prev, translations: newTranslations }));
   };

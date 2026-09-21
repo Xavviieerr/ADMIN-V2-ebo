@@ -10,7 +10,7 @@ const EditOtherDetails = ({
   formData: NameFormDataType;
   setFormData: React.Dispatch<React.SetStateAction<NameFormDataType>>;
 }) => {
-  const [data, setData] = useState<{
+  const [_data, _setData] = useState<{
     notableInput: string;
     alternativeSpellingsInput: string;
     relatedNamesInput: string;

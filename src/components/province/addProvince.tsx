@@ -5,7 +5,6 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
@@ -31,7 +30,7 @@ interface AddProvinceProps {
 }
 
 export default function AddProvince({ onSuccess, mode = 'create', provinceId, province }: AddProvinceProps) {
-    const [provinceRequest, { isLoading, isError }] = useGenericMutationMutation();
+    const [provinceRequest, { isLoading }] = useGenericMutationMutation();
     const form = useForm<z.infer<typeof createProvinceSchema>>({
         resolver: zodResolver(createProvinceSchema),
         defaultValues: {

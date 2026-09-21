@@ -1,10 +1,10 @@
 "use client";
 
 import { useDebounce } from "@/hooks/use-debounce";
-import { ChevronLeft, ChevronRight, LoaderPinwheelIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 export const PaginationWidget = ({
   currentPage,
@@ -29,6 +29,12 @@ export const PaginationWidget = ({
   const debouncedPage = useDebounce(value, 1000);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const buildLink = useCallback((page: number) => {
+    const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.set("page", page.toString());
+    return `?${currentParams.toString()}`;
+  }, [searchParams]);
+
   useEffect(() => {
     if (!debouncedPage.trim() || debouncedPage === String(currentPage)) return;
 
@@ -37,16 +43,10 @@ export const PaginationWidget = ({
     if (debouncedNum < 1 || debouncedNum > totalPages)
       return setErrMsg("Invalid page number");
 
-    errMsg && setErrMsg("");
+    if (errMsg) setErrMsg("");
     router.replace(buildLink(debouncedNum));
     inputRef.current?.blur();
-  }, [debouncedPage, router]);
-
-  const buildLink = (page: number) => {
-    const currentParams = new URLSearchParams(searchParams.toString());
-    currentParams.set("page", page.toString());
-    return `?${currentParams.toString()}`;
-  };
+  }, [debouncedPage, router, buildLink, currentPage, errMsg, totalPages]);
 
   if (totalPages <= 1) return null;
 

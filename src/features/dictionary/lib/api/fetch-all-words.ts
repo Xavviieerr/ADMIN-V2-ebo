@@ -1,6 +1,5 @@
 import { handleFetchError } from "@/features/shared/utils/handle-fetch-error";
 import { BASE_URL } from "@/utils/constants";
-import { toast } from "sonner";
 
 export const fetchWords = async ({
 	token,

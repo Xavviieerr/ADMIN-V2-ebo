@@ -22,7 +22,7 @@ const fetchNamesStats = async ({ token }: { token: string }) => {
     const { data } = await response.json();
 
     return data;
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 };
@@ -31,7 +31,7 @@ const fetchNames = async ({
   token,
   page,
   search,
-  type,
+  type: _type,
 }: {
   token: string;
   page: string;
@@ -56,7 +56,7 @@ const fetchNames = async ({
     const { data } = await response.json();
 
     return data;
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 };

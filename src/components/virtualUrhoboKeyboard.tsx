@@ -13,7 +13,152 @@ interface VirtualUrhoboKeyboardProps {
   onClose?: () => void
 }
 
-export default function VirtualUrhoboKeyboard({ 
+// English QWERTY layout - organized by mode
+const englishLayout = {
+  abc: {
+    default: [
+      'q w e r t y u i o p',
+      'a s d f g h j k l',
+      '{shift} z x c v b n m {bksp}',
+      '{123} {lang} {space} {enter}'
+    ],
+    shift: [
+      'Q W E R T Y U I O P {bksp}',
+      'A S D F G H J K L {enter}',
+      '{shift} Z X C V B N M {shift}',
+      '{123} {lang} {space} {enter}'
+    ]
+  },
+  '123': {
+    default: [
+      '1 2 3 4 5 6 7 8 9 0 {bksp}',
+      '- / : ; ( ) $ & @ " {enter}',
+      '{symbols} . , ? ! \' {symbols}',
+      '{abc} {lang} {space} {enter}'
+    ],
+    shift: [
+      '[ ] { } # % ^ * + = {bksp}',
+      '_ \\ | ~ < > € £ ¥ • {enter}',
+      '{symbols} . , ? ! \' {symbols}',
+      '{abc} {lang} {space} {enter}'
+    ]
+  },
+  symbols: {
+    default: [
+      '[ ] { } # % ^ * + = {bksp}',
+      '_ \\ | ~ < > € £ ¥ • {enter}',
+      '{123} . , ? ! \' {123}',
+      '{abc} {lang} {space} {enter}'
+    ],
+    shift: [
+      '1 2 3 4 5 6 7 8 9 0 {bksp}',
+      '- / : ; ( ) $ & @ " {enter}',
+      '{123} . , ? ! \' {123}',
+      '{abc} {lang} {space} {enter}'
+    ]
+  }
+}
+
+// Urhobo layout - organized by mode
+const urhoboLayout = {
+  abc: {
+    default: [
+      't b k s g j p y n l',
+      '{variants} a e ọ u r h o ẹ i {bksp}',
+      '{shift} z c v w f d m {enter}',
+      '{123} {lang} ? , {space} ! . {ipa}'
+    ],
+    shift: [
+      'T B K S G J P Y N L',
+      '{variants} A E Ọ U R H O Ẹ I {enter}',
+      '{shift} Z C V W F D M {bksp}',
+      '{123} {lang} ? , {space} ! . {ipa}'
+    ],
+    variants: {
+      default: [
+        'á à ã é è ẽ í ì ĩ ó ò õ',
+        'ẹ ọ ɛ ɛ́ ɛ̀ ɛ̃ ɔ ɔ́ ɔ̀ ɔ̃ {enter}',
+        '{shift} {variants} ú ù ũ , . ? ! {bksp}',
+        '{123} {lang} {space} {ipa} {enter}'
+      ],
+      shift: [
+        'Á À Ã É È Ẽ Í Ì Ĩ Ó Ò Õ',
+        'Ẹ Ọ ɛ ɛ́ ɛ̀ ɛ̃ ɔ ɔ́ ɔ̀ ɔ̃ {enter}',
+        '{shift} {variants} Ú Ù Ũ , . ? ! {bksp}',
+        '{123} {lang} {space} {ipa} {enter}'
+      ]
+    }
+  },
+  '123': {
+    default: [
+      '1 2 3 4 5 6 7 8 9 0 {bksp}',
+      '- / : ; ( ) $ & @ " {enter}',
+      '{symbols} . , ? ! \' {symbols}',
+      '{abc} {lang} {space} {ipa} {enter}'
+    ],
+    shift: [
+      '[ ] { } # % ^ * + = {bksp}',
+      '_ \\ | ~ < > € £ ¥ • {enter}',
+      '{symbols} . , ? ! \' {symbols}',
+      '{abc} {lang} {space} {ipa} {enter}'
+    ]
+  },
+  symbols: {
+    default: [
+      '[ ] { } # % ^ * + = {bksp}',
+      '_ \\ | ~ < > € £ ¥ • {enter}',
+      '{123} . , ? ! \' {123}',
+      '{abc} {lang} {space} {ipa} {enter}'
+    ],
+    shift: [
+      '1 2 3 4 5 6 7 8 9 0 {bksp}',
+      '- / : ; ( ) $ & @ " {enter}',
+      '{123} . , ? ! \' {123}',
+      '{abc} {lang} {space} {ipa} {enter}'
+    ]
+  },
+  ipa: {
+    default: [
+      'ɛ ɔ ʄ ɡ͡b ɣ k͡p ɸ · ɾ ɾ̣',
+      'ɣw ɣ͡w ŋm ŋ͡m ɲ mw ghw {enter}',
+      '{shift} ʃ β gb , . ? ! {bksp}',
+      '{123} {lang} {space} {ipa} {enter}'
+    ],
+    shift: [
+      'ɛ ɔ ʄ ɡ͡b ɣ k͡p ŋm ŋ͡m ɲ mw ɸ ɾ',
+      'ɣw ɣ͡w dj gh kp ny ph rh sh vw {enter}',
+      '{shift} ʃ β gb ghw , . ? ! {bksp}',
+      '{123} {lang} {space} {ipa} {enter}'
+    ]
+  }
+}
+
+// Character variants mapping for long press
+const characterVariants: Record<string, string[]> = {
+  'a': ['a', 'á', 'à', 'ã', 'A', 'Á', 'À', 'Ã'],
+  'e': ['e', 'é', 'è', 'ẽ', 'E', 'É', 'È', 'Ẽ'],
+  'i': ['i', 'í', 'ì', 'ĩ', 'I', 'Í', 'Ì', 'Ĩ'],
+  'o': ['o', 'ó', 'ò', 'õ', 'O', 'Ó', 'Ò', 'Õ'],
+  'u': ['u', 'ú', 'ù', 'ũ', 'U', 'Ú', 'Ù', 'Ũ'],
+  'ẹ': ['ẹ', 'Ẹ'],
+  'ọ': ['ọ', 'Ọ'],
+  'ɛ': ['ɛ', 'ɛ́', 'ɛ̀', 'ɛ̃'],
+  'ɔ': ['ɔ', 'ɔ́', 'ɔ̀', 'ɔ̃'],
+  'ch': ['ch', 'Ch', 'CH'],
+  'dj': ['dj', 'Dj', 'DJ'],
+  'gb': ['gb', 'Gb', 'GB', 'ɡ͡b'],
+  'gh': ['gh', 'Gh', 'GH', 'ɣ'],
+  'kp': ['kp', 'Kp', 'KP', 'k͡p'],
+  'mw': ['mw', 'Mw', 'MW', 'ŋm', 'ŋ͡m'],
+  'ny': ['ny', 'Ny', 'NY', 'ɲ'],
+  'ph': ['ph', 'Ph', 'PH', 'ɸ'],
+  'rh': ['rh', 'Rh', 'RH', 'ɾ̣'],
+  'sh': ['sh', 'Sh', 'SH', 'ʃ'],
+  'vw': ['vw', 'Vw', 'VW', 'β'],
+  'ghw': ['ghw', 'Ghw', 'GHW', 'ɣw', 'ɣ͡w']
+}
+
+export default function VirtualUrhoboKeyboard({
   onInput, 
   targetInputId,
   className = '',
@@ -25,6 +170,7 @@ export default function VirtualUrhoboKeyboard({
   const [showIPA, setShowIPA] = useState(false) // For IPA phonetic characters
   const [keyboardMode, setKeyboardMode] = useState<'abc' | '123' | 'symbols'>('abc') // ABC, 123, or symbols mode
   const [showVariants, setShowVariants] = useState(false) // Show accented/variant letters
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const keyboardRef = useRef<any>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -45,126 +191,6 @@ export default function VirtualUrhoboKeyboard({
   const longPressButtonRef = useRef<string | null>(null)
   const isLongPressActive = useRef<boolean>(false)
 
-  // English QWERTY layout - organized by mode
-  const englishLayout = {
-    abc: {
-      default: [
-        'q w e r t y u i o p',
-        'a s d f g h j k l',
-        '{shift} z x c v b n m {bksp}',
-        '{123} {lang} {space} {enter}'
-      ],
-      shift: [
-        'Q W E R T Y U I O P {bksp}',
-        'A S D F G H J K L {enter}',
-        '{shift} Z X C V B N M {shift}',
-        '{123} {lang} {space} {enter}'
-      ]
-    },
-    '123': {
-      default: [
-        '1 2 3 4 5 6 7 8 9 0 {bksp}',
-        '- / : ; ( ) $ & @ " {enter}',
-        '{symbols} . , ? ! \' {symbols}',
-        '{abc} {lang} {space} {enter}'
-      ],
-      shift: [
-        '[ ] { } # % ^ * + = {bksp}',
-        '_ \\ | ~ < > € £ ¥ • {enter}',
-        '{symbols} . , ? ! \' {symbols}',
-        '{abc} {lang} {space} {enter}'
-      ]
-    },
-    symbols: {
-      default: [
-        '[ ] { } # % ^ * + = {bksp}',
-        '_ \\ | ~ < > € £ ¥ • {enter}',
-        '{123} . , ? ! \' {123}',
-        '{abc} {lang} {space} {enter}'
-      ],
-      shift: [
-        '1 2 3 4 5 6 7 8 9 0 {bksp}',
-        '- / : ; ( ) $ & @ " {enter}',
-        '{123} . , ? ! \' {123}',
-        '{abc} {lang} {space} {enter}'
-      ]
-    }
-  }
-
-  // Urhobo layout - organized by mode
-  const urhoboLayout = {
-    abc: {
-      default: [
-        't b k s g j p y n l',
-        '{variants} a e ọ u r h o ẹ i {bksp}',
-        '{shift} z c v w f d m {enter}',
-        '{123} {lang} ? , {space} ! . {ipa}'
-      ],
-      shift: [
-        'T B K S G J P Y N L',
-        '{variants} A E Ọ U R H O Ẹ I {enter}',
-        '{shift} Z C V W F D M {bksp}',
-        '{123} {lang} ? , {space} ! . {ipa}'
-      ],
-      variants: {
-        default: [
-          'á à ã é è ẽ í ì ĩ ó ò õ',
-          'ẹ ọ ɛ ɛ́ ɛ̀ ɛ̃ ɔ ɔ́ ɔ̀ ɔ̃ {enter}',
-          '{shift} {variants} ú ù ũ , . ? ! {bksp}',
-          '{123} {lang} {space} {ipa} {enter}'
-        ],
-        shift: [
-          'Á À Ã É È Ẽ Í Ì Ĩ Ó Ò Õ',
-          'Ẹ Ọ ɛ ɛ́ ɛ̀ ɛ̃ ɔ ɔ́ ɔ̀ ɔ̃ {enter}',
-          '{shift} {variants} Ú Ù Ũ , . ? ! {bksp}',
-          '{123} {lang} {space} {ipa} {enter}'
-        ]
-      }
-    },
-    '123': {
-      default: [
-        '1 2 3 4 5 6 7 8 9 0 {bksp}',
-        '- / : ; ( ) $ & @ " {enter}',
-        '{symbols} . , ? ! \' {symbols}',
-        '{abc} {lang} {space} {ipa} {enter}'
-      ],
-      shift: [
-        '[ ] { } # % ^ * + = {bksp}',
-        '_ \\ | ~ < > € £ ¥ • {enter}',
-        '{symbols} . , ? ! \' {symbols}',
-        '{abc} {lang} {space} {ipa} {enter}'
-      ]
-    },
-    symbols: {
-      default: [
-        '[ ] { } # % ^ * + = {bksp}',
-        '_ \\ | ~ < > € £ ¥ • {enter}',
-        '{123} . , ? ! \' {123}',
-        '{abc} {lang} {space} {ipa} {enter}'
-      ],
-      shift: [
-        '1 2 3 4 5 6 7 8 9 0 {bksp}',
-        '- / : ; ( ) $ & @ " {enter}',
-        '{123} . , ? ! \' {123}',
-        '{abc} {lang} {space} {ipa} {enter}'
-      ]
-    },
-    ipa: {
-      default: [
-        'ɛ ɔ ʄ ɡ͡b ɣ k͡p ɸ · ɾ ɾ̣',
-        'ɣw ɣ͡w ŋm ŋ͡m ɲ mw ghw {enter}',
-        '{shift} ʃ β gb , . ? ! {bksp}',
-        '{123} {lang} {space} {ipa} {enter}'
-      ],
-      shift: [
-        'ɛ ɔ ʄ ɡ͡b ɣ k͡p ŋm ŋ͡m ɲ mw ɸ ɾ',
-        'ɣw ɣ͡w dj gh kp ny ph rh sh vw {enter}',
-        '{shift} ʃ β gb ghw , . ? ! {bksp}',
-        '{123} {lang} {space} {ipa} {enter}'
-      ]
-    }
-  }
-
   // Get current layout based on language, IPA state, keyboard mode, and variants
   const currentLayout = useMemo(() => {
     if (language === 'eng') {
@@ -181,31 +207,6 @@ export default function VirtualUrhoboKeyboard({
       return baseLayout
     }
   }, [language, showIPA, keyboardMode, showVariants])
-
-  // Character variants mapping for long press
-  const characterVariants: Record<string, string[]> = {
-    'a': ['a', 'á', 'à', 'ã', 'A', 'Á', 'À', 'Ã'],
-    'e': ['e', 'é', 'è', 'ẽ', 'E', 'É', 'È', 'Ẽ'],
-    'i': ['i', 'í', 'ì', 'ĩ', 'I', 'Í', 'Ì', 'Ĩ'],
-    'o': ['o', 'ó', 'ò', 'õ', 'O', 'Ó', 'Ò', 'Õ'],
-    'u': ['u', 'ú', 'ù', 'ũ', 'U', 'Ú', 'Ù', 'Ũ'],
-    'ẹ': ['ẹ', 'Ẹ'],
-    'ọ': ['ọ', 'Ọ'],
-    'ɛ': ['ɛ', 'ɛ́', 'ɛ̀', 'ɛ̃'],
-    'ɔ': ['ɔ', 'ɔ́', 'ɔ̀', 'ɔ̃'],
-    'ch': ['ch', 'Ch', 'CH'],
-    'dj': ['dj', 'Dj', 'DJ'],
-    'gb': ['gb', 'Gb', 'GB', 'ɡ͡b'],
-    'gh': ['gh', 'Gh', 'GH', 'ɣ'],
-    'kp': ['kp', 'Kp', 'KP', 'k͡p'],
-    'mw': ['mw', 'Mw', 'MW', 'ŋm', 'ŋ͡m'],
-    'ny': ['ny', 'Ny', 'NY', 'ɲ'],
-    'ph': ['ph', 'Ph', 'PH', 'ɸ'],
-    'rh': ['rh', 'Rh', 'RH', 'ɾ̣'],
-    'sh': ['sh', 'Sh', 'SH', 'ʃ'],
-    'vw': ['vw', 'Vw', 'VW', 'β'],
-    'ghw': ['ghw', 'Ghw', 'GHW', 'ɣw', 'ɣ͡w']
-  }
 
   // Display names for special buttons
   const displayNames = useMemo(() => ({
@@ -378,6 +379,7 @@ export default function VirtualUrhoboKeyboard({
       )
       
       if (reactKey) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const reactFiber = (input as any)[reactKey]
         if (reactFiber) {
           // Traverse the fiber tree to find the onChange handler
@@ -397,6 +399,7 @@ export default function VirtualUrhoboKeyboard({
                 preventDefault: () => {},
                 stopPropagation: () => {},
               }
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               props.onChange(syntheticEvent as any)
               return
             }
@@ -744,7 +747,7 @@ export default function VirtualUrhoboKeyboard({
         clearTimeout(longPressTimer.current)
       }
     }
-  }, [language, characterVariants])
+  }, [language])
 
   // Handle variant selection from popup
   const handleVariantSelect = (variant: string) => {
@@ -949,6 +952,7 @@ export default function VirtualUrhoboKeyboard({
       
       // Check if submit was triggered by a button click (not Enter key)
       // If submitter exists and is a button, allow the submission
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const submitter = (e as any).submitter as HTMLElement | null
       if (submitter) {
         const isButton = submitter.tagName === 'BUTTON'
@@ -1037,6 +1041,7 @@ export default function VirtualUrhoboKeyboard({
         e.stopPropagation()
         e.preventDefault()
         if ('stopImmediatePropagation' in e) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (e as any).stopImmediatePropagation()
         }
       }, true)
@@ -1097,7 +1102,7 @@ export default function VirtualUrhoboKeyboard({
             })
           }
 
-          const handleFocus = (e: Event) => {
+          const handleFocus = (_e: Event) => {
             // Ensure inputMode is still 'none' when focused
             if (targetInput.getAttribute('inputmode') !== 'none') {
               targetInput.setAttribute('inputmode', 'none')

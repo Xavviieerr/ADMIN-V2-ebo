@@ -54,7 +54,7 @@ const SuspendUser = ({
       setShow(false);
       router.refresh();
       return data;
-    } catch (error) {
+    } catch (_error) {
       toast.error("Failed to suspend user");
     } finally {
       setLoading(false);
@@ -85,7 +85,7 @@ const SuspendUser = ({
           />
 
           <p className="font-medium mt-2 text-center max-md:text-sm">
-            Are you sure you want to remove this user's suspension?
+            Are you sure you want to remove this user&apos;s suspension?
           </p>
 
           <div className="flex items-center gap-4 w-full mt-10 font-medium">

@@ -6,11 +6,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useGenericMutationMutation } from "@/slice/requestSlice";
@@ -68,7 +66,8 @@ export default function AddAdmin({ onSuccess }: AddAdminProps) {
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success(
         t("messages.adminAddedSuccessfully", "New admin added successfully!"),
       );

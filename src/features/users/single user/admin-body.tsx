@@ -48,6 +48,7 @@ const AdminBody = ({ adminData }: { adminData: AdminData }) => {
               onClick={() =>
                 disallowClick
                   ? toast.error("Admin must be active to view permissions")
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   : setPage(item.value as any)
               }
               className={`${page === item.value ? "primary-btn font-medium" : "border border-gray-txt-100 hover:border-gray-txt-50 hover:font-medium transition-all duration-300 ease-in-out"} ${disallowClick ? "cursor-not-allowed" : "cursor-pointer"} rounded  px-10 py-3 w-full`}

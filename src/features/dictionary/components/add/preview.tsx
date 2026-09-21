@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import TranslationList from "./translation-list";
 import Image from "next/image";
-import { Loader, Loader2, Pause, StopCircle, Volume2 } from "lucide-react";
+import { Loader, StopCircle, Volume2 } from "lucide-react";
 import { playAudio } from "@/helpers";
 import SensesList from "./senses-list";
 import { PayloadData } from "@/features/dictionary/lib";
@@ -45,7 +45,7 @@ const createWord = async ({
 };
 
 const Preview = () => {
-  const { data, clearForm } = useWordContext();
+  const { data } = useWordContext();
   const router = useRouter();
 
   const [tab, setTab] = useState<"senses" | "translations">("senses");
@@ -79,7 +79,7 @@ const Preview = () => {
     if (!token) return;
 
     setSubmitting(true);
-    const { image, ...rest } = data;
+    const { image: _image, ...rest } = data;
     const res = await createWord({
       token,
       word: { ...rest, creationReason: rest.creationReason || "N/A" },

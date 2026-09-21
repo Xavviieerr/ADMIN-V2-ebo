@@ -22,6 +22,7 @@ type MediaItem = {
   
   // Subword entry (oho array)
   export type WordVariant = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     otoOmra: any;
     id: string;
     otaId: string;

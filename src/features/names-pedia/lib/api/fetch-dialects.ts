@@ -19,7 +19,7 @@ export const fetchDialects = async ({ token }: { token: string }) => {
         const { data } = await response.json();
 
         return data;
-    } catch (error) {
+    } catch (_error) {
         return [];
     }
 }

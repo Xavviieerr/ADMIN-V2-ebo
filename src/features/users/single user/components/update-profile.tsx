@@ -27,7 +27,9 @@ const UpdateProfile = ({
   setProfileLastName: (lastName: string) => void;
   profilePictureFile: File | null;
   setProfilePictureFile: (file: File | null) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateProfile: any;
   isUpdatingProfile: boolean;
 }) => {

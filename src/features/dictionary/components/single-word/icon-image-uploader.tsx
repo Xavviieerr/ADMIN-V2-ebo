@@ -15,6 +15,7 @@ const IconImageUploader = ({
   large = false,
 }: {
   type?: "photo" | "illustration";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any;
   size?: number;
   large?: boolean;
@@ -29,7 +30,7 @@ const IconImageUploader = ({
   const params = useParams();
   const id = params?.id as string;
 
-  const [file, setFile] = useState<{
+  const [, setFile] = useState<{
     id: string;
     url: string;
     file: File;
@@ -59,8 +60,7 @@ const IconImageUploader = ({
       );
     }
 
-    let url;
-    url = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
 
     const singleFile = {
       id: Date.now().toString(),
@@ -81,7 +81,7 @@ const IconImageUploader = ({
 
     if (!token) return;
 
-    const { msg, data: res } = await uploadImage({ token, formData });
+    const { data: res } = await uploadImage({ token, formData });
 
     console.log(res);
 

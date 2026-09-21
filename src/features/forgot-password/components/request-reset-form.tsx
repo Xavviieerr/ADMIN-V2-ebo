@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ForgotPasswordUser } from "@/features/auth/types/auth";
 import { requestResetAPI } from "@/features/auth/services/authService";
 import { getErrorMessage } from "@/utils/errorHandler";
@@ -62,12 +63,13 @@ export default function RequestResetForm({
       )}
 
       <div className="flex items-center gap-4 p-4 rounded-xl bg-[#23232a] mb-8">
-        <div className="w-12 h-12 rounded-full bg-[#2a2a32] overflow-hidden flex items-center justify-center shrink-0">
+        <div className="w-12 h-12 rounded-full bg-[#2a2a32] overflow-hidden flex items-center justify-center shrink-0 relative">
           {user.profilePictureUrl ? (
-            <img
+            <Image
               src={user.profilePictureUrl}
               alt={user.firstName}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           ) : (
             <Mail className="w-5 h-5 text-gray-400" />

@@ -76,6 +76,7 @@ describe("authSlice", () => {
         refreshToken: "rt_456",
         user: mockUser,
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
 
     it("selectCurrentUser returns user", () => {
@@ -95,10 +96,12 @@ describe("authSlice", () => {
     });
 
     it("selectIsSuperAdmin returns true for super_admin", () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(selectIsSuperAdmin({ auth: { ...state.auth, user: mockSuperAdmin } } as any)).toBe(true);
     });
 
     it("selectIsSuperAdmin returns false when user is null", () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(selectIsSuperAdmin({ auth: { ...state.auth, user: null } } as any)).toBe(false);
     });
   });

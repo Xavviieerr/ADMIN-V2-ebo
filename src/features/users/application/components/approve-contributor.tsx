@@ -10,7 +10,7 @@ const ApproveContributor = ({
   show: boolean;
   setShow: (value: boolean) => void;
 }) => {
-  const [role, setRole] = useState("");
+  const [_role, setRole] = useState("");
 
   if (!show) return;
 

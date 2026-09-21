@@ -33,22 +33,22 @@ export default function SupportTicketCards({ tickets }: SupportTicketCardsProps)
               handleCardClick(ticket.id);
             }
           }}
-          className="bg-[#1E1E1E] rounded-lg border border-white/10 p-4 space-y-3 cursor-pointer hover:bg-[#2a2a2a]/50 transition-colors"
+          className="bg-[#1E1E1E] rounded-lg border border-white/10 p-4 space-y-2 cursor-pointer hover:bg-[#2a2a2a]/50 active:bg-[#23232a] transition-colors"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-mono text-[#ffe6b0]">{ticket.ticketNumber}</span>
-            <span className={`text-xs font-medium capitalize ${getStatusColor(ticket.status)}`}>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-mono text-[#ffe6b0] shrink-0">{ticket.ticketNumber}</span>
+            <span className={`text-xs font-medium capitalize ${getStatusColor(ticket.status)} shrink-0`}>
               {t(`supportTickets.${ticket.status === "in_progress" ? "inProgress" : ticket.status}`)}
             </span>
           </div>
 
-          <p className="text-sm font-medium text-[#f5f5f5] truncate">{ticket.subject}</p>
+          <p className="text-sm font-medium text-[#f5f5f5] line-clamp-2">{ticket.subject}</p>
 
-          <div className="flex items-center justify-between text-xs text-gray-400">
-            <span className={`font-medium capitalize ${getCategoryColor(ticket.category)}`}>
+          <div className="flex items-center justify-between text-xs text-gray-400 gap-2">
+            <span className={`font-medium capitalize truncate ${getCategoryColor(ticket.category)}`}>
               {t(`supportTickets.${ticket.category}`)}
             </span>
-            <span>{formatTicketDate(ticket.createdAt)}</span>
+            <span className="shrink-0">{formatTicketDate(ticket.createdAt)}</span>
           </div>
         </div>
       ))}

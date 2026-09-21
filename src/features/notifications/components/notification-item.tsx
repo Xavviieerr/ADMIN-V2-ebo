@@ -6,6 +6,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useMarkNotificationReadMutation, useDeleteNotificationMutation } from "@/slice/requestSlice";
 import { Button } from "@/components/ui/button";
 import { Trash2, Eye } from "lucide-react";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/utils/errorHandler";
 import type { Notification } from "../types";
 import { getRelativeTime } from "../utils/notification-helpers";
 
@@ -32,8 +34,9 @@ export default function NotificationItem({ notification, onDelete, compact = fal
     try {
       await markRead({ notificationId: notification.id }).unwrap();
       setIsRead(true);
-    } catch {
-      // Optimistic update rollback handled by RTK Query
+      toast.success(t("notifications.markReadSuccess"));
+    } catch (error) {
+      toast.error(getErrorMessage(error, t("notifications.markReadError")));
     }
   };
 
@@ -42,8 +45,9 @@ export default function NotificationItem({ notification, onDelete, compact = fal
     try {
       await deleteNotification({ notificationId: notification.id }).unwrap();
       onDelete?.(notification.id);
-    } catch {
-      // Error handled by RTK Query
+      toast.success(t("notifications.deleteSuccess"));
+    } catch (error) {
+      toast.error(getErrorMessage(error, t("notifications.deleteError")));
     }
   };
 

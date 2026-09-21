@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SingleContributorCTA = ({ userData }: { userData: any }) => {
   const searchParams = useSearchParams();
   const isContributor = searchParams.get("role") === "contributor";

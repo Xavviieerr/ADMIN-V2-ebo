@@ -29,6 +29,7 @@ export async function getTranslations(locale: Locale = defaultLocale) {
  * Get translation value by key path (e.g., 'sidebar.home')
  */
 export function getTranslation(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   translations: Record<string, any>,
   key: string,
   defaultValue?: string

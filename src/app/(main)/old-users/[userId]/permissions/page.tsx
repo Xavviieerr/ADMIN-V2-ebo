@@ -1,6 +1,7 @@
 'use client'
 
 import { useGetSingleUserQuery, useGetSingleAdminUserQuery, useGetAllAdminPermissionsQuery, useGetSingleAdminPermissionQuery, useSetAdminPermissionMutation } from '@/slice/requestSlice';
+import Image from 'next/image';
 import { use, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner'
@@ -61,6 +62,7 @@ export default function UserPermissionsPage({ params }: { params: Promise<{ user
   
   // Determine if this is an admin user (check if admin data exists)
   const isAdmin = singleAdminUser !== undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user = isAdmin ? (singleAdminUser as any)?.data?.user : (singleUser as any)?.data;
   const isLoading = isLoadingUser || isLoadingAdmin || isLoadingPermissions || isLoadingUserPermissions;
   
@@ -76,7 +78,7 @@ export default function UserPermissionsPage({ params }: { params: Promise<{ user
     if (!allPermissions?.data) return [];
     
     return Object.entries(PERMISSION_MAPPING)
-      .filter(([_, mapping]) => mapping.category === category)
+      .filter(([, mapping]) => mapping.category === category)
       .map(([uiName, mapping]) => ({
         uiName,
         mapping,
@@ -187,7 +189,7 @@ export default function UserPermissionsPage({ params }: { params: Promise<{ user
       <div className="min-h-screen p-4 md:p-6 bg-[#1F1F27] flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-xl font-semibold text-white mb-2">User not found</h2>
-          <p className="text-gray-400">The user you're looking for doesn't exist.</p>
+          <p className="text-gray-400">The user you&apos;re looking for doesn&apos;t exist.</p>
         </div>
       </div>
     );
@@ -216,9 +218,11 @@ export default function UserPermissionsPage({ params }: { params: Promise<{ user
         </div>
         
         <div className="flex items-center gap-4">
-          <img
+          <Image
             src={user?.profilePictureUrl || '/default_avatar.svg'}
             alt={`${user?.firstName} ${user?.lastName}`}
+            width={48}
+            height={48}
             className="h-12 w-12 rounded-full object-cover border-2 border-[#404040]"
           />
           <div>

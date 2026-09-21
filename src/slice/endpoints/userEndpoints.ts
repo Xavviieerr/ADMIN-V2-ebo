@@ -99,6 +99,7 @@ export const userEndpoints = (builder: AppEndpointBuilder) => ({
       id ? [{ type: "permissions", id }] : [],
   }),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setAdminPermission: builder.mutation<any, SetPermissionRequest>({
     query({ permissions, userId, method = "PATCH" }) {
       const body =
@@ -122,6 +123,7 @@ export const userEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateAdminProfile: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       firstName?: string;

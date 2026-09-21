@@ -17,7 +17,7 @@ const STAGES: FigureInfoStage[] = [
 
 const StagesTable = ({
   stage,
-  status,
+  status: _status,
 }: {
   stage: FigureInfoStage;
   status: string;
@@ -92,7 +92,7 @@ const StagesTable = ({
                     status: metadataValid ? "Completed" : "Optional",
                     value: "metadata",
                   },
-                ].map((item, index) => (
+                ].map((item, _index) => (
                   <tr
                     key={item.value}
                     onClick={() => router.push(`?stage=${item.value}`)}

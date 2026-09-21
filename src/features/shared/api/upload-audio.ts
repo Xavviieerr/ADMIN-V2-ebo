@@ -20,7 +20,7 @@ export const uploadAudio = async ({
     const data = await response.json();
 
     return data;
-  } catch (error) {
+  } catch (_error) {
     toast.error("Failed to upload audio");
     return undefined;
   }

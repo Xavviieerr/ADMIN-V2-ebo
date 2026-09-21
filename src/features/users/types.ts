@@ -21,6 +21,7 @@ export type AdminData = {
     view_user: boolean;
     view_word: boolean;
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rejectionReason: any | null;
   status:
     | "active"
@@ -32,6 +33,7 @@ export type AdminData = {
   updatedAt: string;
   user: {
     DOB: string | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     activityMilestones: any;
     createdAt: string;
     email: string;
@@ -58,6 +60,7 @@ export type AdminData = {
       ipAddress: string;
       userAgent: string;
     }[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     otpAttempts: any | null;
     otpExpires: string | null;
     otpToken: string | null;
@@ -65,7 +68,9 @@ export type AdminData = {
     profilePicturePublicId: string | null;
     profilePictureUrl: string | null;
     province: string | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     refreshTokens: any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resetAttempts: any | null;
     resetToken: string | null;
     resetTokenExpires: string | null;
@@ -90,10 +95,12 @@ export type UserData = {
     totalLogins: number;
     lastLogin: string;
     totalActiveDays: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     activityMilestones: any;
   };
   contributionCount?: number;
   createdAt: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dailyActivities?: any[];
   email: string;
   favoriteWordsCount?: number;

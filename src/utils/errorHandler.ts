@@ -11,6 +11,7 @@
  * @param defaultMessage - A fallback message if error extraction fails
  * @returns The first element from the message array, or a default message
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getErrorMessage(error: any, defaultMessage: string = "An error occurred"): string {
   // Check if error has a data property (RTK Query format)
   if (error?.data?.message) {

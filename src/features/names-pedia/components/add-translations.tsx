@@ -53,7 +53,7 @@ const AddTranslations = ({
 
   const handleDeleteTranslation = (id: string) => {
     const newTranslations = formData.translations.filter(
-      (item, idx) => item.id !== id,
+      (item, _idx) => item.id !== id,
     );
     setFormData({ ...formData, translations: newTranslations });
   };

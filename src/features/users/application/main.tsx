@@ -1,9 +1,7 @@
 import {
   ContributorApplicationStage,
   GoBackButton,
-  LocaleWrapper,
 } from "@/features/shared";
-import { ArrowLeft } from "lucide-react";
 import React from "react";
 import StagesTable from "./stages-table";
 import AccountInfoStage from "./account-info-stage";

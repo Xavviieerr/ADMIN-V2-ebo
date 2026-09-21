@@ -4,7 +4,7 @@ import { BASE_URL } from "@/utils/constants";
 import { ChevronLeft, Loader, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import { toast } from "sonner";
 import moment from "moment";
@@ -22,7 +22,7 @@ const OverrideWordOfTheDay = () => {
 
   const token = getAccessToken();
 
-  const fetchWord = async () => {
+  const fetchWord = useCallback(async () => {
     setFetching(true);
     try {
       const res = await fetch(
@@ -38,6 +38,7 @@ const OverrideWordOfTheDay = () => {
         throw new Error("Failed to fetch word");
       }
       const { data } = await res.json();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const results: WordRecord[] = data.results.map((item: any) => item.word);
       setSearchResult(results);
       getSuggestions(results);
@@ -47,7 +48,7 @@ const OverrideWordOfTheDay = () => {
     } finally {
       setFetching(false);
     }
-  };
+  }, [word, token]);
 
   const setWordOfTheDay = async () => {
     setLoading(true);
@@ -76,7 +77,7 @@ const OverrideWordOfTheDay = () => {
       setSearchResult([]);
       setSuggestions([]);
       return;
-    } catch (error) {
+    } catch (_) {
       toast.error("Error", {
         description: `Failed to override word of the day`,
       });
@@ -90,7 +91,7 @@ const OverrideWordOfTheDay = () => {
     if (!word.trim() || selected?.ota === word) return;
 
     fetchWord();
-  }, [word]);
+  }, [word, selected?.ota, fetchWord]);
 
   const handleSetWord = () => {
     if (!selected || loading) return;
@@ -99,7 +100,7 @@ const OverrideWordOfTheDay = () => {
   };
 
   const getSuggestions = (results: WordRecord[]) => {
-    let suggestions: SimpleRecord[] = [];
+    const suggestions: SimpleRecord[] = [];
     for (let i = 0; i < results.length; i++) {
       const singleResult = results[i];
       let eng: string[] = [];

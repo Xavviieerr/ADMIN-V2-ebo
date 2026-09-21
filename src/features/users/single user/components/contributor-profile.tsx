@@ -51,7 +51,7 @@ const ContributorProfile = ({ data }: { data: UserData }) => {
     }, 1000);
 
     return () => clearTimeout(timeoutRef);
-  }, [isContributor]);
+  }, [isContributor, data.id, router]);
 
   return (
     <div className="flex w-full items-start gap-5">

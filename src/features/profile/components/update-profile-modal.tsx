@@ -344,6 +344,7 @@ export default function UpdateProfileModal({
               {t("profile.photoLabel", "Profile photo")}
             </span>
             {(photoPreview || initial.profilePictureUrl) && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={photoPreview || initial.profilePictureUrl || ""}
                 alt=""

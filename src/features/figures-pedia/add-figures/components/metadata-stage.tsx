@@ -256,7 +256,7 @@ const MetadataStage = ({ stage }: { stage: FigureInfoStage }) => {
                           </span>
 
                           <span className="">
-                            "{source.title}". {source.type}, {source.url}.
+                            &quot;{source.title}&quot;. {source.type}, {source.url}.
                             {" Accessed "}
                             {getYear(source.date)}.
                           </span>

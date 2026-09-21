@@ -205,14 +205,22 @@ export default function UsersPage() {
   // Determine which query to use
   const shouldSearch = searchTerm.trim().length > 0;
 
+  const searchQueryResult = useGetAdminUsersSearchQuery(
+    { query: searchTerm, limit, page },
+    { skip: !shouldSearch }
+  );
+
+  const listQueryResult = useGetAdminUsersQuery(
+    { limit, page, role: roleFilter, status: statusFilter },
+    { skip: shouldSearch }
+  );
+
   const {
     data: users,
     isFetching,
     isError,
     error,
-  } = shouldSearch
-      ? useGetAdminUsersSearchQuery({ query: searchTerm, limit, page })
-      : useGetAdminUsersQuery({ limit, page, role: roleFilter, status: statusFilter });
+  } = shouldSearch ? searchQueryResult : listQueryResult;
 
   // Extract pagination info (users API has pagination fields directly in data, not nested)
   const pagination = users?.data ? {
@@ -227,6 +235,7 @@ export default function UsersPage() {
   console.log(userPermissions);
 
   // Helper function to extract user list from either API response format
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getUserList = (data: any): User[] => {
     if (data?.items) return data.items;
     if (data?.users) return data.users;
@@ -315,7 +324,8 @@ export default function UsersPage() {
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success(t('messages.adminApproved'));
 
     } catch (error) {
@@ -355,6 +365,7 @@ export default function UsersPage() {
         invalidatesTags: [{ type: "admins" as const }],
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await addAdmin(request as any).unwrap();
       toast.success(t('messages.deletedSuccessfully', 'Deleted successfully'));
       setShowDeleteModal(false);
@@ -373,7 +384,8 @@ export default function UsersPage() {
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success(t('messages.userUnrestricted'));
 
     } catch (error) {
@@ -397,7 +409,8 @@ export default function UsersPage() {
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success(t('messages.userRestricted'));
       setShowRestrictModal(false);
       setSuspensionReason("");
@@ -423,7 +436,8 @@ export default function UsersPage() {
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success(t('messages.adminRejected'));
       setShowRejectModal(false);
       setRejectionReason("");
@@ -1072,7 +1086,7 @@ export default function UsersPage() {
       {showKeyboard && (
         <VirtualUrhoboKeyboard
           targetInputId="users-search-input"
-          onInput={(text) => {
+          onInput={() => {
             // The keyboard will update the input directly via targetInputId
             // This callback is for additional handling if needed
             const targetInput = document.getElementById('users-search-input') as HTMLInputElement;

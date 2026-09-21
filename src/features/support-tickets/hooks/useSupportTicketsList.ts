@@ -10,19 +10,15 @@ export function useSupportTicketsList() {
   const searchParams = useSearchParams();
 
   const page = Number(searchParams.get("page")) || 1;
-  const search = searchParams.get("search") || "";
   const status = searchParams.get("status") || "all";
   const category = searchParams.get("category") || "all";
-  const sortBy = searchParams.get("sortBy") || "createdAt";
   const sortDir = (searchParams.get("sortDir") || "DESC") as "ASC" | "DESC";
 
   const { data, isLoading, isFetching, isError, error, refetch } = useGetSupportTicketsQuery({
     page,
     limit: SUPPORT_TICKETS_LIST_LIMIT,
-    search,
     status,
     category,
-    sortBy: sortBy as "createdAt" | "updatedAt",
     sortDir,
   });
 
@@ -45,13 +41,6 @@ export function useSupportTicketsList() {
     [router, searchParams],
   );
 
-  const handleSearch = useCallback(
-    (newSearch: string) => {
-      updateParams({ search: newSearch, page: "1" });
-    },
-    [updateParams],
-  );
-
   const handleStatusChange = useCallback(
     (newStatus: string) => {
       updateParams({ status: newStatus, page: "1" });
@@ -66,9 +55,9 @@ export function useSupportTicketsList() {
     [updateParams],
   );
 
-  const handleSortChange = useCallback(
-    (newSortBy: string, newSortDir: string) => {
-      updateParams({ sortBy: newSortBy, sortDir: newSortDir, page: "1" });
+  const handleSortDirChange = useCallback(
+    (newSortDir: string) => {
+      updateParams({ sortDir: newSortDir, page: "1" });
     },
     [updateParams],
   );
@@ -95,20 +84,17 @@ export function useSupportTicketsList() {
     total,
     totalPages,
     page,
-    search,
     status,
     category,
-    sortBy,
     sortDir,
     isLoading,
     isFetching,
     isError,
     error,
     refetch,
-    handleSearch,
     handleStatusChange,
     handleCategoryChange,
-    handleSortChange,
+    handleSortDirChange,
     handlePageChange,
     handlePrev,
     handleNext,

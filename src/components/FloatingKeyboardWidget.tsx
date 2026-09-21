@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Keyboard } from "lucide-react";
 import CustomKeyboard from "@/features/shared/components/custom-keyboard";
 import { useKeyboard } from "@/features/shared/components/keyboard-context";
 
 export default function FloatingKeyboardWidget() {
-  const [activeInputId, setActiveInputId] = useState<string | null>(null);
-  const lastFocusedInputRef = useRef<HTMLElement | null>(null);
+  const [_activeInputId, setActiveInputId] = useState<string | null>(null);
+  const _lastFocusedInputRef = useRef<HTMLElement | null>(null);
 
   const { showKeyboard, setShowKeyboard } = useKeyboard();
 

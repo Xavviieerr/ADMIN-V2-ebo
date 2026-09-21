@@ -32,7 +32,7 @@ const NamesTable: React.FC<{ data: NameRecord; page: number }> = ({
   const [typeFilter, setTypeFilter] = useState(
     searchParams.get("type") || "all",
   );
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, _setIsFetching] = useState(false);
 
   const [showOptions, setShowOptions] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(false);
@@ -43,7 +43,7 @@ const NamesTable: React.FC<{ data: NameRecord; page: number }> = ({
       `/guonopedia/names?page=${page}&search=${debouncedValue}&type=${typeFilter}`,
       { scroll: false },
     );
-  }, [debouncedValue]);
+  }, [debouncedValue, page, router, typeFilter]);
 
   return (
     <>
@@ -132,7 +132,7 @@ const NamesTable: React.FC<{ data: NameRecord; page: number }> = ({
         {showKeyboard && (
           <VirtualUrhoboKeyboard
             targetInputId="users-search-input"
-            onInput={(text) => {
+            onInput={(_text) => {
               // The keyboard will update the input directly via targetInputId
               // This callback is for additional handling if needed
               const targetInput = document.getElementById(

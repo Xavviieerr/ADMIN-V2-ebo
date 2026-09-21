@@ -1,7 +1,7 @@
 "use client";
-import { ChevronLeft, Loader2, Trash2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import { SingleWord } from "@/features/dictionary/lib";
 import { getPOS } from "@/helpers";
@@ -55,9 +55,7 @@ const AddEditSense = ({
   const id = (params.id as string) ?? "";
   const token = getAccessToken();
 
-  if (type === "edit" && !selected) return null;
-
-  let initialValue: Initial = {
+  const defaultInitialValue: Initial = {
     kere: nextKere,
     ekerota: [] as string[],
     oto: "",
@@ -72,9 +70,9 @@ const AddEditSense = ({
     erevwe: "Abgarho",
   };
 
-  useEffect(() => {
+  const [form, setForm] = useState<Initial>(() => {
     if (type === "edit" && selected) {
-      initialValue = {
+      return {
         ekerota: selected.ekerota,
         oto: selected.oto ?? "",
         idje: selected.idje ?? [{ sentence: "", audioUrl: "" }],
@@ -89,13 +87,13 @@ const AddEditSense = ({
         senseIndex: senseIndex,
         senseId: selected.id,
       };
-      setForm(initialValue);
     }
-  }, [selected, type]);
-
-  const [form, setForm] = useState<typeof initialValue>(initialValue);
+    return defaultInitialValue;
+  });
 
   const [loading, setLoading] = useState(false);
+
+  if (type === "edit" && !selected) return null;
 
   const pos = getPOS("urh");
 

@@ -11,7 +11,6 @@ const UpdateProfile = ({
   setFirstName,
   lastName,
   setLastName,
-  pictureFile,
   setPictureFile,
   isLoading,
   onSubmit,

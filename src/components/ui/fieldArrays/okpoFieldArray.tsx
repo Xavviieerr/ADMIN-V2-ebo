@@ -8,9 +8,10 @@ import { Input } from "../input";
 export function OkpoFieldArray({
     control,
     name,
-    label,
+    label: _label,
     lang,
   }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     name: string;
     label: string;
@@ -22,6 +23,7 @@ export function OkpoFieldArray({
     // Get error for the array field (nested path like "oho.0.okpo")
     const getFieldError = (fieldPath: string) => {
       const pathParts = fieldPath.split('.');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let error: any = errors;
       for (const part of pathParts) {
         if (error && typeof error === 'object' && part in error) {
@@ -33,7 +35,7 @@ export function OkpoFieldArray({
       return error;
     };
     
-    const fieldError = getFieldError(name);
+    const _fieldError = getFieldError(name);
     
     // Ensure at least one field exists
     React.useEffect(() => {

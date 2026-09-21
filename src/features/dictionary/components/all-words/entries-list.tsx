@@ -1,9 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { SingleWord } from "../../lib";
 import { Stars, StatusCard } from "@/features/shared";
 import moment from "moment";
 import Link from "next/link";
-import { PenBox } from "lucide-react";
 
 const EntriesList = ({ data }: { data: SingleWord[] }) => {
   if (!data || data.length == 0) {

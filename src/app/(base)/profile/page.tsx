@@ -1,6 +1,4 @@
 import { ProfileFeature } from "@/features/profile";
-import { cookies } from "next/headers";
-import { BASE_URL } from "@/utils/constants";
 import React from "react";
 
 // const getSuperAdminData = async () => {

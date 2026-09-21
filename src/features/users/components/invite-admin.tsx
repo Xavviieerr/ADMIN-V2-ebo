@@ -1,7 +1,7 @@
 "use client";
 import { BASE_URL } from "@/utils/constants";
 import { Loader } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import ModalLayout from "@/features/shared/modal-layout";

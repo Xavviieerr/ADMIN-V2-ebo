@@ -1,5 +1,4 @@
 import { MultiInput, NameFormDataType } from "@/features/shared";
-import { X, Plus } from "lucide-react";
 import React from "react";
 
 const EditNameDetails = ({

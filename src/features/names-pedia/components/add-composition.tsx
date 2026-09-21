@@ -1,7 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { MultiInput, NameFormDataType } from "@/features/shared";
 
 const AddNameComposition = ({

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { UserGroupIcon, UserIcon, UserMinusIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon } from '@heroicons/react/24/solid';
 // import { useDashboardStats } from '@/hooks/useApi';/
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
@@ -10,10 +11,10 @@ export default function DashboardPage() {
   // TODO: Replace with real data fetching hook, e.g. useDashboardStats
   const stats = null;
   const loading = false;
-  const { isSuperAdmin, currentUser } = usePermissions();
-  const fetchStats = () => {
+  const { isSuperAdmin } = usePermissions();
+  const fetchStats = useCallback(() => {
     // Placeholder: implement fetch logic here
-  };
+  }, []);
 
   useEffect(() => {
     fetchStats();
@@ -119,9 +120,11 @@ export default function DashboardPage() {
                       className="flex items-center justify-between py-3 border-b border-[#23232a] last:border-b-0"
                     >
                       <div className="flex items-center gap-3">
-                        <img
+                        <Image
                           src={user.avatar}
                           alt={user.name}
+                          width={36}
+                          height={36}
                           className="h-9 w-9 rounded-full object-cover"
                         />
                         <div>
@@ -141,10 +144,11 @@ export default function DashboardPage() {
               <section className="w-full rounded-[20px] bg-[#1E1E1E] p-6 md:p-8 shadow">
                 <h2 className="text-xl font-semibold text-white mb-6">Recent Users</h2>
                 <ul className="space-y-4">
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {(stats && Array.isArray((stats as any).recentUsers) ? (stats as any).recentUsers : []).map((user: any, idx: number) => (
                     <li key={user.id || idx} className="flex items-center justify-between py-3 border-b border-[#23232a] last:border-b-0">
                       <div className="flex items-center gap-3">
-                        <img src={user.avatar} alt={user.name} className="h-9 w-9 rounded-full object-cover" />
+                        <Image src={user.avatar} alt={user.name} width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
                         <div>
                           <div className="text-white font-medium">{user.name}</div>
                           <div className="text-xs text-gray-400">{user.email}</div>
@@ -170,9 +174,11 @@ export default function DashboardPage() {
                       className="flex items-center justify-between py-3 border-b border-[#23232a] last:border-b-0"
                     >
                       <div className="flex items-center gap-3">
-                        <img
+                        <Image
                           src={word.avatar}
                           alt={word.word}
+                          width={32}
+                          height={32}
                           className="h-8 w-8 rounded-full object-cover"
                         />
                         <div className="text-white font-medium">{word.word}</div>

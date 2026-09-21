@@ -4,6 +4,7 @@ import { PermissionGate } from "@/features/shared";
 import { getUserStatus } from "@/helpers";
 import { ApproveBtn, RejectBtn, SuspendBtn } from "../../components";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SingleAdminCTA = ({ adminData }: { adminData: any }) => {
   if (!adminData || !adminData.user) return null;
 

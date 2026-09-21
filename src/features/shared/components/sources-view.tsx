@@ -64,13 +64,13 @@ const SourcesView = ({ sources }: { sources: Source[] }) => {
                 <span className="font-medium text-base">{idx + 1}.</span>
                 {(source.type === "article" || source.type === "book") && (
                   <span className="">
-                    {breakAuthors(source.author)}. "{source.title}".{" "}
+                    {breakAuthors(source.author)}. &quot;{source.title}&quot;.{" "}
                     {source.publishedBy}, {getYear(source.publishedOn)}.
                   </span>
                 )}
                 {source.type === "website" && (
                   <span className="">
-                    "{source.title}".{" website, "}
+                    &quot;{source.title}&quot;.{" website, "}
                     <a
                       href={source.url}
                       target="_blank"
@@ -84,14 +84,14 @@ const SourcesView = ({ sources }: { sources: Source[] }) => {
                 )}
                 {source.type === "interview" && (
                   <span className="">
-                    "{source.title}".{" Interview of "}
+                    &quot;{source.title}&quot;.{" Interview of "}
                     {source.speaker}.{" Conducted "}
                     {getYear(source.date)}.
                   </span>
                 )}
                 {source.type === "oral history" && (
                   <span className="">
-                    "{source.title}".{" Narrated by "}
+                    &quot;{source.title}&quot;.{" Narrated by "}
                     {source.speaker}.{" Narrated "}
                     {getYear(source.date)}.
                   </span>

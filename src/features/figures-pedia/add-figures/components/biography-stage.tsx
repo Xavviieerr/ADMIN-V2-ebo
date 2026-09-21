@@ -113,7 +113,7 @@ const BiographyStage = ({ stage }: { stage: FigureInfoStage }) => {
       ],
     };
 
-    setBasicInfo((prev) => newBasicInfo);
+    setBasicInfo((_prev) => newBasicInfo);
 
     saveToLocal(newBasicInfo);
     router.replace(`/guonopedia/figures/add`);

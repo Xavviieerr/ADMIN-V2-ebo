@@ -10,12 +10,13 @@ type EditCTX = {
   setTab: (value: Tab) => void;
   figureData: Figure;
   setFigureData: React.Dispatch<React.SetStateAction<Figure>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getFigurePayload: () => any;
 };
 
 const defaultValue: EditCTX = {
   tab: "personal",
-  setTab: (value: Tab) => {},
+  setTab: (_value: Tab) => {},
   figureData: {
     id: "",
     status: "",
@@ -52,6 +53,7 @@ const defaultValue: EditCTX = {
 
 const EditFigureContext = createContext(defaultValue);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cleanUpFigure: (figure: Figure) => any = (figure: Figure) => {
   const {
     fullName,
@@ -78,7 +80,7 @@ const cleanUpFigure: (figure: Figure) => any = (figure: Figure) => {
     timeline,
     family,
     relatedFigures,
-    ...rest
+    ..._rest
   } = figure;
 
   return {
@@ -117,33 +119,33 @@ const EditFigureProvider = ({
   figure: Figure;
 }) => {
   const {
-    id,
-    status,
-    fullName,
-    otherNames,
-    dateOfBirth,
-    dateOfDeath,
-    placeOfBirth,
-    gender,
-    introBio,
-    profilePhoto,
+    id: _id,
+    status: _status,
+    fullName: _fullName,
+    otherNames: _otherNames,
+    dateOfBirth: _dateOfBirth,
+    dateOfDeath: _dateOfDeath,
+    placeOfBirth: _placeOfBirth,
+    gender: _gender,
+    introBio: _introBio,
+    profilePhoto: _profilePhoto,
     // category,
-    shortBio,
-    nationality,
-    region,
-    era,
-    ethnicity,
-    occupation,
-    religion,
-    suggestionNote,
-    tags,
-    notableAchievements,
-    biography,
-    externalLinks,
-    timeline,
-    family,
-    relatedFigures,
-    ...rest
+    shortBio: _shortBio,
+    nationality: _nationality,
+    region: _region,
+    era: _era,
+    ethnicity: _ethnicity,
+    occupation: _occupation,
+    religion: _religion,
+    suggestionNote: _suggestionNote,
+    tags: _tags,
+    notableAchievements: _notableAchievements,
+    biography: _biography,
+    externalLinks: _externalLinks,
+    timeline: _timeline,
+    family: _family,
+    relatedFigures: _relatedFigures,
+    ..._rest
   } = figure;
   const [figureData, setFigureData] = useState(cleanUpFigure(figure));
   const [tab, setTab] = useState<Tab>("personal");
@@ -164,8 +166,9 @@ const EditFigureProvider = ({
       },
     ];
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const family = figureData.family.map((item: any) => {
-      const { createdAt, createdBy, updatedAt, id, figureId, order, ...rest } =
+      const { createdAt: _createdAt, createdBy: _createdBy, updatedAt: _updatedAt, id: _id, figureId: _figureId, order: _order, ...rest } =
         item;
 
       return rest;

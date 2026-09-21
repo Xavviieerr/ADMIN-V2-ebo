@@ -33,6 +33,7 @@ export default function SingleProvince({ id }: { id: string }) {
     const [deleteTownModalOpen, setDeleteTownModalOpen] = useState(false);
     const [editTownModalOpen, setEditTownModalOpen] = useState(false);
     const [townToDelete, setTownToDelete] = useState<{ id: string; name: string } | null>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [townToEdit, setTownToEdit] = useState<any | null>(null);
     const { data: provinceSingle, isLoading, isError } = useGetSingleProvinceQuery({ id });
     const [deleteProvince, { isLoading: isDeleting }] = useGenericMutationMutation();
@@ -77,6 +78,7 @@ export default function SingleProvince({ id }: { id: string }) {
         }
     }, [townToEdit, id, editTownForm]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleEditTown = (town: any) => {
         setTownToEdit(town);
         setEditTownModalOpen(true);
@@ -110,7 +112,7 @@ export default function SingleProvince({ id }: { id: string }) {
     };
 
     // ✅ Delete Province
-    const handleDeleteProvince = (provinceId: string, provinceName: string) => {
+    const handleDeleteProvince = (_provinceId: string, _provinceName: string) => {
         setDeleteProvinceModalOpen(true);
     };
 
@@ -296,7 +298,7 @@ export default function SingleProvince({ id }: { id: string }) {
                     <DialogHeader>
                         <DialogTitle>Confirm Deletion</DialogTitle>
                         <DialogDescription className="text-gray-400">
-                            Are you sure you want to delete "{singleProvince?.name}"? This action cannot be undone.
+                            Are you sure you want to delete &quot;{singleProvince?.name}&quot;? This action cannot be undone.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
@@ -324,7 +326,7 @@ export default function SingleProvince({ id }: { id: string }) {
                     <DialogHeader>
                         <DialogTitle>Confirm Deletion</DialogTitle>
                         <DialogDescription className="text-gray-400">
-                            Are you sure you want to delete the town "{townToDelete?.name}"? This action cannot be undone.
+                            Are you sure you want to delete the town &quot;{townToDelete?.name}&quot;? This action cannot be undone.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>

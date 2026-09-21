@@ -36,7 +36,7 @@ export type HomeStats = {
       totalLogins: number;
       lastLogin: string | null;
       totalActiveDays: number;
-      activityMilestones: {};
+      activityMilestones: Record<string, unknown>;
     };
   }[];
   recentWords: WordRecord[];

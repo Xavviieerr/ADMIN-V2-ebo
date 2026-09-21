@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Bell } from "lucide-react";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/utils/errorHandler";
 import NotificationList from "./notification-list";
 
 interface NotificationBellProps {
@@ -45,8 +47,9 @@ export default function NotificationBell({ className }: NotificationBellProps) {
   const handleMarkAllRead = async () => {
     try {
       await markAllRead().unwrap();
-    } catch {
-      // Error handled by RTK Query
+      toast.success(t("notifications.markAllReadSuccess"));
+    } catch (error) {
+      toast.error(getErrorMessage(error, t("notifications.markAllReadError")));
     }
   };
 

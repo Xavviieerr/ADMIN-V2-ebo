@@ -48,14 +48,14 @@ const places: Place[] = [
   },
 ];
 
-const PlacesTable: React.FC<{}> = ({}) => {
+const PlacesTable: React.FC = () => {
   const router = useRouter();
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showKeyboard, setShowKeyboard] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, _setIsFetching] = useState(false);
 
   const [showOptions, setShowOptions] = useState(false);
   const [typeFilter, setTypeFilter] = useState("all");
@@ -151,7 +151,7 @@ const PlacesTable: React.FC<{}> = ({}) => {
         {showKeyboard && (
           <VirtualUrhoboKeyboard
             targetInputId="users-search-input"
-            onInput={(text) => {
+            onInput={(_text) => {
               // The keyboard will update the input directly via targetInputId
               // This callback is for additional handling if needed
               const targetInput = document.getElementById(

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 const MusicTypeSelect = () => {
-  const [type, setType] = useState("");
+  const [_type, setType] = useState("");
   return (
     <div className="flex flex-col gap-2 w-full mt-6">
       <label htmlFor="role">What are you uploading?</label>

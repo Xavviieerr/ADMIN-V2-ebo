@@ -2,10 +2,8 @@
 
 import { HomeStats } from "../types";
 import React from "react";
-import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useLocale } from "@/contexts/LocaleContext";
-import { PermissionGate } from "@/features/shared";
 
 const WordOfTheDay = ({
 	data,

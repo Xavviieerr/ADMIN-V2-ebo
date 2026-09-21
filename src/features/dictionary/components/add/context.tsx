@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
-import { PayloadData, sample, Senses } from "@/features/dictionary/lib";
+import { PayloadData, Senses } from "@/features/dictionary/lib";
 
 const payloadData: PayloadData = {
   ota: "",

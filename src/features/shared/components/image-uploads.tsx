@@ -1,19 +1,11 @@
 "use client";
 
-import ModalLayout from "@/features/shared/modal-layout";
-import { CircleX, Delete, Loader, Plus, Trash, Trash2 } from "lucide-react";
+import { Loader, Plus } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import { uploadImage } from "../api";
-
-type FileHolder = {
-  id: string;
-  file: File | null;
-  caption: string;
-  url: string;
-};
 
 const ImageUploads = ({
   urls,
@@ -110,7 +102,7 @@ const ImageUploads = ({
     const token = getAccessToken();
     if (!token) return;
 
-    const { msg, data } = await uploadImage({ token, formData, type });
+    const { msg: _msg, data } = await uploadImage({ token, formData, type });
 
     if (data) {
       console.log(data);
@@ -196,66 +188,4 @@ const ImageUploads = ({
 
 export default ImageUploads;
 
-const CaptionModal = ({
-  onClose,
-  fileHolder,
-  setFileCaption,
-  deleteFile,
-}: {
-  onClose: () => void;
-  fileHolder: FileHolder;
-  setFileCaption: (value: string) => void;
-  deleteFile: () => void;
-}) => {
-  const [caption, setCaption] = useState(fileHolder.caption);
-  const handleDone = () => {
-    if (caption.trim()) {
-      setFileCaption(caption);
-    }
-    onClose();
-  };
-  return (
-    <ModalLayout size="2xl">
-      <div className="flex flex-col w-full items-start">
-        <div className="flex w-full justify-between items-center mb-5 border-b border-gray-txt-50/50 pb-3">
-          <p className="text-lg font-medium">Add Caption</p>
 
-          <button onClick={onClose} className="w-fit cursor-pointer">
-            <CircleX size={28} />
-          </button>
-        </div>
-
-        <div className="h-48 w-64 relative rounded-md bg-gray-txt-50/50">
-          <Image
-            src={fileHolder.url}
-            fill
-            alt="Figure Image"
-            className="rounded-md"
-          />
-        </div>
-        <div className="mt-6 flex flex-col gap-2 w-full">
-          <label htmlFor="caption">Caption</label>
-          <input
-            id="caption"
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            className="input text-sm"
-          />
-        </div>
-
-        <div className="flex items-center w-full gap-6 justify-center mt-5">
-          <button
-            onClick={deleteFile}
-            className="secondary-btn hover:text-base-red hover:bg-white w-fit"
-          >
-            Delete This Image
-          </button>
-
-          <button onClick={handleDone} className="primary-btn px-14">
-            Done
-          </button>
-        </div>
-      </div>
-    </ModalLayout>
-  );
-};

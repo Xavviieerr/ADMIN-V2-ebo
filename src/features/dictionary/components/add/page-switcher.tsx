@@ -11,7 +11,7 @@ const PageSwitcher = ({
 }: {
   dialects: { name: string; id: string }[];
 }) => {
-  const { data, page, setPage } = useWordContext();
+  const { page, setPage } = useWordContext();
 
   const router = useRouter();
 

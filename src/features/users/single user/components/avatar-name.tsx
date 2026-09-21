@@ -6,10 +6,12 @@ import { getUserStatus } from "@/helpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useUpdateAdminProfileMutation } from "@/slice/requestSlice";
 import React, { useState } from "react";
+import Image from "next/image";
 import UpdateProfile from "./update-profile";
 import { usePermissions } from "@/hooks/usePermissions";
 import { useParams } from "next/navigation";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AvatarName = ({ user, adminData }: { user: any; adminData: any }) => {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
@@ -37,9 +39,11 @@ const AvatarName = ({ user, adminData }: { user: any; adminData: any }) => {
     useUpdateAdminProfileMutation();
   return (
     <div className="flex items-start gap-4 flex-1">
-      <img
+      <Image
         src={user?.profilePictureUrl ?? "/default-avatar.svg"}
         alt={`${user?.firstName} ${user?.lastName}`}
+        width={100}
+        height={100}
         className={`lg:h-25 h-16 lg:w-25 w-16 rounded-full object-cover border-2 border-primary-bg ${isViewingOwnProfile ? "cursor-pointer hover:opacity-80 transition-opacity" : ""}`}
         onClick={
           isViewingOwnProfile

@@ -9,15 +9,14 @@ import { toast } from "sonner";
 import { Loader } from "lucide-react";
 
 const ApproveBtn = ({ status }: { status: string }) => {
-  if (status !== "pending") return null;
-
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
   const params = useParams();
-  const userId = params.userId as string;
 
+  const userId = params.userId as string;
   const token = getAccessToken();
+
+  if (status !== "pending") return null;
 
   const approveAdmin = async () => {
     setLoading(true);

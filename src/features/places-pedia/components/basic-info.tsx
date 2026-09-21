@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ImageUploads, PlaceInfoStage } from "@/features/shared";
+import { PlaceInfoStage } from "@/features/shared";
 import BasicInfoForm from "./basic-info-form";
 import LocationForm from "./location";
 

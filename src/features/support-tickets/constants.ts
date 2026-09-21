@@ -18,11 +18,6 @@ export const CATEGORY_OPTIONS: { value: TicketCategory | "all"; labelKey: string
   { value: "other", labelKey: "supportTickets.other" },
 ];
 
-export const SORT_OPTIONS: { value: string; labelKey: string }[] = [
-  { value: "createdAt", labelKey: "supportTickets.createdAt" },
-  { value: "updatedAt", labelKey: "supportTickets.updatedAt" },
-];
-
 export const SORT_DIR_OPTIONS: { value: string; labelKey: string }[] = [
   { value: "DESC", labelKey: "supportTickets.descending" },
   { value: "ASC", labelKey: "supportTickets.ascending" },

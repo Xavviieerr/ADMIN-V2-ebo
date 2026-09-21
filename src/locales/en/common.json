@@ -621,7 +621,15 @@
     "markAsUnread": "Mark as unread",
     "notificationPreferences": "Notification preferences",
     "enableAllNotifications": "Enable all notifications",
-    "soundEnabled": "Sound enabled"
+    "soundEnabled": "Sound enabled",
+    "markAllReadSuccess": "All notifications marked as read",
+    "markAllReadError": "Failed to mark notifications as read",
+    "markReadSuccess": "Notification marked as read",
+    "markReadError": "Failed to mark notification as read",
+    "deleteSuccess": "Notification deleted",
+    "deleteError": "Failed to delete notification",
+    "clearAllSuccess": "All notifications cleared",
+    "clearAllError": "Failed to clear notifications"
   },
   "supportTickets": {
     "title": "Help & Support",

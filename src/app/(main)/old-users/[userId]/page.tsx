@@ -2,6 +2,7 @@
 
 import { useGetSingleUserQuery, useGetSingleAdminUserQuery, useGenericMutationMutation, useUpdateAdminProfileMutation } from '@/slice/requestSlice';
 import { EnvelopeIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image';
 import { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner'
@@ -78,8 +79,11 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
 
   // Determine if this is an admin user (check if admin data exists)
   const isAdmin = singleAdminUser !== undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user = isAdmin ? (singleAdminUser as any)?.data?.user : (singleUser as any)?.data;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const adminData = (singleAdminUser as any)?.data;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const userData = (singleUser as any)?.data;
   const isLoading = isLoadingUser || isLoadingAdmin;
 
@@ -103,7 +107,8 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success("Admin Approved!");
       // Refresh the page or refetch data
       window.location.reload();
@@ -128,7 +133,8 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success("User Restricted!");
       setShowRestrictModal(false);
       setSuspensionReason("");
@@ -153,7 +159,8 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
         invalidatesTags: [{ type: "admins" as const }],
       };
 
-      const result = await addAdmin(request as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await addAdmin(request as any).unwrap();
       toast.success("Admin Rejected!");
       setShowRejectModal(false);
       setRejectionReason("");
@@ -176,6 +183,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
         invalidatesTags: [{ type: "admins" as const }],
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await addAdmin(request as any).unwrap();
       toast.success(t('messages.deletedSuccessfully', 'Deleted successfully'));
       setShowDeleteModal(false);
@@ -237,9 +245,11 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
       <div className="rounded-xl p-6 md:p-8 mb-8 relative flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
         {/* Avatar + Info */}
         <div className="flex flex-col sm:flex-row items-start gap-6 flex-1">
-          <img
+          <Image
             src={user?.profilePictureUrl || '/default_avatar.svg'}
             alt={`${user?.firstName} ${user?.lastName}`}
+            width={100}
+            height={100}
             className={`h-25 w-25 rounded-full object-cover border-2 border-[#404040] ${isViewingOwnProfile ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
             onClick={isViewingOwnProfile ? () => {
               setProfileFirstName(user?.firstName || '')
@@ -500,15 +510,18 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
                 {t('common.mostSearchedWords', 'Most Searched Words')}
               </h2>
               <div className="space-y-1">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {userDetails.mostSearchedWords.map((word: any, idx: number) => (
                   <div
                     key={word.word + idx}
                     className="flex items-center justify-between py-2 sm:py-3 px-1 hover:bg-[#353535] rounded-lg transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <img
+                      <Image
                         src={word.avatar}
                         alt={word.word}
+                        width={32}
+                        height={32}
                         className="h-7 w-7 sm:h-8 sm:w-8 rounded-full object-cover border border-[#404040]"
                       />
                       <span className="text-white font-medium text-sm">{word.word}</span>
@@ -526,15 +539,18 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
                 Favourite Words
               </h2>
               <div className="space-y-1">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {userDetails.favouriteWords.map((word: any, idx: number) => (
                   <div
                     key={word.word + idx}
                     className="flex items-center py-2 sm:py-3 px-1 hover:bg-[#353535] rounded-lg transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <img
+                      <Image
                         src={word.avatar}
                         alt={word.word}
+                        width={32}
+                        height={32}
                         className="h-7 w-7 sm:h-8 sm:w-8 rounded-full object-cover border border-[#404040]"
                       />
                       <span className="text-white font-medium text-sm">{word.word}</span>

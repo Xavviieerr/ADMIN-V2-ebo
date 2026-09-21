@@ -3,6 +3,7 @@ import { getUserStatus } from "@/helpers";
 import React from "react";
 import { SuspendBtn } from "@/features/users/components";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SingleUserCTA = ({ userData }: { userData: any }) => {
   if (!userData) return null;
 

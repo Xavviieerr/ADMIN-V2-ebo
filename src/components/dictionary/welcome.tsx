@@ -7,7 +7,7 @@ import { ChevronDownIcon, ChevronUpIcon, MagnifyingGlassIcon, PencilIcon, PlusIc
 export default function Welcome() {
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedEntryId, setExpandedEntryId] = useState<string | null>(null);
-    const { data, loading, error, execute: fetchEntries } = useDictionaryEntries();
+    const { data, loading, execute: fetchEntries } = useDictionaryEntries();
 
     useEffect(() => {
         fetchEntries({ search: searchTerm });
@@ -70,6 +70,7 @@ export default function Welcome() {
                         {searchTerm ? 'No entries found matching your search.' : 'No dictionary entries available.'}
                     </div>
                 ) : (
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     entries.map((entry: { id: React.Key | null | undefined; word: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; category: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; description: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; details: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }) => (
                         <div key={entry.id} className="rounded-2xl bg-[#191920] p-6 shadow flex flex-col gap-4">
                             <div className="flex items-center justify-between">
@@ -117,6 +118,7 @@ export default function Welcome() {
         </div>
     )
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function useDictionaryEntries(): { data: any; loading: any; error: any; execute: any; } {
     throw new Error('Function not implemented.');
 }

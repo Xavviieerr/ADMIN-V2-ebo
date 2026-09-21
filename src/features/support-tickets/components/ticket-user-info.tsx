@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetSingleUserQuery } from "@/slice/requestSlice";
+import Image from "next/image";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import type { User } from "@/types/userTypes";
@@ -78,12 +79,13 @@ export default function TicketUserInfo({ userId }: TicketUserInfoProps) {
         {t("supportTickets.userInformation")}
       </h3>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-[#23232a] overflow-hidden flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-full bg-[#23232a] overflow-hidden flex items-center justify-center shrink-0 relative">
           {user.profilePictureUrl ? (
-            <img
+            <Image
               src={user.profilePictureUrl}
               alt={displayName}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           ) : (
             <UserIcon className="w-5 h-5 text-gray-400" />

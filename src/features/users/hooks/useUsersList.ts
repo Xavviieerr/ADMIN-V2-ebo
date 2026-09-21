@@ -134,6 +134,7 @@ export function useUsersList() {
     if (pagination && page > pagination.totalPages) {
       setPage(clampPage(page, pagination.totalPages));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination?.totalPages, page, setPage]);
 
   // Save/restore page before search

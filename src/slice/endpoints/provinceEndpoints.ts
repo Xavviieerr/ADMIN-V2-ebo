@@ -2,6 +2,7 @@ import { ProvinceNamesResponse, ProvinceRequest, ProvinceResponse, SingleProvinc
 import { AppEndpointBuilder } from "./types";
 
 export const provinceEndpoints = (builder: AppEndpointBuilder) => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAllProvinces: builder.query<ProvinceResponse, Partial<any>>({
     query({ page, limit }: { page: number; limit: number }) {
       return {
@@ -23,6 +24,7 @@ export const provinceEndpoints = (builder: AppEndpointBuilder) => ({
   }),
 
   updateTown: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     {
       id: string;

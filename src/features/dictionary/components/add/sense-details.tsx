@@ -15,7 +15,6 @@ const SenseDetails = ({
   ota,
   sense,
   editSense,
-  length,
 }: {
   ota: string;
   sense: Sense;

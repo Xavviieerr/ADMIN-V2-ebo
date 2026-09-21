@@ -1,5 +1,5 @@
 import { ContributorApplicationStage, LocaleWrapper } from "@/features/shared";
-import { LucideCheckSquare, X } from "lucide-react";
+
 import React from "react";
 import { ContributorCTA, SingleStageRow } from "./components";
 
@@ -61,8 +61,8 @@ const StagesTable = ({ stage }: { stage: ContributorApplicationStage }) => {
                     status: "Not Started",
                     value: "monetizationSettings",
                   },
-                ].map((item, index) => (
-                  <SingleStageRow item={item} />
+                ].map((item) => (
+                  <SingleStageRow key={item.value} item={item} />
                 ))}
               </tbody>
             </table>

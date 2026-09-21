@@ -74,6 +74,7 @@ export type NameRecord = {
     source: string;
     nameType: string;
     status: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     translations: any[];
     createdBy: {
       id: string;

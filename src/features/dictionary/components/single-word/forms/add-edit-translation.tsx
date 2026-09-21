@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSingleWordContext } from "../context";
 import { SingleWord } from "@/features/dictionary/lib";
 import {
@@ -11,7 +11,7 @@ import {
 } from "@/features/shared";
 import { getPOS } from "@/helpers";
 import SynonymInput from "../../add/synonym-input";
-import { ChevronLeft, Loader2, Trash2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { addTranslation, editTranslation } from "@/features/dictionary/lib/api";
 import { useParams, useRouter } from "next/navigation";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
@@ -57,9 +57,7 @@ const AddTranslationForm = ({
   const id = (params.id as string) ?? "";
   const token = getAccessToken();
 
-  if (type === "edit" && !selected) return null;
-
-  let initialValue: Initial = {
+  const defaultInitialValue: Initial = {
     ota: "",
     ekerota: [] as string[],
     oto: "",
@@ -74,10 +72,10 @@ const AddTranslationForm = ({
     languageType: lang.toLowerCase(),
   };
 
-  useEffect(() => {
-    const idje = selected?.details.idje;
+  const [form, setForm] = useState<Initial>(() => {
     if (type === "edit" && selected) {
-      initialValue = {
+      const idje = selected.details.idje;
+      return {
         ota: selected.otaWord ?? "",
         ekerota: selected.details.ekerota ?? [],
         oto: selected.details.oto ?? "",
@@ -93,13 +91,13 @@ const AddTranslationForm = ({
         translationIndex: transIndex,
         translationId: selected.id,
       };
-      setForm(initialValue);
     }
-  }, [selected, type]);
-
-  const [form, setForm] = useState<typeof initialValue>(initialValue);
+    return defaultInitialValue;
+  });
 
   const [loading, setLoading] = useState(false);
+
+  if (type === "edit" && !selected) return null;
 
   const formatLang = () => {
     const lowLang = lang.toLowerCase();

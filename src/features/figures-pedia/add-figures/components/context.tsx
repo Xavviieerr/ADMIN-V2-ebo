@@ -63,14 +63,15 @@ const AddFigureProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("figure_draft");
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getFormattedPayload: () => any = () => {
     return {
       ...basicInfo,
-      externalLinks: basicInfo.externalLinks.map(({ id, ...rest }) => ({
+      externalLinks: basicInfo.externalLinks.map(({ id: _id, ...rest }) => ({
         ...rest,
         url: rest.url || null,
       })),
-      family: basicInfo.family.map(({ id, ...rest }) => rest),
+      family: basicInfo.family.map(({ id: _id, ...rest }) => rest),
     };
   };
 

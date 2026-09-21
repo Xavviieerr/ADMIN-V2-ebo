@@ -58,6 +58,7 @@ function DialogContent({
   const handleInteractOutside = (
     event: Parameters<NonNullable<React.ComponentProps<typeof DialogPrimitive.Content>['onInteractOutside']>>[0]
   ) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const target = (event.detail?.originalEvent?.target || (event as any).target) as HTMLElement
     // Prevent closing if clicking on the virtual keyboard or any keyboard-related elements
     if (

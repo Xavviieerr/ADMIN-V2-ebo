@@ -62,7 +62,7 @@ const ImageUploader = ({
     const token = getAccessToken();
     if (!token) return;
 
-    const { msg, data } = await uploadImage({ token, formData, type });
+    const { msg: _msg, data } = await uploadImage({ token, formData, type });
 
     if (data) {
       onSuccess(data);

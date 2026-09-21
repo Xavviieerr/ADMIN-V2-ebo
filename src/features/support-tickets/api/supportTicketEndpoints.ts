@@ -11,14 +11,15 @@ export const supportTicketEndpoints = (builder: AppEndpointBuilder) => ({
     { data: SupportTicketListResponse },
     GetSupportTicketsParams
   >({
-    query: ({ page = 1, limit = 8, search, status, category, sortBy = "createdAt", sortDir = "DESC" }) => {
+    query: ({ page = 1, limit = 8, status, category, sortDir = "DESC" }) => {
       const params = new URLSearchParams();
       params.append("page", page.toString());
       params.append("limit", limit.toString());
-      if (search) params.append("search", search);
-      if (status && status !== "all") params.append("status", status);
+      if (status && status !== "all") {
+        const apiStatus = status === "in_progress" ? "in-progress" : status === "closed" ? "close" : status;
+        params.append("status", apiStatus);
+      }
       if (category && category !== "all") params.append("category", category);
-      if (sortBy) params.append("sortBy", sortBy);
       if (sortDir) params.append("sortDir", sortDir);
       return {
         url: `/support-tickets?${params.toString()}`,

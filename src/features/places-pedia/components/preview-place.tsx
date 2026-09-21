@@ -14,7 +14,7 @@ import { content } from "../content";
 const PreviewFigure = ({ stage }: { stage: PlaceInfoStage }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const params = useSearchParams();
-  const status = params.get("status");
+  const _status = params.get("status");
 
   return (
     <>

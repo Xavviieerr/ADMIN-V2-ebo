@@ -12,14 +12,14 @@ const ContributorBody = ({ data }: { data: UserData }) => {
 
   const isContributor = searchParams.get("role") === "contributor";
 
-  if (!isContributor) return null;
-
   useEffect(() => {
     const view = searchParams.get("v");
     if (view && ["profile", "permission"].includes(view)) {
       setPage(view as "profile" | "permission");
     }
   }, [searchParams]);
+
+  if (!isContributor) return null;
 
   return (
     <div className="w-full pb-20">
@@ -30,6 +30,7 @@ const ContributorBody = ({ data }: { data: UserData }) => {
         ].map((item: { label: string; value: string }) => (
           <button
             key={item.value}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onClick={() => setPage(item.value as any)}
             className={`${page === item.value ? "primary-btn font-medium" : "border border-gray-txt-100 hover:border-gray-txt-50 hover:font-medium transition-all duration-300 ease-in-out"} rounded  px-10 py-3 w-full`}
           >

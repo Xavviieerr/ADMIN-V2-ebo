@@ -65,6 +65,7 @@ const SearchFilter: React.FC<{
       setStatusFilter(storedStatus);
       handleStatusFilterChange(storedStatus);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -184,7 +185,7 @@ const SearchFilter: React.FC<{
       {showKeyboard && (
         <VirtualUrhoboKeyboard
           targetInputId="users-search-input"
-          onInput={(text) => {
+          onInput={() => {
             // The keyboard will update the input directly via targetInputId
             // This callback is for additional handling if needed
             const targetInput = document.getElementById(

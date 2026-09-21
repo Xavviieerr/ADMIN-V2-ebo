@@ -1,6 +1,5 @@
 "use client";
 
-import { MultiInput } from "@/features/shared";
 import React, { useState } from "react";
 
 const LocationForm = () => {

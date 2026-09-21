@@ -1,7 +1,6 @@
 import { GoBackButton, SingleName } from "@/features/shared";
 import React from "react";
 import { EditNameForm } from "./components";
-import { BASE_URL } from "@/utils/constants";
 import { getServerAccessToken } from "@/features/auth/utils/serverTokenStorage";
 import { fetchDialects, fetchSingleName } from "./lib/api";
 

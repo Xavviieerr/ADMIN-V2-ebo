@@ -5,7 +5,7 @@ import { Providers } from "@/components/Providers";
 import { DM_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import KeyboardProvider from "@/features/shared/components/keyboard-context";
 
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
+const _dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
 
 const plusSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.jpg" sizes="any" />
         <meta
@@ -27,7 +27,7 @@ export default function RootLayout({
           content="S7RypLHIVXHTolGJPfgGUHyC5JH8_Ml1O-L-ffE-mnQ"
         />
       </head>
-      <body className={`${plusSans.variable} bg-base-bg font-dm-sans`}>
+      <body className={`${plusSans.variable} bg-base-bg font-dm-sans`} suppressHydrationWarning>
         <KeyboardProvider>
           <Providers>
             <AppShellSplash>{children}</AppShellSplash>

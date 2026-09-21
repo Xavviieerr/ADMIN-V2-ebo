@@ -5,7 +5,7 @@ import {
   BaseTextArea,
   MultiInput,
 } from "@/features/shared";
-import { Trash2, X } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import React from "react";
 import SynonymInput from "./synonym-input";
 import { engPos, korPos, SenseData, urhPos } from "@/features/dictionary/lib";
@@ -51,7 +51,7 @@ const SenseCard = ({
             <AudioInput
               disabled
               input={wordData.ota}
-              setValue={(value) => {}}
+              setValue={() => {}}
               setAudio={(value) => setData({ ...data, audioUrl: value })}
             />
           )}

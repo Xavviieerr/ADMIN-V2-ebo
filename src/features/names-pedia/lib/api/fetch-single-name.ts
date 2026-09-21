@@ -20,7 +20,7 @@ export const fetchSingleName = async ({ token, id }: { token: string, id: string
         // console.log(data);
 
         return data;
-    } catch (error) {
+    } catch (_error) {
         return [];
     }
 }

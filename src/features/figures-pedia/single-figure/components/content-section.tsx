@@ -4,7 +4,7 @@ import BiographyEntry from "./biography-entry";
 import ExternalLinks from "./external-links";
 
 const ContentSection = ({ data }: { data: Figure }) => {
-  const { biography, externalLinks, introBio } = data;
+  const { biography, externalLinks, introBio: _introBio } = data;
 
   const sortedEntries =
     biography.length > 0

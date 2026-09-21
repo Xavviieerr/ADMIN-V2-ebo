@@ -1,7 +1,4 @@
 import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
   createApi,
 } from "@reduxjs/toolkit/query/react";
 import { createBaseQueryWithReauth } from "@/features/auth/utils/authBaseQuery";
@@ -19,6 +16,7 @@ export type { WordReview, ValidTags };
 type MutationArg = {
   url: string;
   method?: "POST" | "PUT" | "PATCH" | "DELETE";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any;
   invalidatesTags?: Array<{
     type: ValidTags;
@@ -43,6 +41,7 @@ export const apiSlice = createApi({
     "supportTickets",
   ] as readonly ValidTags[],
   endpoints: (builder) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     genericMutation: builder.mutation<any, MutationArg>({
       query: ({ url, method = "POST", body }) => ({
         url,

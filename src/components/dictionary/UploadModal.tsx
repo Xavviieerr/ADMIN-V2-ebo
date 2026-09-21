@@ -3,8 +3,7 @@ import React, { useState, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Upload, Copy, Check, X, FileImage, FileAudio } from 'lucide-react'
+import { Upload, Copy, Check, FileImage, FileAudio } from 'lucide-react'
 import { useUploadImageMutation, useUploadAudioMutation } from '@/slice/requestSlice'
 import LoadingSpinner from '../ui/LoadingSpinner'
 import { toast } from 'sonner'
@@ -104,9 +103,10 @@ export default function UploadModal({ type, onUrlSelect, children, className }: 
           handleClose()
         }, 300) // Small delay to show success feedback
       }
-    } catch (error) {
-      console.error('Upload failed:', error as any)
-      toast.error(getErrorMessage(error, 'Upload failed. Please try again.'))
+    } catch (_error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      console.error('Upload failed:', _error as any)
+      toast.error(getErrorMessage(_error, 'Upload failed. Please try again.'))
     }
   }
 

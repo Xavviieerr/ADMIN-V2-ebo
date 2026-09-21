@@ -45,7 +45,7 @@ const UserProfile = ({ userData }: { userData: UserData }) => {
 
   const router = useRouter();
   const [page, setPage] = React.useState<"profile" | "activity">("profile");
-  const [isContributor, setIsContributor] = useState(false);
+  const [isContributor] = useState(false);
 
   useEffect(() => {
     const timeoutRef = setTimeout(() => {
@@ -57,7 +57,7 @@ const UserProfile = ({ userData }: { userData: UserData }) => {
     }, 1000);
 
     return () => clearTimeout(timeoutRef);
-  }, [isContributor]);
+  }, [isContributor, router, userData.id]);
 
   return (
     <div className="flex flex-col w-full items-start gap-5 pb-20">
@@ -68,6 +68,7 @@ const UserProfile = ({ userData }: { userData: UserData }) => {
         ].map((item: { label: string; value: string }) => (
           <button
             key={item.value}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onClick={() => setPage(item.value as any)}
             className={`${page === item.value ? "primary-btn font-medium" : "border border-gray-txt-100 hover:border-gray-txt-50 hover:font-medium transition-all duration-300 ease-in-out"} rounded  px-10 py-3 w-full`}
           >
@@ -150,7 +151,7 @@ const UserProfile = ({ userData }: { userData: UserData }) => {
 
               <div className="flex flex-col gap-2">
                 {recentActivity.map((item) => (
-                  <div className="flex items-center gap-4 px-5 py-2.5 font-medium capitalize justify-between text-gray-txt-50">
+                  <div key={item.value} className="flex items-center gap-4 px-5 py-2.5 font-medium capitalize justify-between text-gray-txt-50">
                     <p>{item.label}</p>
                     <p>{item.value}</p>
                   </div>

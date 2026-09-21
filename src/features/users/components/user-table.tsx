@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getUserStatus } from "@/helpers";
 import { useTranslation } from "@/hooks/useTranslation";
-import { User, UserWithRole } from "@/types/userTypes";
+import { UserWithRole } from "@/types/userTypes";
 import {
   Popover,
   PopoverTrigger,

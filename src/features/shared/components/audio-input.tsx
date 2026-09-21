@@ -65,8 +65,7 @@ const AudioInput = ({
       );
     }
 
-    let url;
-    url = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
 
     const singleFile = {
       id: Date.now().toString(),

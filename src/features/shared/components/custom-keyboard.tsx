@@ -161,7 +161,7 @@ const CustomKeyboard: React.FC<{
 
         {page == "ipaV" && (
           <div className={`grid grid-cols-8 w-full gap-1 justify-between`}>
-            {ipaVowels.map((singleKey, index) => (
+            {ipaVowels.map((singleKey) => (
               <button
                 key={singleKey}
                 onMouseDown={(e) => {
@@ -178,7 +178,7 @@ const CustomKeyboard: React.FC<{
 
         {page == "ipaC" && (
           <div className={`grid grid-cols-8 w-full gap-1 justify-between`}>
-            {ipaConsonants.map((singleKey, index) => (
+            {ipaConsonants.map((singleKey) => (
               <button
                 key={singleKey}
                 onMouseDown={(e) => {
@@ -287,7 +287,7 @@ const CustomKeyboard: React.FC<{
 
       {page == "keys" && (
         <div className={`grid grid-cols-9 w-full gap-1 justify-between`}>
-          {mobileKeys.map((singleKey, index) => (
+          {mobileKeys.map((singleKey) => (
             <button
               key={singleKey}
               onMouseDown={(e) => {
@@ -304,7 +304,7 @@ const CustomKeyboard: React.FC<{
 
       {page == "ipaV" && (
         <div className={`grid grid-cols-8 w-full gap-1 justify-between`}>
-          {ipaVowels.map((singleKey, index) => (
+          {ipaVowels.map((singleKey) => (
             <button
               key={singleKey}
               onMouseDown={(e) => {
@@ -321,7 +321,7 @@ const CustomKeyboard: React.FC<{
 
       {page == "ipaC" && (
         <div className={`grid grid-cols-8 w-full gap-1 justify-between`}>
-          {ipaConsonants.map((singleKey, index) => (
+          {ipaConsonants.map((singleKey) => (
             <button
               key={singleKey}
               onMouseDown={(e) => {

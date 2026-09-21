@@ -16,7 +16,9 @@ const SingleUserFeature = ({
   adminData,
   userData,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adminData: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userData: any;
 }) => {
   const isAdmin = adminData ? true : false;

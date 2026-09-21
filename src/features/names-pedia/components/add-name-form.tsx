@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
-import { Loader, PenBox, Plus, Trash2, X } from "lucide-react";
+import { Loader } from "lucide-react";
 import { BASE_URL } from "@/utils/constants";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -32,14 +32,6 @@ const AddNameForm = ({
   dialects: { name: string; id: string }[];
 }) => {
   const router = useRouter();
-
-  const getDefaultDialect = () => {
-    if (dialects.length === 0) return "Agbarho";
-    return (
-      dialects.find((d) => d.name.toLowerCase() === "agbarho")?.name ||
-      dialects[0]?.name
-    );
-  };
 
   const [formData, setFormData] = useState<NameFormDataType>({
     nameType: "given name",
@@ -125,6 +117,7 @@ const AddNameForm = ({
       toast.success("Name added successfully");
       const data = await res.json();
       router.push(`/guonopedia/names/${data.data.id}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message ?? "An error occurred");
     } finally {

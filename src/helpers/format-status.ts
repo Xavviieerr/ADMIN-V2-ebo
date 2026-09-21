@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getUserStatus = (user: any) => {
     if(user.suspensionReason){
         return "suspended"

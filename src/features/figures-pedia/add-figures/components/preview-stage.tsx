@@ -104,6 +104,7 @@ const PreviewStage = ({ stage }: { stage: FigureInfoStage }) => {
                 </div>
               )}
 
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               <SourcesPreview sources={basicInfo.externalLinks as any} />
             </div>
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function buildQueryParams(params: Record<string, any>): string {
     const queryParams = new URLSearchParams();
 

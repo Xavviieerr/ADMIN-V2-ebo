@@ -238,6 +238,7 @@ const koreanTranslationSchema = z.object({
     }
     
     // Validate idje - require at least one sentence when Korean translation has data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!data.idje || data.idje.filter((item: any) => item.sentence && item.sentence.trim().length > 0).length === 0) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -248,6 +249,7 @@ const koreanTranslationSchema = z.object({
     
     // Validate audioUrl format in idje items if provided
     if (data.idje && Array.isArray(data.idje)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data.idje.forEach((item: any, index: number) => {
             if (item.audioUrl && item.audioUrl.trim().length > 0) {
                 try {
@@ -282,6 +284,7 @@ const koreanTranslationSchema = z.object({
 
 
 // Helper function to check if Korean translation has any non-empty values
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function hasKoreanTranslationData(kor: any): boolean {
     if (!kor) return false;
     
@@ -293,9 +296,12 @@ function hasKoreanTranslationData(kor: any): boolean {
     
     // Check arrays
     if (kor.ekerota && kor.ekerota.some((item: string) => item && item.trim().length > 0)) return true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (kor.idje && kor.idje.some((item: any) => item.sentence && item.sentence.trim().length > 0)) return true;
     if (kor.omra && kor.omra.some((item: string) => item && item.trim().length > 0)) return true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (kor.oma && kor.oma.some((item: any) => (item.type && item.type.trim().length > 0) || (item.url && item.url.trim().length > 0))) return true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (kor.okpo && kor.okpo.some((item: any) => item.ota && item.ota.trim().length > 0)) return true;
     if (kor.orhan && kor.orhan.some((item: string) => item && item.trim().length > 0)) return true;
     if (kor.ibuebu && kor.ibuebu.some((item: string) => item && item.trim().length > 0)) return true;
@@ -458,7 +464,7 @@ export default function AddNewWord() {
     // State for tracking Korean translation visibility for each sense
     const [showKoreanTranslation, setShowKoreanTranslation] = useState<Set<number>>(new Set());
 
-    const { data: namesOfProvinces, isLoading, isError, error } = useGetAllProvinceNoPaginationQuery();
+    const { data: namesOfProvinces, isLoading: _isLoading, isError: _isError, error: _error } = useGetAllProvinceNoPaginationQuery();
     const [createWord, { isLoading: isCreatingWord }] = useCreateWordMutation();
 
     console.log("Oho Audio Uploads:", ohoAudioUploads);
@@ -478,14 +484,16 @@ export default function AddNewWord() {
     console.log("Form values:", form.getValues());
     console.log("Form errors:", form.formState.errors);
 
-    const oho = watch("oho");
+    const _oho = watch("oho");
 
 
     // Helper function to clean empty optional fields
     function cleanPayload(data: z.infer<typeof createWordSchema>) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const cleaned: any = {
             ...data,
             oho: data.oho.map((sense, index) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const cleanedSense: any = {
                     ...sense,
                     kere: index + 1,
@@ -499,8 +507,11 @@ export default function AddNewWord() {
                 // Clean idje array (array of objects with sentence and audioUrl)
                 if (cleanedSense.idje) {
                     const nonEmptyIdje = cleanedSense.idje
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .filter((item: any) => item.sentence && item.sentence.trim().length > 0)
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .map((item: any) => {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             const cleaned: any = { sentence: item.sentence };
                             if (item.audioUrl && item.audioUrl.trim().length > 0) {
                                 cleaned.audioUrl = item.audioUrl;
@@ -529,6 +540,7 @@ export default function AddNewWord() {
 
                 // Clean oma array (array of objects)
                 if (cleanedSense.oma) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const nonEmptyOma = cleanedSense.oma.filter((item: any) => {
                         const hasType = item.type && item.type.trim().length > 0;
                         const hasUrl = item.url && item.url.trim().length > 0;
@@ -543,6 +555,7 @@ export default function AddNewWord() {
 
                 // Clean okpo array (array of objects)
                 if (cleanedSense.okpo) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const nonEmptyOkpo = cleanedSense.okpo.filter((item: any) => {
                         return item.ota && item.ota.trim().length > 0;
                     });
@@ -555,6 +568,7 @@ export default function AddNewWord() {
 
                 // Clean translations
                 if (cleanedSense.translations) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const cleanedTranslations: any = {};
 
                     ['eng', 'kor'].forEach(lang => {
@@ -577,8 +591,11 @@ export default function AddNewWord() {
                             // Clean idje array in translations
                             if (cleanedTranslations[lang].idje) {
                                 const nonEmptyIdje = cleanedTranslations[lang].idje
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     .filter((item: any) => item.sentence && item.sentence.trim().length > 0)
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     .map((item: any) => {
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                         const cleaned: any = { sentence: item.sentence };
                                         if (item.audioUrl && item.audioUrl.trim().length > 0) {
                                             cleaned.audioUrl = item.audioUrl;
@@ -606,6 +623,7 @@ export default function AddNewWord() {
 
                             // Clean oma array in translations
                             if (cleanedTranslations[lang].oma) {
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 const nonEmptyOma = cleanedTranslations[lang].oma.filter((item: any) => {
                                     const hasType = item.type && item.type.trim().length > 0;
                                     const hasUrl = item.url && item.url.trim().length > 0;
@@ -620,6 +638,7 @@ export default function AddNewWord() {
 
                             // Clean okpo array in translations
                             if (cleanedTranslations[lang].okpo) {
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 const nonEmptyOkpo = cleanedTranslations[lang].okpo.filter((item: any) => {
                                     return item.ota && item.ota.trim().length > 0;
                                 });
@@ -661,6 +680,7 @@ export default function AddNewWord() {
 
         // Clean word-level oma array
         if (cleaned.oma) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const nonEmptyOma = cleaned.oma.filter((item: any) => {
                 const hasType = item.type && item.type.trim().length > 0;
                 const hasUrl = item.url && item.url.trim().length > 0;
@@ -1104,11 +1124,13 @@ function IdjeFieldArray({
     setValue,
     t
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     name: string;
     label: string;
     uploadState: Record<string, string>;
     setUploadState: (state: Record<string, string>) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setValue: any;
     t: (key: string, fallback: string) => string;
 }) {
@@ -1129,7 +1151,7 @@ function IdjeFieldArray({
             <FormField
                 control={control}
                 name={name}
-                render={({ field }) => (
+                render={() => (
                     <FormItem>
                         <FormControl>
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
@@ -1173,6 +1195,7 @@ function IdjeSentenceFieldArray({
     setValue,
     t
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     name: string;
     label: string;
@@ -1180,6 +1203,7 @@ function IdjeSentenceFieldArray({
     required?: boolean;
     uploadState: Record<string, string>;
     setUploadState: (state: Record<string, string>) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setValue: any;
     t: (key: string, fallback: string) => string;
 }) {
@@ -1188,6 +1212,7 @@ function IdjeSentenceFieldArray({
 
     const getFieldError = (fieldPath: string) => {
         const pathParts = fieldPath.split('.');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let error: any = errors;
         for (const part of pathParts) {
             if (error && typeof error === 'object' && part in error) {
@@ -1221,7 +1246,7 @@ function IdjeSentenceFieldArray({
                 {fields.map((field, idx) => {
                     const uploadKey = `${name}.${idx}.audioUrl`;
                     const hasUpload = uploadState[uploadKey] || control._getWatch(`${name}.${idx}.audioUrl`);
-                    const sentenceValue = control._getWatch(`${name}.${idx}.sentence`) || "";
+                    const _sentenceValue = control._getWatch(`${name}.${idx}.sentence`) || "";
 
                     return (
                         <div key={field.id} className="space-y-2 p-3 bg-[#2a2a2a] rounded-lg">
@@ -1274,6 +1299,7 @@ function IdjeSentenceFieldArray({
             </div>
             {required && fieldError && (
                 <p className="text-sm font-medium text-red-500 mt-1">
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(fieldError as any)?.message || "This field is required"}
                 </p>
             )}
@@ -1300,6 +1326,7 @@ function DynamicFieldArray({
     required = false,
     t
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     name: string;
     label: string;
@@ -1313,6 +1340,7 @@ function DynamicFieldArray({
     // Get error for nested field paths (e.g., "oho.0.idje" or "oho.0.translations.eng.idje")
     const getFieldError = (fieldPath: string) => {
         const pathParts = fieldPath.split('.');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let error: any = errors;
         for (const part of pathParts) {
             if (error && typeof error === 'object' && part in error) {
@@ -1360,6 +1388,7 @@ function DynamicFieldArray({
             </div>
             {required && fieldError && (
                 <p className="text-sm font-medium text-red-500 mt-1">
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(fieldError as any)?.message || "This field is required"}
                 </p>
             )}
@@ -1388,11 +1417,13 @@ function AudioFieldArray({
     setValue,
     t
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     name: string;
     label: string;
     uploadState: Record<string, string>;
     setUploadState: (state: Record<string, string>) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setValue: any;
     t: (key: string, fallback: string) => string;
 }) {
@@ -1481,11 +1512,13 @@ function OmaFieldArray({
     setValue,
     t
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     name: string;
     label: string;
     uploadState: Record<string, string>;
     setUploadState: (state: Record<string, string>) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setValue: any;
     t: (key: string, fallback: string) => string;
 }) {
@@ -1604,6 +1637,7 @@ function MultiSelectArray({
     required = false,
     t
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     name: string;
     label: string;
@@ -1617,6 +1651,7 @@ function MultiSelectArray({
     // Get error for nested field paths (e.g., "oho.0.ekerota" or "oho.0.translations.eng.ekerota")
     const getFieldError = (fieldPath: string) => {
         const pathParts = fieldPath.split('.');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let error: any = errors;
         for (const part of pathParts) {
             if (error && typeof error === 'object' && part in error) {
@@ -1670,6 +1705,7 @@ function MultiSelectArray({
             </div>
             {required && fieldError && (
                 <p className="text-sm font-medium text-red-500 mt-1">
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(fieldError as any)?.message || "This field is required"}
                 </p>
             )}
@@ -1702,6 +1738,7 @@ function TranslationSection({
     setValue,
     t
 }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     index: number;
     lang: "eng" | "kor";
@@ -1710,6 +1747,7 @@ function TranslationSection({
     setTranslationAudioUploads: (state: Record<string, string>) => void;
     translationImageUploads: Record<string, string>;
     setTranslationImageUploads: (state: Record<string, string>) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setValue: any;
     t: (key: string, fallback: string) => string;
 }) {

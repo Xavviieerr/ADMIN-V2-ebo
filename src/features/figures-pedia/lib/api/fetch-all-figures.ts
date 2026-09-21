@@ -7,7 +7,7 @@ export const fetchFigures = async ({
   search,
   category,
   status,
-  createdBy,
+  createdBy: _createdBy,
 }: {
   token: string;
   page: string;
@@ -17,7 +17,7 @@ export const fetchFigures = async ({
   createdBy?: string;
 }) => {
   try {
-    let url = `${BASE_URL}/figures?search=${search}&page=${page}&limit=10&sortBy=fullName&sortDir=ASC${status ? `&status=${status}` : ""}${category ? `&occupation=${category}` : ""}`;
+    const url = `${BASE_URL}/figures?search=${search}&page=${page}&limit=10&sortBy=fullName&sortDir=ASC${status ? `&status=${status}` : ""}${category ? `&occupation=${category}` : ""}`;
 
     const response = await fetch(url, {
       method: "GET",

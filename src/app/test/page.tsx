@@ -1,12 +1,15 @@
+import Image from "next/image";
+
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Top 35% background image */}
       <div className="h-[40vh] w-full relative">
-        <img
+        <Image
           src="/login-banner.png"
           alt="Background"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
         {/* <div className="absolute inset-0 bg-black/40" />{" "} */}
         {/* optional overlay */}

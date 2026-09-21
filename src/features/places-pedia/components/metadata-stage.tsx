@@ -26,6 +26,7 @@ type FormData = {
   context: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MetadataStage = ({ stage }: { stage: "metadata" | any }) => {
   const [sourceAdded, setSourceAdded] = useState<FormData[]>([]);
   const [formData, setFormData] = useState<FormData>({
@@ -384,27 +385,27 @@ const MetadataStage = ({ stage }: { stage: "metadata" | any }) => {
                         {(source.type === "article" ||
                           source.type === "book") && (
                           <span className="">
-                            {breakAuthors(source.author)}. "{source.title}".{" "}
+                            {breakAuthors(source.author)}. &quot;{source.title}&quot;.{" "}
                             {source.publishedBy}, {getYear(source.publishedOn)}.
                           </span>
                         )}
                         {source.type === "website" && (
                           <span className="">
-                            "{source.title}".{" website, "}
+                            &quot;{source.title}&quot;.{" website, "}
                             {source.url}.{" Accessed "}
                             {getYear(source.accessDate)}.
                           </span>
                         )}
                         {source.type === "interview" && (
                           <span className="">
-                            "{source.title}".{" Interview of "}
+                            &quot;{source.title}&quot;.{" Interview of "}
                             {source.speaker}.{" Conducted "}
                             {getYear(source.date)}.
                           </span>
                         )}
                         {source.type === "oral history" && (
                           <span className="">
-                            "{source.title}".{" Narrated by "}
+                            &quot;{source.title}&quot;.{" Narrated by "}
                             {source.speaker}.{" Narrated "}
                             {getYear(source.date)}.
                           </span>

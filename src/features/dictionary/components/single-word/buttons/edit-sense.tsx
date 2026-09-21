@@ -1,6 +1,5 @@
 "use client";
 
-import { PenBox } from "lucide-react";
 import React from "react";
 import { useSingleWordContext } from "../context";
 import { SingleWord } from "@/features/dictionary/lib";

@@ -9,7 +9,7 @@ import { useDebouncedCallback } from "use-debounce";
 import React, { useState } from "react";
 import { categories } from "../lib/category-list";
 
-const filters = [
+const _filters = [
   { label: "All", value: "" },
   { label: "Historic Rulers", value: "historic ruler" },
   { label: "Musicians", value: "musician" },
@@ -102,7 +102,7 @@ const FiguresFilter = ({ filter }: { filter: string }) => {
       {showKeyboard && (
         <VirtualUrhoboKeyboard
           targetInputId="users-search-input"
-          onInput={(text) => {
+          onInput={(_text) => {
             const targetInput = document.getElementById(
               "users-search-input",
             ) as HTMLInputElement;

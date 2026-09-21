@@ -1,7 +1,6 @@
 "use client";
 import { LocaleWrapper, PermissionGate } from "@/features/shared";
 import React, { useState } from "react";
-import SuspendUser from "./suspend-user";
 import { useParams } from "next/navigation";
 import DeleteUser from "./delete-user";
 

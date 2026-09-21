@@ -1,6 +1,7 @@
 "use client";
 
 import { StatusCard } from "@/features/shared";
+import Image from "next/image";
 import type { AdminData, UserData } from "../../types";
 import { getUserStatus } from "../../utils/getUserStatus";
 import { useParamUserId } from "../../hooks/useParamUserId";
@@ -42,9 +43,11 @@ const AvatarName = ({
 
   return (
     <div className="flex items-start gap-5 flex-1">
-      <img
+      <Image
         src={user?.profilePictureUrl ?? "/default-avatar.svg"}
         alt={`${user?.firstName} ${user?.lastName}`}
+        width={96}
+        height={96}
         className={`lg:h-24 h-16 lg:w-24 w-16 rounded-full object-cover border-2 border-primary-bg shrink-0 ${isViewingOwnProfile ? "cursor-pointer hover:opacity-80 transition-opacity" : ""}`}
         role={isViewingOwnProfile ? "button" : undefined}
         tabIndex={isViewingOwnProfile ? 0 : undefined}

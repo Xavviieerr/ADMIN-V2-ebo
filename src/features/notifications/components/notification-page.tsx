@@ -15,6 +15,8 @@ import NotificationPagination from "./notification-pagination";
 import ClearAllDialog from "./clear-all-dialog";
 import { Button } from "@/components/ui/button";
 import { Bell, Trash2, CheckCheck } from "lucide-react";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/utils/errorHandler";
 import { useState } from "react";
 
 interface NotificationPageProps {
@@ -93,16 +95,18 @@ export default function NotificationPage({
     try {
       await clearAll().unwrap();
       setClearAllOpen(false);
-    } catch {
-      // Error handled by RTK Query
+      toast.success(t("notifications.clearAllSuccess"));
+    } catch (error) {
+      toast.error(getErrorMessage(error, t("notifications.clearAllError")));
     }
   };
 
   const handleMarkAllRead = async () => {
     try {
       await markAllRead().unwrap();
-    } catch {
-      // Error handled by RTK Query
+      toast.success(t("notifications.markAllReadSuccess"));
+    } catch (error) {
+      toast.error(getErrorMessage(error, t("notifications.markAllReadError")));
     }
   };
 

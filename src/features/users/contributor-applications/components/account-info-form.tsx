@@ -28,7 +28,7 @@ const AccountInfoForm = () => {
       </div>
 
       <div className="flex flex-col gap-2 w-full">
-        <label htmlFor="stageName">Artist's Stage Name</label>
+        <label htmlFor="stageName">Artist&apos;s Stage Name</label>
         <input
           type="text"
           id="stageName"

@@ -1,11 +1,12 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import { ArrowLeft, Star, MessageSquare, Check, X, Edit, Volume2, Calendar, User, Languages, Plus, Upload, Trash2, Keyboard } from 'lucide-react'
+import { ArrowLeft, Star, MessageSquare, Check, X, Edit, Volume2, User, Languages, Plus, Upload, Trash2, Keyboard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 import { usePermissions } from '@/hooks/usePermissions'
 import LoadingSpinner from '../ui/LoadingSpinner'
-import { useGetSingleWordQuery, useApproveWordMutation, useRejectWordMutation, useSetWordToReviewMutation, useGenericMutationMutation, useSubmitWordReviewMutation, useGetSingleUserQuery, useDeleteWordMutation, useUpdateSenseImageMutation, useUpdateSenseAudioMutation, useUpdateSenseOtoAudioMutation, useUpdateSenseExampleSentenceAudioMutation, useUpdateTranslationOtoAudioMutation, useUpdateTranslationExampleSentenceAudioMutation, useDeleteSenseImageMutation, useDeleteSenseAudioMutation, useCreateSenseMutation, useUpdateSenseMutation, useDeleteSenseMutation, useCreateTranslationMutation, useDeleteTranslationMutation, useUpdateTranslationMutation, useUpdateTranslationAudioMutation, useDeleteTranslationAudioMutation, useUpdateTranslationImageMutation, useDeleteTranslationImageMutation, useGetAllProvinceNoPaginationQuery, useApproveTranslationMutation, useCommentTranslationMutation, useGetWordReviewsQuery, useReplyToReviewMutation } from '@/slice/requestSlice'
+import { useGetSingleWordQuery, useApproveWordMutation, useRejectWordMutation, useSetWordToReviewMutation, useGenericMutationMutation, useSubmitWordReviewMutation, useGetSingleUserQuery, useDeleteWordMutation, useUpdateSenseImageMutation, useUpdateSenseAudioMutation, useUpdateSenseOtoAudioMutation, useUpdateSenseExampleSentenceAudioMutation, useUpdateTranslationOtoAudioMutation, useUpdateTranslationExampleSentenceAudioMutation, useDeleteSenseImageMutation, useDeleteSenseAudioMutation, useCreateSenseMutation, useUpdateSenseMutation, useDeleteSenseMutation, useCreateTranslationMutation, useDeleteTranslationMutation, useUpdateTranslationMutation, useUpdateTranslationAudioMutation, useDeleteTranslationAudioMutation, useDeleteTranslationImageMutation, useGetAllProvinceNoPaginationQuery, useApproveTranslationMutation, useCommentTranslationMutation, useGetWordReviewsQuery, useReplyToReviewMutation } from '@/slice/requestSlice'
 import { Word as APIWord } from '@/types/fetchWord'
 import { toast } from 'sonner'
 import { getErrorMessage } from "@/utils/errorHandler";
@@ -19,12 +20,13 @@ import { useForm, useFieldArray, Controller, useWatch, useFormState } from 'reac
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { OkpoFieldArray } from '@/components/ui/fieldArrays/okpoFieldArray'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useLocale } from '@/contexts/LocaleContext'
 
 // Helper function to extract sentence from idje (handles both string and object formats)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getIdjeSentence = (idjeItem: any): string => {
   if (!idjeItem) return ''
   if (typeof idjeItem === 'string') {
@@ -37,6 +39,7 @@ const getIdjeSentence = (idjeItem: any): string => {
 }
 
 // Helper function to convert idje array to form array format for sense (objects with sentence and audioUrl)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const idjeToFormArray = (idje: any[] | undefined): Array<{ sentence: string; audioUrl: string }> => {
   if (!idje || idje.length === 0) return [{ sentence: '', audioUrl: '' }]
   return idje.map(item => {
@@ -173,11 +176,13 @@ function IdjeFieldArray({
   setUploadState,
   setValue
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   name: string;
   label: string;
   uploadState: Record<string, string>;
   setUploadState: (state: Record<string, string>) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValue: any;
 }) {
   const handleAudioUpload = (url: string) => {
@@ -197,7 +202,7 @@ function IdjeFieldArray({
       <FormField
         control={control}
         name={name}
-        render={({ field }) => (
+        render={() => (
           <FormItem>
             <FormControl>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
@@ -241,6 +246,7 @@ function IdjeSentenceFieldArray({
   setUploadState,
   setValue
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   name: string;
   label: string;
@@ -248,6 +254,7 @@ function IdjeSentenceFieldArray({
   required?: boolean;
   uploadState: Record<string, string>;
   setUploadState: (state: Record<string, string>) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValue: any;
 }) {
   const { fields, append, remove } = useFieldArray({ control, name });
@@ -255,6 +262,7 @@ function IdjeSentenceFieldArray({
 
   const getFieldError = (fieldPath: string) => {
     const pathParts = fieldPath.split('.');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let error: any = errors;
     for (const part of pathParts) {
       if (error && typeof error === 'object' && part in error) {
@@ -340,6 +348,7 @@ function IdjeSentenceFieldArray({
       </div>
       {required && fieldError && (
         <p className="text-sm font-medium text-red-500 mt-1">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {(fieldError as any)?.message || "This field is required"}
         </p>
       )}
@@ -463,25 +472,37 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
   const [deleteExampleSentenceAudioModalOpen, setDeleteExampleSentenceAudioModalOpen] = useState(false)
   const [deleteTranslationOtoAudioModalOpen, setDeleteTranslationOtoAudioModalOpen] = useState(false)
   const [commentModalOpen, setCommentModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [currentTranslationForComment, setCurrentTranslationForComment] = useState<any>(null)
   const [deleteTranslationExampleSentenceAudioModalOpen, setDeleteTranslationExampleSentenceAudioModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [itemToDelete, setItemToDelete] = useState<{ sense: any; url: string; type: 'image' | 'audio'; imageType?: string } | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [otoAudioToDelete, setOtoAudioToDelete] = useState<{ sense: any } | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [exampleSentenceAudioToDelete, setExampleSentenceAudioToDelete] = useState<{ sense: any; exampleSentenceIndex: number } | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [translationOtoAudioToDelete, setTranslationOtoAudioToDelete] = useState<{ translation: any; languageType: string; translationId: string } | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [translationExampleSentenceAudioToDelete, setTranslationExampleSentenceAudioToDelete] = useState<{ translation: any; languageType: string; translationId: string; exampleSentenceIndex: number } | null>(null)
   const [addSenseModalOpen, setAddSenseModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [editingSense, setEditingSense] = useState<any | null>(null)
   const [deleteSenseModalOpen, setDeleteSenseModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [senseToDelete, setSenseToDelete] = useState<any | null>(null)
   const [addTranslationModalOpen, setAddTranslationModalOpen] = useState(false)
   const [editTranslationModalOpen, setEditTranslationModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [editingTranslation, setEditingTranslation] = useState<{ translation: any; languageType: string; translationId: string } | null>(null)
   const [deleteTranslationModalOpen, setDeleteTranslationModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [translationToDelete, setTranslationToDelete] = useState<{ translation: any; languageType: string; translationId: string } | null>(null)
   const [deleteTranslationAudioModalOpen, setDeleteTranslationAudioModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [translationAudioToDelete, setTranslationAudioToDelete] = useState<{ translation: any; url: string; languageType: string; translationId: string } | null>(null)
   const [deleteTranslationImageModalOpen, setDeleteTranslationImageModalOpen] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [translationImageToDelete, setTranslationImageToDelete] = useState<{ translation: any; url: string; imageType: string; languageType: string; translationId: string } | null>(null)
   const [showEditWord, setShowEditWord] = useState(false)
 
@@ -696,11 +717,14 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       allImages: allImages, // All images
       allAudio: allAudio, // All audio files
       otaOkpopko: apiWord.otaOkpopko,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       creationReason: (apiWord as any).creationReason,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       erevwe: (apiWord as any)?.erevwe,
       reviews: ratings.map(rating => ({
         id: rating.id,
         userId: rating.userId,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         username: (rating as any).user?.username || 'User',
         userAvatar: undefined,
         rating: rating.rating,
@@ -721,7 +745,9 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       editWordForm.reset({
         ota: apiWord.ota || '',
         otaOkpopko: apiWord.otaOkpopko || false,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         creationReason: (apiWord as any)?.creationReason || '',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         erevwe: (apiWord as any)?.erevwe || '',
       })
     }
@@ -762,6 +788,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       // After approval, redirect or refetch
       router.push('/dictionary')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error approving word:', error as any)
       toast.error(getErrorMessage(error, 'Failed to approve word. Please try again.'))
     } finally {
@@ -782,6 +809,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       // After rejection, redirect or refetch
       router.push('/dictionary')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error rejecting word:', error as any)
       toast.error(getErrorMessage(error, 'Failed to reject word. Please try again.'))
     } finally {
@@ -800,6 +828,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       // After setting to review, redirect or refetch
       router.push('/dictionary')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error setting word to review:', error as any)
       toast.error(getErrorMessage(error, 'Failed to set word to review. Please try again.'))
     } finally {
@@ -819,6 +848,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       // After deletion, redirect to dictionary
       router.push('/dictionary')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting word:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete word. Please try again.'))
     } finally {
@@ -826,6 +856,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSenseImageUpload = async (sense: any, imageUrl: string) => {
     if (!apiWord || !sense) return
 
@@ -840,11 +871,13 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
 
       toast.success('Sense image updated successfully!')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error updating sense image:', error as any)
       toast.error(getErrorMessage(error, 'Failed to update sense image. Please try again.'))
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSenseAudioUpload = async (sense: any, audioUrl: string) => {
     if (!apiWord || !sense) return
 
@@ -858,11 +891,13 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
 
       toast.success('Sense audio updated successfully!')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error updating sense audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to update sense audio. Please try again.'))
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSenseExampleSentenceAudioUpload = async (sense: any, exampleSentenceIndex: number, audioUrl: string) => {
     if (!apiWord || !sense) return
 
@@ -877,6 +912,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
 
       toast.success('Example sentence audio updated successfully!')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error updating example sentence audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to update example sentence audio. Please try again.'))
     }
@@ -897,6 +933,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteOtoAudioModalOpen(false)
       setOtoAudioToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting sense definition audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete sense definition audio. Please try again.'))
     }
@@ -918,11 +955,13 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteExampleSentenceAudioModalOpen(false)
       setExampleSentenceAudioToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting example sentence audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete example sentence audio. Please try again.'))
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleTranslationExampleSentenceAudioUpload = async (translation: any, exampleSentenceIndex: number, audioUrl: string) => {
     if (!apiWord || !translation) return
 
@@ -943,6 +982,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
 
       toast.success('Translation example sentence audio updated successfully!')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error updating translation example sentence audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to update translation example sentence audio. Please try again.'))
     }
@@ -964,6 +1004,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteTranslationOtoAudioModalOpen(false)
       setTranslationOtoAudioToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting translation definition audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete translation definition audio. Please try again.'))
     }
@@ -986,6 +1027,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteTranslationExampleSentenceAudioModalOpen(false)
       setTranslationExampleSentenceAudioToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting translation example sentence audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete translation example sentence audio. Please try again.'))
     }
@@ -1007,6 +1049,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteImageModalOpen(false)
       setItemToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting sense image:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete sense image. Please try again.'))
     }
@@ -1027,6 +1070,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteAudioModalOpen(false)
       setItemToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting sense audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete sense audio. Please try again.'))
     }
@@ -1121,11 +1165,13 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setEditingSense(null)
       senseForm.reset()
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error saving sense:', error as any)
       toast.error(getErrorMessage(error, `Failed to ${editingSense ? 'update' : 'add'} sense. Please try again.`))
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEditSense = (sense: any) => {
     setEditingSense(sense)
 
@@ -1149,6 +1195,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
     // Populate idje audio uploads state
     if (sense.idje && Array.isArray(sense.idje)) {
       const uploads: Record<string, string> = {}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       sense.idje.forEach((item: any, idx: number) => {
         if (item && typeof item === 'object' && item.audioUrl) {
           uploads[`idje.${idx}.audioUrl`] = item.audioUrl
@@ -1179,6 +1226,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteSenseModalOpen(false)
       setSenseToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting sense:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete sense. Please try again.'))
     }
@@ -1254,6 +1302,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setAddTranslationModalOpen(false)
       translationForm.reset()
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error adding translation:', error as any)
       toast.error(getErrorMessage(error, 'Failed to add translation. Please try again.'))
     }
@@ -1314,11 +1363,13 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setEditingTranslation(null)
       editTranslationForm.reset()
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error updating translation:', error as any)
       toast.error(getErrorMessage(error, 'Failed to update translation. Please try again.'))
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEditTranslation = (translation: any) => {
     const languageType = activeTranslationLang === 'eng' ? 'english' : 'korean'
     const translationId = activeTranslationLang === 'eng'
@@ -1352,6 +1403,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
     // Populate translation idje audio uploads state
     if (details.idje && Array.isArray(details.idje)) {
       const uploads: Record<string, string> = {}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       details.idje.forEach((item: any, idx: number) => {
         if (item && typeof item === 'object' && item.audioUrl) {
           uploads[`idje.${idx}.audioUrl`] = item.audioUrl
@@ -1383,11 +1435,13 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteTranslationModalOpen(false)
       setTranslationToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting translation:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete translation. Please try again.'))
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleTranslationAudioUpload = async (translation: any, audioUrl: string) => {
     if (!apiWord || !translation) return
 
@@ -1407,6 +1461,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
 
       toast.success('Translation audio updated successfully!')
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error updating translation audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to update translation audio. Please try again.'))
     }
@@ -1428,6 +1483,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteTranslationAudioModalOpen(false)
       setTranslationAudioToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting translation audio:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete translation audio. Please try again.'))
     }
@@ -1450,6 +1506,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setDeleteTranslationImageModalOpen(false)
       setTranslationImageToDelete(null)
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Error deleting translation image:', error as any)
       toast.error(getErrorMessage(error, 'Failed to delete translation image. Please try again.'))
     }
@@ -1463,6 +1520,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
   const saveSenseEdit = async (senseId: string) => {
     if (!apiWord || !editedSense) return
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const updatedOho = (apiWord.oho || []).map((s: any) => {
         if (s.id !== senseId) return s
         const newIdje = Array.isArray(s.idje) && s.idje.length > 0 ? [...s.idje] : ['']
@@ -1488,6 +1546,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
       setEditingSenseId(null)
       setEditedSense(null)
     } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       console.error('Failed to update sense', e as any)
       toast.error(getErrorMessage(e, 'Failed to update sense'))
     }
@@ -1614,7 +1673,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-yellow-400 mb-2">Word Not Found</h2>
           <p className="text-gray-300">
-            The word you're looking for doesn't exist or has been removed.
+            The word you&apos;re looking for doesn&apos;t exist or has been removed.
           </p>
           <Button
             onClick={() => router.push('/dictionary')}
@@ -1698,7 +1757,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                         <Controller
                           name="otaOkpopko"
                           control={editWordForm.control}
-                          render={({ field }) => (
+        render={({ field }) => (
                             <input
                               type="checkbox"
                               id="otaOkpopko"
@@ -1729,6 +1788,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                           <option value="" className="text-white">
                             {t('common.selectDialect', 'Select dialect')}
                           </option>
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                           {provinces?.map((opt: any, index: number) => (
                             <option key={index} value={opt.name} className="text-white">
                               {opt.name}
@@ -1905,6 +1965,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                       <option value="" className="text-white">
                         {t('common.selectDialect', 'Select dialect')}
                       </option>
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {provinces?.map((opt: any, index: number) => (
                         <option key={index} value={opt.name} className="text-white">
                           {opt.name}
@@ -2071,6 +2132,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                                   {t('common.idje', 'Udje')}:
                                 </p>
                                 <ul className="list-none space-y-3 ml-4">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {sense.idje.map((example: any, idx: number) => {
                                     const sentence = getIdjeSentence(example)
                                     const audioUrl = typeof example === 'object' && example !== null ? example.audioUrl : null
@@ -2318,10 +2380,11 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                               <div className="grid grid-cols-2 gap-2 overflow-hidden">
                                 {sense.oma.map((img, idx) => (
                                   <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border border-white/10">
-                                    <img
+                                    <Image
                                       src={img.url}
                                       alt={`sense-${sense.id}-img-${idx}`}
-                                      className="w-full h-full object-cover"
+                                      fill
+                                      className="object-cover"
                                       onError={(e) => {
                                         const target = e.target as HTMLImageElement
                                         target.style.display = 'none'
@@ -2417,6 +2480,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
           </div>
 
           {/* Additional Word Information */}
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {(apiWord?.approvedBy || apiWord?.rejectedBy || apiWord?.reviewedBy || apiWord?.rejectionReason || apiWord?.lastAccessed || apiWord?.updatedAt || (apiWord as any)?.creationReason) && (
             <Accordion type="single" collapsible className="mt-6">
               <AccordionItem value="word-information" className="border border-white/10 rounded-lg">
@@ -2425,9 +2489,11 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                 </AccordionTrigger>
                 <AccordionContent className="px-4 sm:px-6 pb-4 sm:pb-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(apiWord as any)?.creationReason && (
                       <div className="sm:col-span-2 lg:col-span-3">
                         <p className="text-xs text-gray-400 mb-1">{t('common.wordExplanation', 'Word Explanation')}</p>
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                         <p className="text-sm text-gray-300">{(apiWord as any).creationReason}</p>
                       </div>
                     )}
@@ -2435,8 +2501,11 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                       <div>
                         <p className="text-xs text-gray-400 mb-1">{t('common.approvedBy', 'Approved by')}</p>
                         <p className="text-sm text-gray-300">
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                           {(approvedByUser as any)?.data?.firstName && (approvedByUser as any)?.data?.lastName
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             ? `${(approvedByUser as any).data.firstName} ${(approvedByUser as any).data.lastName}`
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             : (approvedByUser as any)?.data?.username || apiWord.approvedBy}
                         </p>
                       </div>
@@ -2445,8 +2514,11 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                       <div>
                         <p className="text-xs text-gray-400 mb-1">{t('common.rejectedBy', 'Rejected by')}</p>
                         <p className="text-sm text-gray-300">
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                           {(rejectedByUser as any)?.data?.firstName && (rejectedByUser as any)?.data?.lastName
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             ? `${(rejectedByUser as any).data.firstName} ${(rejectedByUser as any).data.lastName}`
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             : (rejectedByUser as any)?.data?.username || apiWord.rejectedBy}
                         </p>
                       </div>
@@ -2455,8 +2527,11 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                       <div>
                         <p className="text-xs text-gray-400 mb-1">{t('common.reviewedBy', 'Reviewed by')}</p>
                         <p className="text-sm text-gray-300">
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                           {(reviewedByUser as any)?.data?.firstName && (reviewedByUser as any)?.data?.lastName
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             ? `${(reviewedByUser as any).data.firstName} ${(reviewedByUser as any).data.lastName}`
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             : (reviewedByUser as any)?.data?.username || apiWord.reviewedBy}
                         </p>
                       </div>
@@ -2560,11 +2635,14 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
           </div>
 
           {[...(activeTranslationLang === 'eng' ? (apiWord?.efaEng || []) : (apiWord?.efaKor || []))]
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .sort((a: any, b: any) => a.kere - b.kere)
             .length > 0 ? (
             <div className="space-y-6">
               {[...(activeTranslationLang === 'eng' ? (apiWord?.efaEng || []) : (apiWord?.efaKor || []))]
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .sort((a: any, b: any) => a.kere - b.kere)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((trans: any) => (
                   <div key={trans.id} className="bg-linear-to-br from-[#1E1E1E] to-[#232323] border border-white/10 rounded-xl p-4 sm:p-6 shadow-lg overflow-hidden">
                     {/* Header */}
@@ -2718,38 +2796,47 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                     </div>
 
                     {/* Details */}
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {(trans as any).details && (
                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
                         {/* Left Column - Single Card with All Information */}
                         <div className="lg:col-span-2">
                           <h2 className="text-lg sm:text-xl font-semibold text-white mb-4 wrap-break-words">{trans.otaWord}</h2>
                           <div className="bg-[#1a1a1a]/50 rounded-lg p-3 sm:p-5 border border-white/5 space-y-4 wrap-break-words">
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.upho && (
                               <div>
                                 <p className="text-sm sm:text-md text-gray-300 mb-1 font-semibold wrap-break-words">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {t('common.upho', 'Ubiupho')}: <span className="text-gray-400 text-sm sm:text-base wrap-break-words">{`[${(trans as any).details.upho}]`}</span>
                                 </p>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.uphoesio && (
                               <div>
                                 <p className="text-sm sm:text-md text-gray-300 mb-1 font-semibold wrap-break-words">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {t('common.uphoesio', 'IPA')}: <span className="text-gray-400 font-mono text-sm sm:text-base wrap-break-words">/{(trans as any).details.uphoesio}/</span>
                                 </p>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.oto && (
                               <div className="space-y-3">
                                 <div className="flex items-start gap-3">
                                   <div className="flex-1 min-w-0">
                                     <p className="text-sm sm:text-md text-gray-300 font-semibold wrap-break-words">
+                                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                       {t('common.oto', 'Otọ')}: <span className="text-gray-400 text-sm sm:text-base wrap-break-words">{(trans as any).details.oto}</span>
                                     </p>
                                   </div>
                                 </div>
+                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                 {(trans as any).details.otoOmra && (
                                   <div className="bg-[#1e1e1e] rounded-lg p-2 flex items-center gap-2">
                                     <audio controls className="flex-1 w-full min-w-0">
+                                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                       <source src={(trans as any).details.otoOmra} type="audio/mpeg" />
                                     </audio>
                                     {(isSuperAdmin || hasPermission('delete_media')) && !isViewMode && (
@@ -2772,19 +2859,23 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                                 )}
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.ekerota && (trans as any).details.ekerota.length > 0 && (
                               <div>
                                 <p className="text-sm sm:text-md text-gray-300 mb-1 font-semibold wrap-break-words">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {t('common.ekerota', 'Eghọ rẹ Ejajẹ')}: <span className="text-gray-400 text-sm sm:text-base wrap-break-words lowercase!">{(trans as any).details.ekerota.join(', ')}</span>
                                 </p>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.idje && Array.isArray((trans as any).details.idje) && (trans as any).details.idje.length > 0 && (
                               <div>
                                 <p className="text-sm sm:text-md text-gray-300 mb-2 font-semibold">
                                   {t('common.idje', 'Udje')}:
                                 </p>
                                 <ul className="list-none space-y-3 ml-4">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {(trans as any).details.idje.map((example: any, idx: number) => {
                                     const sentence = getIdjeSentence(example)
                                     const audioUrl = typeof example === 'object' && example !== null ? example.audioUrl : null
@@ -2846,12 +2937,14 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                                 </ul>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.ibuebu && (trans as any).details.ibuebu.length > 0 && (
                               <div>
                                 <p className="text-md text-gray-300 mb-2 font-semibold">
                                   {t('common.ibuebu', 'Ebuo')}:
                                 </p>
                                 <ul className="list-none space-y-1 ml-4">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {(trans as any).details.ibuebu.map((plural: string, idx: number) => (
                                     <li key={idx} className="text-gray-400 text-base">
                                       {idx + 1}. {plural}
@@ -2860,19 +2953,23 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                                 </ul>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.orhan && (trans as any).details.orhan.length > 0 && (
                               <div>
                                 <p className="text-sm sm:text-md text-gray-300 mb-1 font-semibold wrap-break-words">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   Orhan (Antonyms): <span className="text-gray-400 text-sm sm:text-base wrap-break-words">{(trans as any).details.orhan.join(', ')}</span>
                                 </p>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.ekaeruo && (trans as any).details.ekaeruo.length > 0 && (
                               <div>
                                 <p className="text-md text-gray-300 mb-2 font-semibold">
                                   {t('common.ekaeruo', 'Oka Eruo')}:
                                 </p>
                                 <ul className="list-none space-y-1 ml-4">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {(trans as any).details.ekaeruo.map((verbType: string, idx: number) => (
                                     <li key={idx} className="text-gray-400 text-base">
                                       {idx + 1}. {verbType}
@@ -2881,22 +2978,28 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                                 </ul>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.okpo && (trans as any).details.okpo.length > 0 && (
                               <div>
                                 <p className="text-md text-gray-300 mb-1 font-semibold">
                                   Okpo (Synonyms): <span className="text-gray-400 text-base wrap-break-words">
+                                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                     {(trans as any).details.okpo.map((rw: any, idx: number) => (
-                                      <span key={idx}>
-                                        {rw.ota}{rw.egba ? ` (${rw.egba})` : ''}{idx < (trans as any).details.okpo.length - 1 ? ', ' : ''}
+                                       <span key={idx}>
+                                         {rw.ota}{rw.egba ? ` (${rw.egba})` : ''}
+                                         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                         {idx < (trans as any).details.okpo.length - 1 ? ', ' : ''}
                                       </span>
                                     ))}
                                   </span>
                                 </p>
                               </div>
                             )}
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {(trans as any).details.odeUfue && (trans as any).details.odeUfue.length > 0 && (trans as any).details.odeUfue.some((v: string) => v.trim() !== '') && (
                               <div>
                                 <p className="text-md text-gray-300 mb-1 font-semibold">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   OdẹUfue (Scientific Name): <span className="text-gray-400 italic text-base">{(trans as any).details.odeUfue.filter((v: string) => v.trim() !== '').join(', ')}</span>
                                 </p>
                               </div>
@@ -2933,8 +3036,10 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                           {/* Audio */}
                           {isViewMode ? (
                             // View mode: Show speaker icon(s) instead of audio card
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             (trans as any).details.omra && (trans as any).details.omra.length > 0 ? (
                               <div className="flex flex-wrap gap-3">
+                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                 {(trans as any).details.omra.map((audioUrl: string, idx: number) => (
                                   <button
                                     key={idx}
@@ -2981,8 +3086,10 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                                   </UploadModal>
                                 )}
                               </div>
+                              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                               {(trans as any).details.omra && (trans as any).details.omra.length > 0 ? (
                                 <div className="space-y-3">
+                                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                   {(trans as any).details.omra.map((audioUrl: string, idx: number) => {
                                     const languageType = activeTranslationLang === 'eng' ? 'english' : 'korean'
                                     const translationId = activeTranslationLang === 'eng'
@@ -3318,11 +3425,12 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
               {t('common.areYouSureYouWantToDeleteThisImage', 'Are you sure you want to delete this image? This action cannot be undone.')}
             </p>
             {itemToDelete && (
-              <div className="mb-4">
-                <img
+              <div className="relative mb-4">
+                <Image
                   src={itemToDelete.url}
                   alt="Image to delete"
-                  className="w-full h-32 object-cover rounded-lg"
+                  fill
+                  className="object-cover rounded-lg"
                 />
               </div>
             )}
@@ -3467,11 +3575,12 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
               {t('common.areYouSureYouWantToDeleteThisImage', 'Are you sure you want to delete this image? This action cannot be undone.')}
             </p>
             {translationImageToDelete && (
-              <div className="mb-4">
-                <img
+              <div className="relative mb-4">
+                <Image
                   src={translationImageToDelete.url}
                   alt="Image to delete"
-                  className="w-full h-32 object-cover rounded-lg"
+                  fill
+                  className="object-cover rounded-lg"
                 />
               </div>
             )}
@@ -3574,7 +3683,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                 <>
                   {sentence && (
                     <p className="text-gray-400 italic mb-4">
-                      "{sentence}"
+                      &quot;{sentence}&quot;
                     </p>
                   )}
                   {audioUrl && (
@@ -3686,7 +3795,7 @@ export default function WordDetails({ wordId }: WordDetailsProps) {
                 <>
                   {sentence && (
                     <p className="text-gray-400 italic mb-4">
-                      "{sentence}"
+                      &quot;{sentence}&quot;
                     </p>
                   )}
                   {audioUrl && (
@@ -4530,6 +4639,7 @@ function DynamicFieldArray({
   label,
   required = false,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   name: string;
   label: string;
@@ -4593,6 +4703,7 @@ function EkerotaFieldArray({
   name,
   label,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   name: string;
   label: string;
@@ -4662,6 +4773,7 @@ function TranslationEkerotaFieldArray({
   name,
   label,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   name: string;
   label: string;

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import StatusCard from "../status-card";
 import LocaleWrapper from "../locale-wrapper";
-import { boolean } from "zod";
+
 
 const MobileTable = ({
   link,

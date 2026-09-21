@@ -1,7 +1,6 @@
 "use client";
 import { Loader2, Trash2 } from "lucide-react";
 import React, { useState } from "react";
-import { deleteSenseAudio } from "../../lib/api";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import { useParams, useRouter } from "next/navigation";
 import { deleteSenseImage } from "../../lib/api/delete-image";

@@ -53,32 +53,36 @@ export default function SupportTicketDetail({ ticketId }: SupportTicketDetailPro
         {t("supportTickets.backToTickets")}
       </button>
 
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#f5f5f5]">
-            {ticket.ticketNumber}
-          </h1>
-          <p className="text-sm text-gray-400 mt-1">{ticket.subject}</p>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#f5f5f5]">
+              {ticket.ticketNumber}
+            </h1>
+            <p className="text-sm text-gray-400 mt-1 break-words">{ticket.subject}</p>
+          </div>
+          <div className="shrink-0">
+            <StatusSelect ticketId={ticket.id} currentStatus={ticket.status} />
+          </div>
         </div>
-        <StatusSelect ticketId={ticket.id} currentStatus={ticket.status} />
       </div>
 
       <TicketUserInfo userId={ticket.userId} />
 
-      <div className="bg-[#1E1E1E] border border-[#23232a] rounded-lg p-4">
+      <div className="bg-[#1E1E1E] border border-[#23232a] rounded-lg p-4 sm:p-5">
         <h3 className="text-sm font-semibold text-[#f5f5f5] mb-3">
           {t("supportTickets.message")}
         </h3>
-        <p className="text-sm text-gray-300 whitespace-pre-wrap">
+        <p className="text-sm text-gray-300 whitespace-pre-wrap break-words">
           {ticket.message}
         </p>
       </div>
 
-      <div className="bg-[#1E1E1E] border border-[#23232a] rounded-lg p-4">
+      <div className="bg-[#1E1E1E] border border-[#23232a] rounded-lg p-4 sm:p-5">
         <h3 className="text-sm font-semibold text-[#f5f5f5] mb-3">
           {t("supportTickets.status")}
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
           <div>
             <p className="text-gray-400">{t("supportTickets.createdAt")}</p>
             <p className="text-[#f5f5f5] mt-1">{formatTicketDateTime(ticket.createdAt)}</p>

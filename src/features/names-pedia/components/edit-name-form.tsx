@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
-import { Loader, PenBox, Plus, Trash2, X } from "lucide-react";
+import { Loader } from "lucide-react";
 import { BASE_URL } from "@/utils/constants";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -91,7 +91,7 @@ const EditNameForm = ({
 
   const updateDetails = async () => {
     setLoading(true);
-    const { translations, ...rest } = formData;
+    const { translations: _translations, ...rest } = formData;
     try {
       const url = `${BASE_URL}/names/${name.id}`;
       const payload = {
@@ -114,6 +114,7 @@ const EditNameForm = ({
 
       toast.success("Name updated successfully");
       router.replace(`/guonopedia/names/${name.id}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message ?? "An error occurred");
     } finally {

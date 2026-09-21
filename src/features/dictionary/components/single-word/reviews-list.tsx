@@ -1,4 +1,3 @@
-import { PenBox } from "lucide-react";
 import React from "react";
 import { SingleWord } from "../../lib";
 import ReviewCard from "./review-card";

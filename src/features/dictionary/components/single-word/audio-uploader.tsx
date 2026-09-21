@@ -18,6 +18,7 @@ const AudioUploader = ({
   payload,
 }: {
   type: "sense" | "senseExample" | "translation" | "translationExample";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any;
 }) => {
   const maxFileSize = 5 * 1024 * 1024;
@@ -30,7 +31,7 @@ const AudioUploader = ({
   const params = useParams();
   const id = params?.id as string;
 
-  const [file, setFile] = useState<{
+  const [, setFile] = useState<{
     id: string;
     url: string;
     file: File;
@@ -60,8 +61,7 @@ const AudioUploader = ({
       );
     }
 
-    let url;
-    url = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
 
     const singleFile = {
       id: Date.now().toString(),

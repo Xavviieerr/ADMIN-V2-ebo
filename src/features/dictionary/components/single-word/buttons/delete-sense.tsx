@@ -1,5 +1,5 @@
 "use client";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import { useParams, useRouter } from "next/navigation";

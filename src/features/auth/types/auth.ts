@@ -33,8 +33,6 @@ export interface RefreshResponse {
 
 export interface AuthState {
   user: AuthUser | null;
-  accessToken: string | null;
-  refreshToken: string | null;
 }
 
 export interface ForgotPasswordUser {

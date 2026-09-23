@@ -1,27 +1,28 @@
 "use client";
 
-import { useAppSelector } from "@/hooks/redux-hooks";
-import { selectAccessToken } from "@/features/auth/store/authSlice";
+import { tokenStorage } from "@/features/auth/utils/tokenStorage";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
-  const accessToken = useAppSelector(selectAccessToken);
+  // Cookies are the single source of truth for authentication.
+  // A valid cookie must never cause a redirect to /login just because
+  // Redux state is empty (e.g. failed rehydration, cleared localStorage).
+  const [hasToken, setHasToken] = useState<boolean | null>(null);
   const router = useRouter();
-  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setHydrated(true);
+    setHasToken(tokenStorage.getAccessToken() !== null);
   }, []);
 
   useEffect(() => {
-    if (hydrated && !accessToken) {
+    if (hasToken === false) {
       router.replace("/login");
     }
-  }, [accessToken, router, hydrated]);
+  }, [hasToken, router]);
 
-  if (!hydrated || !accessToken) {
+  if (hasToken !== true) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#18191f]">
         <LoadingSpinner size="lg" />

@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import type { PersistedState } from "redux-persist/es/types";
-import storage from "redux-persist/lib/storage";
+import { storage } from "./storage";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { apiSlice } from "@/slice/requestSlice";
 import authReducer from "@/features/auth/store/authSlice";

@@ -5,21 +5,10 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { BASE_URL } from "@/utils/constants";
-import { logInAdmin, logOutAdmin } from "@/features/auth/store/authSlice";
+import { logOutAdmin } from "@/features/auth/store/authSlice";
 import { tokenStorage } from "@/features/auth/utils/tokenStorage";
 import { clearLocalSession } from "@/features/auth/utils/session";
-import { AuthUser, RefreshResponse } from "@/features/auth/types/auth";
-
-/**
- * Minimal auth state shape used by the interceptor.
- * Avoids importing RootState (which would create a circular dependency with the store).
- */
-interface AuthState {
-  auth: {
-    refreshToken: string | null;
-    user: AuthUser | null;
-  };
-}
+import { RefreshResponse } from "@/features/auth/types/auth";
 
 /**
  * RTK Query base query factory that handles:
@@ -54,13 +43,14 @@ export function createBaseQueryWithReauth(): BaseQueryFn<
   // Concurrency-safe refresh: only one refresh in flight at a time
   let refreshPromise: Promise<boolean> | null = null;
 
-  async function performRefresh(api: {
+  async function performRefresh(_api: {
     getState: () => unknown;
     dispatch: (action: unknown) => unknown;
   }): Promise<boolean> {
     try {
-      const state = api.getState() as AuthState;
-      const refreshToken = state.auth.refreshToken;
+      // Refresh token comes from the same authoritative cookie storage
+      // as the access token injected in prepareHeaders above.
+      const refreshToken = tokenStorage.getRefreshToken();
       if (!refreshToken) return false;
 
       const res = await fetch(`${BASE_URL}/auth/refresh`, {
@@ -73,18 +63,9 @@ export function createBaseQueryWithReauth(): BaseQueryFn<
 
       const data: RefreshResponse = await res.json();
 
+      // Refreshed credentials go to cookies (the auth source of truth);
+      // the user profile in Redux is untouched by a refresh.
       tokenStorage.setTokens(data.accessToken, data.refreshToken);
-
-      const currentUser = (api.getState() as AuthState).auth.user;
-      if (currentUser) {
-        api.dispatch(
-          logInAdmin({
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
-            user: currentUser,
-          })
-        );
-      }
 
       return true;
     } catch {

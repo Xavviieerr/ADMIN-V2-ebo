@@ -17,15 +17,15 @@ export function useLogin() {
       userName: data.identifier.includes("@") ? "" : data.identifier,
     });
 
+    // Cookies are the single source of truth for credentials;
+    // Redux keeps the user profile only.
+    tokenStorage.setTokens(result.accessToken, result.refreshToken);
+
     dispatch(
       logInAdmin({
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
         user: result.user,
       }),
     );
-
-    tokenStorage.setTokens(result.accessToken, result.refreshToken);
 
     const searchParams = new URLSearchParams(window.location.search);
     const from = searchParams.get("from");

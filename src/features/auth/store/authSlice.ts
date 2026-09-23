@@ -4,25 +4,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: AuthState = {
   user: null,
-  accessToken: null,
-  refreshToken: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logInAdmin: (
-      state,
-      action: PayloadAction<{ accessToken: string; refreshToken: string; user: AuthUser }>
-    ) => {
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
+    logInAdmin: (state, action: PayloadAction<{ user: AuthUser }>) => {
       state.user = action.payload.user;
     },
     logOutAdmin: (state) => {
-      state.accessToken = null;
-      state.refreshToken = null;
       state.user = null;
     },
     updateCurrentUser: (
@@ -47,8 +38,8 @@ export const { logInAdmin, logOutAdmin, updateCurrentUser } = authSlice.actions;
 export default authSlice.reducer;
 
 // Selectors
+// Note: authentication truth lives in cookies (tokenStorage), not Redux.
+// This slice owns the user profile only.
 export const selectCurrentUser = (state: RootState) => state.auth.user;
-export const selectAccessToken = (state: RootState) => state.auth.accessToken;
-export const selectRefreshToken = (state: RootState) => state.auth.refreshToken;
 export const selectIsSuperAdmin = (state: RootState) =>
   state.auth.user?.role === "super_admin";

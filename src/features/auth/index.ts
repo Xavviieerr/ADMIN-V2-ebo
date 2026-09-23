@@ -23,13 +23,13 @@ export { loginSchema } from "./validations/login";
 export type { LoginFormData } from "./validations/login";
 
 // Store
+// Note: auth credentials live in cookies (tokenStorage); this slice owns
+// the user profile only.
 export {
   logInAdmin,
   logOutAdmin,
   updateCurrentUser,
   selectCurrentUser,
-  selectAccessToken,
-  selectRefreshToken,
   selectIsSuperAdmin,
 } from "./store/authSlice";
 

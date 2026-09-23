@@ -3,8 +3,6 @@ import authReducer, {
   logInAdmin,
   logOutAdmin,
   selectCurrentUser,
-  selectAccessToken,
-  selectRefreshToken,
   selectIsSuperAdmin,
 } from "@/features/auth/store/authSlice";
 import type { AuthUser } from "@/features/auth/types/auth";
@@ -29,8 +27,6 @@ const mockSuperAdmin: AuthUser = {
 
 const initialState = {
   user: null,
-  accessToken: null,
-  refreshToken: null,
 };
 
 describe("authSlice", () => {
@@ -43,14 +39,10 @@ describe("authSlice", () => {
       const state = authReducer(
         initialState,
         logInAdmin({
-          accessToken: "at_123",
-          refreshToken: "rt_456",
           user: mockUser,
         }),
       );
 
-      expect(state.accessToken).toBe("at_123");
-      expect(state.refreshToken).toBe("rt_456");
       expect(state.user).toEqual(mockUser);
     });
 
@@ -58,8 +50,6 @@ describe("authSlice", () => {
       const loggedIn = authReducer(
         initialState,
         logInAdmin({
-          accessToken: "at_123",
-          refreshToken: "rt_456",
           user: mockUser,
         }),
       );
@@ -72,8 +62,6 @@ describe("authSlice", () => {
   describe("selectors", () => {
     const state = {
       auth: {
-        accessToken: "at_123",
-        refreshToken: "rt_456",
         user: mockUser,
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,14 +69,6 @@ describe("authSlice", () => {
 
     it("selectCurrentUser returns user", () => {
       expect(selectCurrentUser(state)).toEqual(mockUser);
-    });
-
-    it("selectAccessToken returns token", () => {
-      expect(selectAccessToken(state)).toBe("at_123");
-    });
-
-    it("selectRefreshToken returns token", () => {
-      expect(selectRefreshToken(state)).toBe("rt_456");
     });
 
     it("selectIsSuperAdmin returns false for admin", () => {

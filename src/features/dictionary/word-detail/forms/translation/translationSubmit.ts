@@ -1,4 +1,4 @@
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import type { TranslationFormInitial } from "./useTranslationForm";
 
 type TranslationMutationTrigger = (args: {

@@ -11,6 +11,8 @@ const DictionaryPage = async ({
     status?: string;
     type?: string;
     createdBy?: string;
+    sortBy?: string;
+    sortDir?: string;
   }>;
 }) => {
   const query = await searchParams;

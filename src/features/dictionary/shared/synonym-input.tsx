@@ -2,7 +2,7 @@
 
 import { useKeyboard } from "@/features/shared/components/keyboard-context";
 import { Plus, X } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const SynonymInput = ({
   values,
@@ -24,11 +24,22 @@ const SynonymInput = ({
 
   const valueRef = useRef(input.ota);
   const cursorRef = useRef(0);
+  const pendingCaretRef = useRef<number | null>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
   const { setActiveField } = useKeyboard();
 
   useEffect(() => {
     valueRef.current = input.ota;
+  }, [input.ota]);
+
+  useLayoutEffect(() => {
+    if (pendingCaretRef.current !== null && inputElRef.current) {
+      const pos = pendingCaretRef.current;
+      pendingCaretRef.current = null;
+      inputElRef.current.focus();
+      inputElRef.current.setSelectionRange(pos, pos);
+      cursorRef.current = pos;
+    }
   }, [input.ota]);
 
   const handleAdd = () => {
@@ -90,12 +101,10 @@ const SynonymInput = ({
                 setActiveField({
                   getValue: () => valueRef.current,
                   setValue: (value: string) =>
-                    setInput({ ...input, ota: value }),
+                    setInput((prev) => ({ ...prev, ota: value })),
                   getCursorPos: () => cursorRef.current,
                   setCursorPos: (pos) => {
-                    inputElRef.current?.focus();
-                    inputElRef.current?.setSelectionRange(pos, pos);
-                    cursorRef.current = pos;
+                    pendingCaretRef.current = pos;
                   },
                 });
               }}

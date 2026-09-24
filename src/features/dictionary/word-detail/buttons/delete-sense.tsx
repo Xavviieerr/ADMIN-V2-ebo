@@ -3,8 +3,8 @@ import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useDeleteSenseMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
-import { ConfirmPopover } from "@/features/dictionary/shared";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
+import { ConfirmPopover } from "@/features/dictionary/word-detail/shared";
 
 const DeleteSenseButton = ({
   payload,

@@ -31,6 +31,10 @@ for historical/reference purposes. Do not edit, do not import from active code.
 - `pos-sample.ts` — retired `sample` dev fixture relocated verbatim from
   `src/features/dictionary/lib/content.ts` (now `lib/pos-options.ts`).
   Zero active importers (verified). Preserved for reference.
+- `pos-options.ts` — retired `engPos`/`urhPos`/`korPos` arrays relocated
+  verbatim from `src/features/dictionary/lib/pos-options.ts` after
+  consolidating onto the canonical `getPOS` in `src/helpers/parts-of-speech.ts`
+  (already used by word-detail). Zero active importers (verified).
 
 ## Intentionally NOT moved (frozen in place, still have active consumers)
 

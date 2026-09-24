@@ -3,9 +3,9 @@ import { Loader2, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useDeleteSenseImageMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { DeleteSenseImagePayload } from "@/features/dictionary/lib";
-import { ConfirmPopover } from "@/features/dictionary/shared";
+import { ConfirmPopover } from "@/features/dictionary/word-detail/shared";
 
 const DeleteImageButton = ({
   payload,

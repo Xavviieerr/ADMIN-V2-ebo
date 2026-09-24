@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { SenseData } from "@/features/dictionary/lib";
-import { validateSenseDetails } from "@/features/dictionary/lib/add-word/validate-word";
+import { validateSenseDetails } from "@/features/dictionary/add-word/validate-word";
 import { useAddWordWizard } from "../contexts/AddWordWizardContext";
 
 const defaultVal: SenseData = {

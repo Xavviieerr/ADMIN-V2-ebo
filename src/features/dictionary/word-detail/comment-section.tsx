@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useReplyToReviewMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { useParams, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { BaseTextArea } from "@/features/shared";

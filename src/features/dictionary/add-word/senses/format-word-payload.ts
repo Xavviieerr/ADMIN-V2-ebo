@@ -1,4 +1,4 @@
-import { Oho, SenseData } from "../types";
+import { Oho, SenseData } from "@/features/dictionary/lib";
 
 type FormatSense = ({
   index,

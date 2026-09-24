@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useKeyboard } from "./keyboard-context";
 
 const BaseTextArea = ({
@@ -21,11 +21,22 @@ const BaseTextArea = ({
 }) => {
   const valueRef = useRef(value);
   const cursorRef = useRef(0);
+  const pendingCaretRef = useRef<number | null>(null);
   const textareaElRef = useRef<HTMLTextAreaElement>(null);
   const { setActiveField } = useKeyboard();
 
   useEffect(() => {
     valueRef.current = value;
+  }, [value]);
+
+  useLayoutEffect(() => {
+    if (pendingCaretRef.current !== null && textareaElRef.current) {
+      const pos = pendingCaretRef.current;
+      pendingCaretRef.current = null;
+      textareaElRef.current.focus();
+      textareaElRef.current.setSelectionRange(pos, pos);
+      cursorRef.current = pos;
+    }
   }, [value]);
 
   return (
@@ -44,16 +55,14 @@ const BaseTextArea = ({
         }}
         onFocus={(e) => {
           cursorRef.current = e.currentTarget.selectionStart ?? value.length;
-          setActiveField({
-            getValue: () => valueRef.current,
-            setValue,
-            getCursorPos: () => cursorRef.current,
-            setCursorPos: (pos) => {
-              textareaElRef.current?.focus();
-              textareaElRef.current?.setSelectionRange(pos, pos);
-              cursorRef.current = pos;
-            },
-          });
+            setActiveField({
+              getValue: () => valueRef.current,
+              setValue,
+              getCursorPos: () => cursorRef.current,
+              setCursorPos: (pos) => {
+                pendingCaretRef.current = pos;
+              },
+            });
         }}
         // onBlur={() => setActiveField(null)}
         className="input"

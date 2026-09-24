@@ -1,5 +1,10 @@
 import { handleFetchError } from "@/features/shared/utils/handle-fetch-error";
 import { BASE_URL } from "@/utils/constants";
+import { DICTIONARY_LIST_LIMIT } from "../../browse/constants";
+
+const VALID_STATUSES = ["pending", "approved", "rejected", "in-review"];
+const VALID_SORT_BY = ["ota", "updatedAt", "createdAt"];
+const VALID_SORT_DIRS = ["ASC", "DESC", "asc", "desc"];
 
 export const fetchWords = async ({
 	token,
@@ -8,6 +13,8 @@ export const fetchWords = async ({
 	type,
 	status,
 	createdBy,
+	sortBy = "ota",
+	sortDir = "ASC",
 }: {
 	token: string;
 	page: string;
@@ -15,9 +22,14 @@ export const fetchWords = async ({
 	type: string;
 	status: string;
 	createdBy: string;
+	sortBy?: string;
+	sortDir?: string;
 }) => {
 	try {
-		let url = `${BASE_URL}/word?search=${encodeURIComponent(search)}&page=${encodeURIComponent(page)}&limit=10&sortBy=ota&sortDir=ASC${status ? `&status=${encodeURIComponent(status)}` : ""}${createdBy ? `&createdBy=${encodeURIComponent(createdBy)}` : ""}`;
+		const safeStatus = VALID_STATUSES.includes(status) ? status : "";
+		const safeSortBy = VALID_SORT_BY.includes(sortBy) ? sortBy : "ota";
+		const safeSortDir = VALID_SORT_DIRS.includes(sortDir) ? sortDir : "ASC";
+		let url = `${BASE_URL}/word?search=${encodeURIComponent(search)}&page=${encodeURIComponent(page)}&limit=${DICTIONARY_LIST_LIMIT}&sortBy=${safeSortBy}&sortDir=${safeSortDir}${safeStatus ? `&status=${encodeURIComponent(safeStatus)}` : ""}${createdBy ? `&createdBy=${encodeURIComponent(createdBy)}` : ""}`;
 
 		if (type === "hasAudio") {
 			url += "&hasAudio=true";
@@ -44,22 +56,30 @@ export const fetchWords = async ({
 		});
 
 		if (!response.ok) {
-			const data = await response.json();
-			throw new Error(data.message ?? "Failed to fetch wors");
+			const data = await response.json().catch(() => null);
+			const message = Array.isArray(data?.message)
+				? data.message.join(", ")
+				: (data?.message ?? "Failed to fetch words");
+			const error = new Error(message) as Error & { status?: number };
+			error.status = response.status;
+			throw error;
 		}
 
 		const { data } = await response.json();
 
-		return data;
+		return { ...data, error: undefined };
 	} catch (error) {
-		const err = error as Error;
+		const err = error as Error & { status?: number };
 		//toast.error(err.message);
 		handleFetchError(err, "/guonopedia/dictionary");
 		return {
 			data: [],
+			error:
+				err.status && err.status !== 401 ? err.message : undefined,
 			pagination: {
 				totalItems: 0,
 				page: 1,
+				limit: DICTIONARY_LIST_LIMIT,
 				totalPages: 1,
 				hasNext: false,
 				hasPrev: false,

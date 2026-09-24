@@ -3,7 +3,7 @@
 import React from "react";
 import { Oho } from "@/features/dictionary/lib";
 import { PenBox } from "lucide-react";
-import { useWizardStep } from "@/features/dictionary/hooks/useWizardStep";
+import { useWizardStep } from "@/features/dictionary/add-word/hooks/useWizardStep";
 import { KeyValueParagraph } from "@/features/shared";
 
 const TranslationList = ({

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAddWordReviewMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { BaseTextArea, Stars } from "@/features/shared";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";

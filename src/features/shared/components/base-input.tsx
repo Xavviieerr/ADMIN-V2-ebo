@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useKeyboard } from "./keyboard-context";
 
 const BaseInput = ({
@@ -17,11 +17,22 @@ const BaseInput = ({
 }) => {
   const valueRef = useRef(value);
   const cursorRef = useRef(0);
+  const pendingCaretRef = useRef<number | null>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
   const { setActiveField } = useKeyboard();
 
   useEffect(() => {
     valueRef.current = value;
+  }, [value]);
+
+  useLayoutEffect(() => {
+    if (pendingCaretRef.current !== null && inputElRef.current) {
+      const pos = pendingCaretRef.current;
+      pendingCaretRef.current = null;
+      inputElRef.current.focus();
+      inputElRef.current.setSelectionRange(pos, pos);
+      cursorRef.current = pos;
+    }
   }, [value]);
 
   return (
@@ -44,9 +55,7 @@ const BaseInput = ({
             setValue: (v) => setValue(v),
             getCursorPos: () => cursorRef.current,
             setCursorPos: (pos) => {
-              inputElRef.current?.focus();
-              inputElRef.current?.setSelectionRange(pos, pos);
-              cursorRef.current = pos;
+              pendingCaretRef.current = pos;
             },
           });
         }}

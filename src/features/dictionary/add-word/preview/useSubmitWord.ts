@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCreateWordMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { useAddWordWizard } from "../contexts/AddWordWizardContext";
 
 export function useSubmitWord() {

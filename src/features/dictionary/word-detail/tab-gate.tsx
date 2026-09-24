@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSingleWordView } from "@/features/dictionary/hooks/useSingleWordView";
+import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSingleWordView";
 
 const TabGate = ({
   condition,

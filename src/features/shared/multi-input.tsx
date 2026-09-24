@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus, X } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useKeyboard } from "./components/keyboard-context";
 
 const MultiInput = ({
@@ -20,11 +20,22 @@ const MultiInput = ({
   const [input, setInput] = useState("");
   const valueRef = useRef(input);
   const cursorRef = useRef(0);
+  const pendingCaretRef = useRef<number | null>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
   const { setActiveField } = useKeyboard();
 
   useEffect(() => {
     valueRef.current = input;
+  }, [input]);
+
+  useLayoutEffect(() => {
+    if (pendingCaretRef.current !== null && inputElRef.current) {
+      const pos = pendingCaretRef.current;
+      pendingCaretRef.current = null;
+      inputElRef.current.focus();
+      inputElRef.current.setSelectionRange(pos, pos);
+      cursorRef.current = pos;
+    }
   }, [input]);
 
   const handleAdd = () => {
@@ -82,16 +93,14 @@ const MultiInput = ({
             }}
             onFocus={(e) => {
               cursorRef.current = e.currentTarget.selectionStart ?? input.length;
-              setActiveField({
-                getValue: () => valueRef.current,
-                setValue: setInput,
-                getCursorPos: () => cursorRef.current,
-                setCursorPos: (pos) => {
-                  inputElRef.current?.focus();
-                  inputElRef.current?.setSelectionRange(pos, pos);
-                  cursorRef.current = pos;
-                },
-              });
+                setActiveField({
+                  getValue: () => valueRef.current,
+                  setValue: setInput,
+                  getCursorPos: () => cursorRef.current,
+                  setCursorPos: (pos) => {
+                    pendingCaretRef.current = pos;
+                  },
+                });
             }}
             onBlur={() => setActiveField(null)}
             className="input"

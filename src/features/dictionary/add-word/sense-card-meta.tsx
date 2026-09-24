@@ -4,7 +4,8 @@ import {
   BaseTextArea,
 } from "@/features/shared";
 import React from "react";
-import { engPos, korPos, SenseData, urhPos } from "@/features/dictionary/lib";
+import { SenseData } from "@/features/dictionary/lib";
+import { getPOS } from "@/helpers";
 
 type SenseCardMetaProps = {
   lang: "urh" | "eng" | "kor";
@@ -16,12 +17,12 @@ type SenseCardMetaProps = {
 const SenseCardMeta = ({ lang, data, setData, ota }: SenseCardMetaProps) => {
   const getPos = () => {
     if (lang === "eng") {
-      return engPos;
+      return getPOS("eng");
     }
     if (lang === "kor") {
-      return korPos;
+      return getPOS("kor");
     }
-    return urhPos;
+    return getPOS("urh");
   };
 
   return (

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { SingleWord } from "@/features/dictionary/lib";
 import { PenBox } from "lucide-react";
-import { useSingleWordView } from "@/features/dictionary/hooks/useSingleWordView";
+import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSingleWordView";
 import PermissionGate from "@/features/shared/permission-gate";
 import { TranslationForm } from "./forms";
 import TranslationCard from "./translation-card";

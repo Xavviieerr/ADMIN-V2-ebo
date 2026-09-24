@@ -5,8 +5,8 @@ import {
   useDeleteSenseAudioMutation,
   useDeleteTranslationAudioMutation,
 } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
-import { ConfirmPopover } from "@/features/dictionary/shared";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
+import { ConfirmPopover } from "@/features/dictionary/word-detail/shared";
 import {
   DeleteSenseAudioPayload,
   DeleteTranslationAudioPayload,

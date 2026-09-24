@@ -1,6 +1,6 @@
 "use client";
 import { ReviewForm } from "../forms";
-import { useSingleWordView } from "@/features/dictionary/hooks/useSingleWordView";
+import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSingleWordView";
 import { useSingleWordReviewContext } from "../contexts/SingleWordReviewContext";
 
 const ReviewListWrapper = ({ children }: { children: React.ReactNode }) => {

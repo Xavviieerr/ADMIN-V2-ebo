@@ -4,7 +4,7 @@ import { Loader, Loader2, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useRejectWordMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import ModalLayout from "@/features/shared/modal-layout";
 import { usePermissions } from "@/hooks/usePermissions";
 

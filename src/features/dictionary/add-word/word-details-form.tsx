@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { validateWordDetails } from "@/features/dictionary/lib/add-word/validate-word";
+import { validateWordDetails } from "@/features/dictionary/add-word/validate-word";
 import { useAddWordWizard } from "./contexts/AddWordWizardContext";
-import { useWizardStep } from "@/features/dictionary/hooks/useWizardStep";
+import { useWizardStep } from "@/features/dictionary/add-word/hooks/useWizardStep";
 import {
   BaseInput,
   BaseTextArea,

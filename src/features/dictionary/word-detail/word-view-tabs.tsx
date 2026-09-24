@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSingleWordView } from "@/features/dictionary/hooks/useSingleWordView";
+import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSingleWordView";
 import { useSingleWordSenseContext } from "./contexts/SingleWordSenseContext";
 import { useSingleWordReviewContext } from "./contexts/SingleWordReviewContext";
 import PermissionGate from "@/features/shared/permission-gate";

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { AddEditSenseForm } from "../forms";
-import { useSingleWordView } from "@/features/dictionary/hooks/useSingleWordView";
+import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSingleWordView";
 import { useSingleWordSenseContext } from "../contexts/SingleWordSenseContext";
 
 const SenseListWrapper = ({

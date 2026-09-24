@@ -1,6 +1,6 @@
-import { formatSenses } from "@/features/dictionary/lib/add-word/format-word-payload";
+import { formatSenses } from "@/features/dictionary/add-word/senses/format-word-payload";
 import { useAddWordWizard } from "../contexts/AddWordWizardContext";
-import { useWizardStep } from "@/features/dictionary/hooks/useWizardStep";
+import { useWizardStep } from "@/features/dictionary/add-word/hooks/useWizardStep";
 
 export function useSensesSubmit() {
   const { data, setData, senses } = useAddWordWizard();

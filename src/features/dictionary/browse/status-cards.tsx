@@ -16,6 +16,7 @@ const DictionaryAnalytics = ({
   const status = searchParams.get("status") ?? "";
   const handleClick = (v: string) => {
     const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.delete("page");
 
     if (v === status) {
       currentParams.delete("status");
@@ -65,22 +66,22 @@ const DictionaryAnalytics = ({
         {[
           {
             label: "Approved",
-            value: data.approved,
+            value: data?.approved ?? 0,
             caption: "Total number of approved words",
           },
           {
             label: "Pending",
-            value: data.pending,
+            value: data?.pending ?? 0,
             caption: "Total number of pending words",
           },
           {
             label: "In-Review",
-            value: data["in-review"],
+            value: data?.["in-review"] ?? 0,
             caption: "Total number of words in review",
           },
           {
             label: "Rejected",
-            value: data.rejected,
+            value: data?.rejected ?? 0,
             caption: "Total number of rejected words",
           },
         ].map((stat) => (

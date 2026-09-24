@@ -2,7 +2,7 @@
 
 import { SingleWord } from "@/features/dictionary/lib";
 import { useEditWordMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { BaseInput, BaseTextArea, ErrorWidget } from "@/features/shared";
 import ModalLayout from "@/features/shared/modal-layout";
 import { Loader2 } from "lucide-react";

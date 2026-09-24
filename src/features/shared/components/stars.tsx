@@ -17,9 +17,13 @@ const Stars = ({
     }
   };
 
+  const safeRating = Number.isFinite(rating)
+    ? Math.max(0, Math.min(5, Math.floor(rating)))
+    : 0;
+
   return (
     <div className="flex items-center gap-1">
-      {Array(rating)
+      {Array(safeRating)
         .fill("")
         .map((_, i) => (
           <Star
@@ -31,11 +35,11 @@ const Stars = ({
           />
         ))}
 
-      {Array(5 - rating)
+      {Array(5 - safeRating)
         .fill("")
         .map((_, i) => (
           <Star
-            onClick={() => handleClick(rating + i + 1)}
+            onClick={() => handleClick(safeRating + i + 1)}
             key={i}
             strokeWidth={1.2}
             size={size}

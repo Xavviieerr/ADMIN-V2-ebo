@@ -1,6 +1,6 @@
 "use client";
 import { Loader, PlayCircle, StopCircle, Trash2, Upload } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import { uploadAudio } from "@/features/shared/api";
@@ -126,11 +126,22 @@ const AudioInput = ({
 
   const valueRef = useRef(input);
   const cursorRef = useRef(0);
+  const pendingCaretRef = useRef<number | null>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
   const { setActiveField } = useKeyboard();
 
   useEffect(() => {
     valueRef.current = input;
+  }, [input]);
+
+  useLayoutEffect(() => {
+    if (pendingCaretRef.current !== null && inputElRef.current) {
+      const pos = pendingCaretRef.current;
+      pendingCaretRef.current = null;
+      inputElRef.current.focus();
+      inputElRef.current.setSelectionRange(pos, pos);
+      cursorRef.current = pos;
+    }
   }, [input]);
 
   return (
@@ -156,9 +167,7 @@ const AudioInput = ({
               setValue,
               getCursorPos: () => cursorRef.current,
               setCursorPos: (pos) => {
-                inputElRef.current?.focus();
-                inputElRef.current?.setSelectionRange(pos, pos);
-                cursorRef.current = pos;
+                pendingCaretRef.current = pos;
               },
             });
           }}

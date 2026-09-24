@@ -10,7 +10,7 @@ import {
   useUpdateTranslationExampleSentenceAudioMutation,
   useUploadAudioMutation,
 } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { useParams, useRouter } from "next/navigation";
 import { validateAudioFile } from "./audio/audioValidation";
 import { saveUploadedAudio } from "./audio/audioSaveStrategies";

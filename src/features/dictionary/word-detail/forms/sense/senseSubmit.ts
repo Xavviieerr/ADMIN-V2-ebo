@@ -1,4 +1,4 @@
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import type { SenseFormInitial } from "./useSenseForm";
 
 type SenseMutationTrigger = (args: {

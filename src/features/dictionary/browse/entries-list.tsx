@@ -23,15 +23,16 @@ const EntriesList = ({ data }: { data: SingleWord[] }) => {
               className="flex items-center justify-between px-5 py-3 text-sm border transition-colors duration-300 input border-gray-txt-50/10 shadow max-md:bg-secondary-bg hover:border-foreground text-white rounded-2xl cursor-pointer"
               href={`/guonopedia/dictionary/${entry.id}`}
             >
-              <div className="flex flex-col max-md:gap-4 gap-2 max-md:w-full">
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-lg leading-none">
-                      {entry.ota.toLowerCase()}
+              <div className="flex flex-col max-md:gap-4 gap-2 max-md:w-full min-w-0">
+                <div className="flex justify-between items-center w-full gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <h3 className="font-medium text-lg leading-none truncate">
+                      {(entry.ota ?? "").toLowerCase()}
                     </h3>
-                    <span className="text-gray-txt-50 text-sm">
-                      {entry.oho.length} sense(s)
-                      {entry.oho.length > 0 && ` | ${entry.oho[0].ekerota}`}
+                    <span className="text-gray-txt-50 text-sm whitespace-nowrap shrink-0">
+                      {(entry.oho ?? []).length} sense(s)
+                      {(entry.oho ?? []).length > 0 &&
+                        ` | ${entry.oho[0].ekerota}`}
                     </span>
                   </div>
 
@@ -41,21 +42,23 @@ const EntriesList = ({ data }: { data: SingleWord[] }) => {
                 </div>
 
                 {/* Mobile Status and Date */}
-                <div className="flex items-center w-full justify-between md:hidden gap-4">
-                  <StatusCard status={entry.status} />
+                <div className="flex items-center w-full justify-between md:hidden gap-2">
+                  <div className="shrink-0">
+                    <StatusCard status={entry.status} />
+                  </div>
 
-                  <p className=" text-white/90 italic">
-                    {entry.createdBy.username}
+                  <p className=" text-white/90 italic truncate min-w-0">
+                    {entry.createdBy?.username ?? ""}
                   </p>
 
-                  <p className="text-gray-txt-50 italic">
+                  <p className="text-gray-txt-50 italic whitespace-nowrap shrink-0">
                     {moment(entry.createdAt).format("DD-MM-yyyy")}
                   </p>
                 </div>
 
                 <div className="flex w-full items-center gap-6 text-sm text-gray-txt-50 max-md:hidden">
                   <p className=" text-white/90">
-                    Created By: {entry.createdBy.username}
+                    Created By: {entry.createdBy?.username ?? ""}
                   </p>
 
                   <span className="text-gray-txt-50 ">

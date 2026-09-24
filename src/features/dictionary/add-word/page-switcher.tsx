@@ -9,8 +9,8 @@ import { useAddWordWizard } from "./contexts/AddWordWizardContext";
 import {
   useWizardStep,
   type WizardStep,
-} from "@/features/dictionary/hooks/useWizardStep";
-import { validateWordDetails } from "@/features/dictionary/lib/add-word/validate-word";
+} from "@/features/dictionary/add-word/hooks/useWizardStep";
+import { validateWordDetails } from "@/features/dictionary/add-word/validate-word";
 
 const PageSwitcher = ({
   dialects,

@@ -1,5 +1,5 @@
 import { getPOS } from "@/helpers";
-import { useSingleWordView } from "@/features/dictionary/hooks/useSingleWordView";
+import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSingleWordView";
 
 export function useTranslationLanguage() {
   const { lang } = useSingleWordView();

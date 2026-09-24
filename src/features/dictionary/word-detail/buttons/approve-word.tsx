@@ -2,11 +2,11 @@
 
 import { SingleWord } from "@/features/dictionary/lib";
 import { useApproveWordMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { CheckCheck, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ConfirmPopover } from "@/features/dictionary/shared";
+import { ConfirmPopover } from "@/features/dictionary/word-detail/shared";
 import { usePermissions } from "@/hooks/usePermissions";
 
 const ApproveWordBtn = ({ data }: { data: SingleWord }) => {

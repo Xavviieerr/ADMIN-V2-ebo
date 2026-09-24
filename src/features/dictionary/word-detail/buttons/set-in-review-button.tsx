@@ -4,7 +4,7 @@ import { SingleWord } from "@/features/dictionary/lib";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSetWordToReviewMutation } from "@/slice/requestSlice";
-import { runDictionaryMutation } from "@/features/dictionary/hooks/runDictionaryMutation";
+import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { Loader2 } from "lucide-react";
 
 const SetInReviewButton = ({ data }: { data: SingleWord }) => {

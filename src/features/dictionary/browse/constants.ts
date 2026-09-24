@@ -1,0 +1,1 @@
+export const DICTIONARY_LIST_LIMIT = 10;

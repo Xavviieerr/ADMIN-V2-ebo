@@ -13,7 +13,7 @@ import { SingleWordSenseProvider } from "./word-detail/contexts/SingleWordSenseC
 import { SingleWordReviewProvider } from "./word-detail/contexts/SingleWordReviewContext";
 import { ArrowLeftCircle, Info } from "lucide-react";
 import { getServerAccessToken } from "@/features/auth/utils/serverTokenStorage";
-import { fetchSingleWord } from "./lib/word-detail/fetch-single-word";
+import { fetchSingleWord } from "./word-detail/fetch-single-word";
 import { SingleWord } from "./lib";
 import Link from "next/link";
 import {

@@ -220,11 +220,51 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     ],
   }),
 
+  addWordReview: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    { id: string; rating: number; review: string }
+  >({
+    query: ({ id, rating, review }) => ({
+      url: `/words/${id}/review`,
+      method: "POST",
+      body: { rating, review },
+    }),
+    invalidatesTags: (result, error, { id }) => [
+      "words",
+      { type: "wordReviews", id },
+    ],
+  }),
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deleteWord: builder.mutation<any, { id: string }>({
     query: ({ id }) => ({
       url: `/word/${id}`,
       method: "DELETE",
+    }),
+    invalidatesTags: ["words"],
+  }),
+
+  editWord: builder.mutation<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    {
+      id: string;
+      ota: string;
+      otaOkpopko: boolean;
+      creationReason: string;
+      erevwe: string;
+    }
+  >({
+    query: ({ id, ota, otaOkpopko, creationReason, erevwe }) => ({
+      url: `/word/${id}`,
+      method: "PATCH",
+      body: {
+        ota,
+        otaOkpopko,
+        creationReason,
+        erevwe,
+      },
     }),
     invalidatesTags: ["words"],
   }),
@@ -275,28 +315,6 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
     invalidatesTags: ["words"],
   }),
 
-  updateSenseOtoAudio: builder.mutation<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-    {
-      wordId: string;
-      senseId: string;
-      senseIndex: number;
-      url: string;
-    }
-  >({
-    query: ({ wordId, senseId, senseIndex, url }) => ({
-      url: `/word/${wordId}/sense-oto-audio`,
-      method: "PATCH",
-      body: {
-        senseId,
-        senseIndex,
-        url,
-      },
-    }),
-    invalidatesTags: ["words"],
-  }),
-
   updateSenseExampleSentenceAudio: builder.mutation<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
@@ -315,36 +333,6 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
         senseId,
         senseIndex,
         exampleSentenceIndex,
-        url,
-      },
-    }),
-    invalidatesTags: ["words"],
-  }),
-
-  updateTranslationOtoAudio: builder.mutation<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-    {
-      wordId: string;
-      translationId: string;
-      translationIndex: number;
-      languageType: string;
-      url: string;
-    }
-  >({
-    query: ({
-      wordId,
-      translationId,
-      translationIndex,
-      languageType,
-      url,
-    }) => ({
-      url: `/word/${wordId}/translation-oto-audio`,
-      method: "PATCH",
-      body: {
-        translationId,
-        translationIndex,
-        languageType,
         url,
       },
     }),
@@ -580,95 +568,6 @@ export const wordEndpoints = (builder: AppEndpointBuilder) => ({
         translationId,
         translationIndex,
         removeUrl,
-        languageType,
-      },
-    }),
-    invalidatesTags: ["words"],
-  }),
-
-  updateTranslationImage: builder.mutation<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-    {
-      wordId: string;
-      translationId: string;
-      translationIndex: number;
-      url: string;
-      imageType: string;
-      languageType: string;
-    }
-  >({
-    query: ({
-      wordId,
-      translationId,
-      translationIndex,
-      url,
-      imageType,
-      languageType,
-    }) => ({
-      url: `/word/${wordId}/translation-image`,
-      method: "PATCH",
-      body: {
-        translationId,
-        translationIndex,
-        url,
-        imageType,
-        languageType,
-      },
-    }),
-    invalidatesTags: ["words"],
-  }),
-
-  deleteTranslationImage: builder.mutation<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-    {
-      wordId: string;
-      translationId: string;
-      translationIndex: number;
-      removeUrl: string;
-      imageType: string;
-      languageType: string;
-    }
-  >({
-    query: ({
-      wordId,
-      translationId,
-      translationIndex,
-      removeUrl,
-      imageType,
-      languageType,
-    }) => ({
-      url: `/word/${wordId}/translation-image`,
-      method: "DELETE",
-      body: {
-        translationId,
-        translationIndex,
-        removeUrl,
-        imageType,
-        languageType,
-      },
-    }),
-    invalidatesTags: ["words"],
-  }),
-
-  approveTranslation: builder.mutation<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-    {
-      wordId: string;
-      translationId: string;
-      translationIndex: number;
-      languageType: string;
-    }
-  >({
-    query: ({ wordId, translationId, translationIndex, languageType }) => ({
-      url: `/word/translation/approve`,
-      method: "POST",
-      body: {
-        wordId,
-        translationId,
-        translationIndex,
         languageType,
       },
     }),

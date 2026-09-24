@@ -114,7 +114,7 @@ export const PaginationWidget = ({
         )}
 
         {currentPage != totalPages ? (
-          <Link href={`?page=${currentPage + 1}`}>
+          <Link href={buildLink(currentPage + 1)}>
             <ChevronRight />
           </Link>
         ) : (

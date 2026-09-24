@@ -283,3 +283,23 @@ export type WordPagination = {
     "in-review": number;
   };
 };
+
+export type DeleteSenseImagePayload = {
+  senseId: string;
+  senseIndex: number;
+  url: string;
+  imageType: string;
+};
+
+export type DeleteSenseAudioPayload = {
+  senseId: string;
+  senseIndex: number;
+  url: string;
+};
+
+export type DeleteTranslationAudioPayload = {
+  translationId: string;
+  translationIndex: number;
+  languageType: string;
+  removeUrl: string;
+};

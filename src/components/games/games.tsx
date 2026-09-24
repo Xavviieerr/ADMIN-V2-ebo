@@ -22,7 +22,7 @@ import {
   ArrowLeft,
   Download
 } from 'lucide-react'
-import UploadModal from '../dictionary/UploadModal'
+import UploadModal from './UploadModal'
 import { toast } from 'sonner'
 
 interface GameOption {

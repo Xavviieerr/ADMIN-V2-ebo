@@ -10,12 +10,14 @@ const MultiInput = ({
   removeValue,
   label,
   placeholder,
+  selectedLabel,
 }: {
   values: string[];
   addValue: (v: string) => void;
   removeValue: (v: string) => void;
   label?: string;
   placeholder: string;
+  selectedLabel?: string;
 }) => {
   const [input, setInput] = useState("");
   const valueRef = useRef(input);
@@ -53,7 +55,13 @@ const MultiInput = ({
   return (
     <div className="flex flex-col gap-4">
       {values.length > 0 && (
-        <div className="flex max-w-full overflow-x-scroll custom-scrollbar items-center gap-3 text-sm">
+        <>
+          {selectedLabel && (
+            <p className="text-sm font-medium text-gray-txt-50">
+              {selectedLabel}:
+            </p>
+          )}
+          <div className="flex max-w-full overflow-x-scroll custom-scrollbar items-center gap-3 text-sm">
           {values.map((item, index) => (
             <div
               key={item + index}
@@ -68,7 +76,8 @@ const MultiInput = ({
               />
             </div>
           ))}
-        </div>
+          </div>
+        </>
       )}
 
       <div className="flex flex-col gap-2">

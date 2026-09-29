@@ -14,6 +14,7 @@ export async function submitSenseForm({
   updateSense,
   onClose,
   router,
+  t,
 }: {
   type: "add" | "edit";
   id: string;
@@ -22,12 +23,13 @@ export async function submitSenseForm({
   updateSense: SenseMutationTrigger;
   onClose: () => void;
   router: { refresh: () => void };
+  t: (key: string, fallback: string) => string;
 }) {
   if (type == "edit") {
     await runDictionaryMutation({
       run: () => updateSense({ wordId: id, senseData: form }).unwrap(),
-      successMessage: "Word sense edited successfully!",
-      errorMessage: "Failed to edit word sense",
+      successMessage: t("common.dictionary.senseEdited", "Word sense edited successfully!"),
+      errorMessage: t("common.dictionary.failedToEditSense", "Failed to edit word sense"),
       onSuccess: () => {
         onClose();
         router.refresh();
@@ -38,8 +40,8 @@ export async function submitSenseForm({
 
   await runDictionaryMutation({
     run: () => createSense({ wordId: id, senseData: form }).unwrap(),
-    successMessage: "Word translation added successfully!",
-    errorMessage: "Failed to add word sense",
+    successMessage: t("common.dictionary.translationAdded", "Word translation added successfully!"),
+    errorMessage: t("common.dictionary.failedToAddSense", "Failed to add word sense"),
     onSuccess: () => {
       onClose();
       router.refresh();

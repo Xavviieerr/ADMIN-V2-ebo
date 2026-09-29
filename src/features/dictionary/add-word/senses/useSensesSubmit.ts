@@ -1,4 +1,4 @@
-import { formatSenses } from "@/features/dictionary/add-word/senses/format-word-payload";
+import { formatSenses } from "@/features/dictionary/add-word/senses/format-senses";
 import { useAddWordWizard } from "../contexts/AddWordWizardContext";
 import { useWizardStep } from "@/features/dictionary/add-word/hooks/useWizardStep";
 

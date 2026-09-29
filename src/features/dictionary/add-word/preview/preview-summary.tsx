@@ -1,7 +1,11 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { StopCircle, Volume2 } from "lucide-react";
 import { PayloadData } from "@/features/dictionary/lib";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const PreviewSummary = ({
   data,
@@ -12,6 +16,8 @@ const PreviewSummary = ({
   playing: boolean;
   onPlay: () => void;
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   return (
     <div className="flex flex-col md:px-8 px-0 md:py-6 md:bg-gray-txt-100 md:my-5 max-md:mb-5 rounded-md w-full">
       <div className="flex flex-col dark-box max-md:px-3 gap-2">
@@ -28,16 +34,16 @@ const PreviewSummary = ({
             </div>
 
             <div className="flex items-center gap-4 flex-wrap">
-              <p className="text-gray-txt-50">{data.oho.length} Sense(s)</p>
+              <p className="text-gray-txt-50">{data.oho.length} {t("common.dictionary.senseCount", "Sense")}</p>
               <span className="">
-                Dialect:{" "}
+                {t("common.dictionary.dialectLabel", "Dialect")}:{" "}
                 <span className="text-gray-txt-50 capitalize">
                   {data.erevwe}
                 </span>
               </span>
               {data.otaOkpopko && (
                 <p>
-                  Creation Reason:{" "}
+                  {t("common.dictionary.creationReasonTitle", "Creation Reason")}:{" "}
                   <span className="text-gray-txt-50">
                     {data.creationReason}
                   </span>
@@ -50,7 +56,7 @@ const PreviewSummary = ({
             <div className="md:w-28 md:h-24 w-full h-40 shrink-0 rounded-md relative">
               <Image
                 src={data.image}
-                alt="word image"
+                alt={t("common.dictionary.wordImage", "word image")}
                 fill
                 className="object-cover rounded-md"
               />

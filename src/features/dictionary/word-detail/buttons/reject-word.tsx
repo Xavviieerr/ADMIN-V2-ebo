@@ -7,8 +7,12 @@ import { useRejectWordMutation } from "@/slice/requestSlice";
 import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import ModalLayout from "@/features/shared/modal-layout";
 import { usePermissions } from "@/hooks/usePermissions";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const RejectWordBtn = ({ data }: { data: SingleWord }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const [rejectWord, { isLoading: loading }] = useRejectWordMutation();
   const [show, setShow] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
@@ -23,8 +27,8 @@ const RejectWordBtn = ({ data }: { data: SingleWord }) => {
   const handleSubmit = () => {
     runDictionaryMutation({
       run: () => rejectWord({ id: data.id, reason: rejectionReason }).unwrap(),
-      successMessage: "Word rejected successfully!",
-      errorMessage: "Failed to reject word",
+      successMessage: t("common.dictionary.wordRejected", "Word rejected successfully!"),
+      errorMessage: t("common.dictionary.failedToRejectWord", "Failed to reject word"),
       onSuccess: () => {
         setShow(false);
         router.refresh();
@@ -42,24 +46,28 @@ const RejectWordBtn = ({ data }: { data: SingleWord }) => {
         className="flex items-center gap-2 primary-btn bg-white text-base-red text-sm"
       >
         {loading ? <Loader2 className="animate-spin" /> : <XCircle />}
-        <span>Reject</span>
+        <span>{t("common.dictionary.reject", "Reject")}</span>
       </button>
 
       {show && (
         <ModalLayout size="2xl">
           <div className="flex flex-col items-center w-full">
-            <h1 className="font-semibold md:text-2xl text-xl">Reject Word</h1>
+            <h1 className="font-semibold md:text-2xl text-xl">{t("common.dictionary.rejectWord", "Reject Word")}</h1>
             <p className="font-medium mt-3 text-center max-md:text-sm">
-              Are you sure you want to reject this word?
+              {t("common.dictionary.confirmRejectWord", "Are you sure you want to reject this word?")}
             </p>
 
-            <div className="mt-5 w-full">
+            <div className="mt-5 w-full flex flex-col gap-2">
+              <label htmlFor="reject-reason" className="text-sm text-left w-full">
+                {t("common.dictionary.rejectReasonLabel", "Reason for rejection")}
+              </label>
               <textarea
+                id="reject-reason"
                 rows={4}
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
                 className="input resize-none w-full"
-                placeholder="Enter reason for rejecting word"
+                placeholder={t("common.dictionary.rejectReasonPlaceholder", "Enter reason for rejecting word")}
               ></textarea>
             </div>
 
@@ -68,14 +76,14 @@ const RejectWordBtn = ({ data }: { data: SingleWord }) => {
                 onClick={() => setShow(false)}
                 className="secondary-btn w-full"
               >
-                Cancel
+                {t("common.cancel", "Cancel")}
               </button>
               <button
                 onClick={handleSubmit}
                 className="primary-btn bg-base-red hover:bg-red-700 text-white w-full flex justify-center"
                 disabled={loading}
               >
-                {loading ? <Loader className="animate-spin" /> : "Reject"}
+                {loading ? <Loader className="animate-spin" /> : t("common.dictionary.reject", "Reject")}
               </button>
             </div>
           </div>

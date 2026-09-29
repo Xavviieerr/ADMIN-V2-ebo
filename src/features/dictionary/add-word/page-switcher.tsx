@@ -10,7 +10,7 @@ import {
   useWizardStep,
   type WizardStep,
 } from "@/features/dictionary/add-word/hooks/useWizardStep";
-import { validateWordDetails } from "@/features/dictionary/add-word/validate-word";
+import { validateWordDetails } from "@/features/dictionary/add-word/lib/validate-word";
 
 const PageSwitcher = ({
   dialects,

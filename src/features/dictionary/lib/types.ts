@@ -5,6 +5,7 @@ export type PayloadData = {
   creationReason: string;
   erevwe: string;
   image: string;
+  audio: string;
   oho: Oho[];
 };
 
@@ -17,6 +18,7 @@ export type Senses = {
 export type SenseData = {
   headWord: string;
   audioUrl: string;
+  imageUrl: string;
   partOfSpeech: string;
   meaning: string;
   pronunciation: string;
@@ -37,7 +39,6 @@ export type Oho = {
   ekerota: string[];
   upho: string;
   oto: string;
-  otoOmra: string;
   idje: {
     sentence: string;
     audioUrl: string;
@@ -57,11 +58,10 @@ export type Oho = {
   ekaeruo: string[];
   odeUfue: string[];
   translations: {
-    eng: {
+    eng?: {
       ota: string;
       ekerota: string[];
       oto: string;
-      otoOmra: string;
       idje: {
         sentence: string;
         audioUrl: string;
@@ -86,7 +86,6 @@ export type Oho = {
       ota: string;
       ekerota: string[];
       oto: string;
-      otoOmra: string;
       idje: {
         sentence: string;
         audioUrl: string;

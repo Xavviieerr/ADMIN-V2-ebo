@@ -3,11 +3,20 @@
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePermissions } from "@/hooks/usePermissions";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { getAllWordsTab } from "@/features/dictionary/browse/get-browse-tab";
+
+const tabs = [
+  { value: "all", key: "common.dictionary.all", fallback: "All" },
+  { value: "mine", key: "common.dictionary.mine", fallback: "Mine" },
+];
 
 const Tabs = () => {
 	const searchParams = useSearchParams();
 	const router = useRouter();
+	const { locale } = useLocale();
+	const { t } = useTranslation(locale);
 	const { currentUser } = usePermissions();
 	const id = currentUser?.id ?? "";
 	const tab = getAllWordsTab({
@@ -31,13 +40,13 @@ const Tabs = () => {
 	return (
 		<div className="flex shrink-0 md:w-fit w-full max-w-[95vw] max-md:overflow-x-scroll no-scrollbar">
 			<div className="flex items-center border-b border-gray-txt-50 w-fit">
-				{["all", "mine"].map((item, i) => (
+				{tabs.map((item) => (
 					<button
-						key={i}
-						onClick={() => handleClick(item)}
-						className={`px-10 ${tab === item ? "border-b-2 border-foreground-50" : ""} pb-2 cursor-pointer`}
+						key={item.value}
+						onClick={() => handleClick(item.value)}
+						className={`px-10 ${tab === item.value ? "border-b-2 border-foreground-50" : ""} pb-2 cursor-pointer`}
 					>
-						<p className="capitalize">{item}</p>
+						<p className="capitalize">{t(item.key, item.fallback)}</p>
 					</button>
 				))}
 			</div>

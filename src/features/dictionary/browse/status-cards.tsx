@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { WordPagination } from "../lib";
 import { useSearchParams } from "next/navigation";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const DictionaryAnalytics = ({
   data,
@@ -13,6 +15,8 @@ const DictionaryAnalytics = ({
   data: WordPagination["statusCounts"];
 }) => {
   const searchParams = useSearchParams();
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const status = searchParams.get("status") ?? "";
   const handleClick = (v: string) => {
     const currentParams = new URLSearchParams(searchParams.toString());
@@ -42,10 +46,13 @@ const DictionaryAnalytics = ({
       <div className="flex items-center justify-between w-full gap-4 ">
         <div className="flex flex-col gap-2 text-base">
           <h1 className="text-2xl font-semibold">
-            <LocaleWrapper item="common.entriesOverview" />
+            <LocaleWrapper item="common.entriesOverview" fallback="Entries overview" />
           </h1>
           <p className="text-sm text-gray-500">
-            Manage dictionary entries on the platform.
+            {t(
+              "common.dictionary.manageEntries",
+              "Manage dictionary entries on the platform.",
+            )}
           </p>
         </div>
 
@@ -56,7 +63,7 @@ const DictionaryAnalytics = ({
           >
             <Plus />
             <p className="max-md:hidden">
-              <LocaleWrapper item="common.addWord" />
+              <LocaleWrapper item="common.addWord" fallback="Add Word" />
             </p>
           </Link>
         </PermissionGate>
@@ -65,37 +72,49 @@ const DictionaryAnalytics = ({
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         {[
           {
-            label: "Approved",
+            statusValue: "approved",
+            labelKey: "common.dictionary.approved",
+            labelFallback: "Approved",
             value: data?.approved ?? 0,
-            caption: "Total number of approved words",
+            captionKey: "common.dictionary.totalApproved",
+            captionFallback: "Total number of approved words",
           },
           {
-            label: "Pending",
+            statusValue: "pending",
+            labelKey: "common.dictionary.pending",
+            labelFallback: "Pending",
             value: data?.pending ?? 0,
-            caption: "Total number of pending words",
+            captionKey: "common.dictionary.totalPending",
+            captionFallback: "Total number of pending words",
           },
           {
-            label: "In-Review",
+            statusValue: "in-review",
+            labelKey: "common.dictionary.inReview",
+            labelFallback: "In-Review",
             value: data?.["in-review"] ?? 0,
-            caption: "Total number of words in review",
+            captionKey: "common.dictionary.totalInReview",
+            captionFallback: "Total number of words in review",
           },
           {
-            label: "Rejected",
+            statusValue: "rejected",
+            labelKey: "common.dictionary.rejected",
+            labelFallback: "Rejected",
             value: data?.rejected ?? 0,
-            caption: "Total number of rejected words",
+            captionKey: "common.dictionary.totalRejected",
+            captionFallback: "Total number of rejected words",
           },
         ].map((stat) => (
           <Link
-            href={`${handleClick(stat.label.toLowerCase())}`}
-            key={stat.label}
+            href={`${handleClick(stat.statusValue)}`}
+            key={stat.statusValue}
             className={`w-full md:gap-5 gap-3 rounded-md md:p-5 p-3 bg-secondary-bg flex flex-col justify-between shadow ${
-              status === stat.label.toLowerCase()
+              status === stat.statusValue
                 ? "ring-1 ring-foreground-50 "
                 : "hover:border border-gray-txt-50"
             } transition-colors duration-300 ease-in`}
           >
             <span className="text-gray-txt-50 max-md:text-sm">
-              {stat.label}
+              {t(stat.labelKey, stat.labelFallback)}
             </span>
 
             <div className="flex justify-between gap-2">
@@ -105,7 +124,7 @@ const DictionaryAnalytics = ({
             </div>
 
             <span className="text-xs text-gray-txt-50 max-md:hidden">
-              {stat.caption}
+              {t(stat.captionKey, stat.captionFallback)}
             </span>
           </Link>
         ))}

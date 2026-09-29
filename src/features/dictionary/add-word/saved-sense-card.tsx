@@ -1,15 +1,13 @@
 "use client";
 
-import { SenseData } from "@/features/dictionary/lib";
+import { Senses } from "@/features/dictionary/lib";
 import React, { useRef, useState } from "react";
 import { ChevronDown, StopCircle, Volume2 } from "lucide-react";
 import { playAudio } from "@/helpers";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
-type Sense = {
-  urhData: SenseData;
-  engData: SenseData;
-  korData: SenseData;
-};
+
 
 const SenseDetails = ({
   ota,
@@ -17,11 +15,13 @@ const SenseDetails = ({
   editSense,
 }: {
   ota: string;
-  sense: Sense;
-  editSense: (sense: Sense) => void;
+  sense: Senses;
+  editSense: (sense: Senses) => void;
 }) => {
   const [lang, setLang] = useState<"urh" | "eng" | "kor">("urh");
   const [collapsed, setCollapsed] = useState(true);
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
 
   const [playing, setPlaying] = useState(false);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
@@ -65,11 +65,11 @@ const SenseDetails = ({
               )}
             </div>
 
-            <div className="flex gap-3 font-normal">
+            <div className="flex flex-wrap gap-3 font-normal">
               <span>[{currentSense.pronunciation}]</span>
               <span>/{currentSense.IPA}/</span>
 
-              <span>Part of Speech: {currentSense.partOfSpeech}</span>
+              <span>{t("common.dictionary.partOfSpeech", "Part of Speech")}: {currentSense.partOfSpeech}</span>
             </div>
           </div>
 
@@ -80,27 +80,27 @@ const SenseDetails = ({
           >
             {currentSense.plurals.length > 0 && (
               <div className="flex items-center gap-2">
-                <span>Plurals:</span>
+                <span>{t("common.dictionary.plurals", "Plurals")}:</span>
                 {currentSense.plurals.join(", ")}
               </div>
             )}
             {currentSense.synonyms.length > 0 && (
               <div className="flex items-center gap-2">
-                <span>Synonyms:</span>
+                <span>{t("common.dictionary.synonyms", "Synonyms")}:</span>
                 {currentSense.synonyms.map((item) => item.ota).join(", ")}
               </div>
             )}
 
             {currentSense.antonyms.length > 0 && (
               <div className="flex items-center gap-2">
-                <span>Antonyms:</span>
+                <span>{t("common.dictionary.antonyms", "Antonyms")}:</span>
                 {currentSense.antonyms.join(", ")}
               </div>
             )}
 
             {currentSense.relatedWords.length > 0 && (
               <div className="flex items-center gap-2">
-                <span>Related Words:</span>
+                <span>{t("common.dictionary.relatedWords", "Related Words")}:</span>
                 {currentSense.relatedWords.join(", ")}
               </div>
             )}
@@ -118,10 +118,15 @@ const SenseDetails = ({
       )}
 
       <div className="flex max-md:w-full max-md:items-end items-center gap-6 ">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="saved-sense-lang" className="text-sm">
+            {t("common.dictionary.viewLanguage", "View language")}
+          </label>
         <select
           value={lang}
           onChange={(e) => setLang(e.target.value as "urh" | "eng" | "kor")}
-          id="dialect"
+          id="saved-sense-lang"
+          aria-label={t("common.dictionary.viewLanguage", "View language")}
           className="input h-10 text-sm capitalize bg-secondary-bg"
         >
           {["urh", "eng", "kor"].map((lang) => (
@@ -134,12 +139,13 @@ const SenseDetails = ({
             </option>
           ))}
         </select>
+        </div>
 
         <button
           onClick={() => editSense(sense)}
           className="secondary-btn py-2 text-sm w-fit shrink-0"
         >
-          Edit
+          {t("common.edit", "Edit")}
         </button>
       </div>
     </div>

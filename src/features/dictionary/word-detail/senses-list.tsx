@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { SingleWord } from "@/features/dictionary/lib";
 import { KeyValueParagraph } from "@/features/shared";
@@ -6,8 +8,12 @@ import AudioUploader from "./audio-uploader";
 import SenseImageManager from "./sense-image-manager";
 import { DeleteSenseButton, EditSenseButton } from "./buttons";
 import PermissionGate from "@/features/shared/permission-gate";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const SensesList = ({ senses }: { senses: SingleWord["oho"] }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   return senses.map((sense, senseIndex) => (
     <div
       key={senseIndex}
@@ -18,47 +24,47 @@ const SensesList = ({ senses }: { senses: SingleWord["oho"] }) => {
           <p>{sense.kere}</p>
         </div> */}
         <div className="flex max-md:flex-col w-full items-start gap-4 justify-between mt-5">
-          <div className="w-full flex flex-col gap-3 ">
-            <KeyValueParagraph item="Pronunciation" value={sense.upho} />
-            <KeyValueParagraph item="IPA" value={`/ ${sense.uphoesio} /`} />
+          <div className="w-full md:w-1/2 flex flex-col gap-3 min-w-0">
+            <KeyValueParagraph item={t("common.dictionary.pronunciation", "Pronunciation")} value={sense.upho} />
+            <KeyValueParagraph item={t("common.dictionary.ipa", "IPA")} value={`/ ${sense.uphoesio} /`} />
 
             <KeyValueParagraph
-              item="Part of Speech"
+              item={t("common.dictionary.partOfSpeech", "Part of Speech")}
               value={sense.ekerota?.join(", ")}
             />
 
             {sense.ibuebu?.length > 0 && (
               <KeyValueParagraph
-                item="Plurals"
+                item={t("common.dictionary.plurals", "Plurals")}
                 value={sense.ibuebu.join(", ")}
               />
             )}
 
             {sense.okpo?.length > 0 && (
               <KeyValueParagraph
-                item="Synonyms"
+                item={t("common.dictionary.synonyms", "Synonyms")}
                 value={sense.okpo.map((s) => s.ota).join(", ")}
               />
             )}
 
             {sense.orhan?.length > 0 && (
               <KeyValueParagraph
-                item="Antonyms"
+                item={t("common.dictionary.antonyms", "Antonyms")}
                 value={sense.orhan.join(", ")}
               />
             )}
 
             {sense.ekaeruo?.length > 0 && (
               <KeyValueParagraph
-                item="Related Words"
+                item={t("common.dictionary.relatedWords", "Related Words")}
                 value={sense.ekaeruo.join(", ")}
               />
             )}
-            <KeyValueParagraph item="Meaning" value={sense.oto} col />
+            <KeyValueParagraph item={t("common.dictionary.meaning", "Meaning")} value={sense.oto} col />
           </div>
 
-          <div className="flex flex-col max-md:border-t max-md:pt-5 md:border-l md:pl-5  border-gray-txt-50/50 w-full gap-3 max-md:text-sm">
-            <p>Examples</p>
+          <div className="flex flex-col max-md:border-t max-md:pt-5 md:border-l md:pl-5  border-gray-txt-50/50 w-full md:w-1/2 min-w-0 gap-3 max-md:text-sm">
+            <p>{t("common.dictionary.examples", "Examples")}</p>
             <div className="text-gray-txt-50 ml-4 italic flex flex-col gap-2">
               {(sense.idje ?? []).map((ex, i) => (
                 <div
@@ -79,7 +85,7 @@ const SensesList = ({ senses }: { senses: SingleWord["oho"] }) => {
                       payload={{
                         exampleSentenceIndex: i + 1,
                         senseId: sense.id,
-                        senseIndex: senseIndex + 1,
+                        senseIndex: sense.kere,
                       }}
                     />
                   </div>
@@ -94,20 +100,20 @@ const SensesList = ({ senses }: { senses: SingleWord["oho"] }) => {
             <div className="flex items-center gap-2 border-b md:w-fit pb-2 border-gray-txt-50/50 w-full justify-end">
               <EditSenseButton
                 sense={sense}
-                index={senseIndex + 1}
+                index={sense.kere}
               />
 
               <DeleteSenseButton
                 payload={{
                   senseId: sense.id,
-                  senseIndex: senseIndex + 1,
+                  senseIndex: sense.kere,
                 }}
                 size={28}
               />
             </div>
           </PermissionGate>
 
-          <SenseImageManager oho={sense} />
+          <SenseImageManager oho={sense} senseIndex={sense.kere} />
         </div>
       </div>
     </div>

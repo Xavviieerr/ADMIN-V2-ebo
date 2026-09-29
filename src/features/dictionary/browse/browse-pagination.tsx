@@ -3,7 +3,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 function getPageNumbers(
   currentPage: number,
@@ -58,7 +59,6 @@ const BrowsePagination = ({
 }) => {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   if (totalPages <= 1) return null;
@@ -67,10 +67,6 @@ const BrowsePagination = ({
     const currentParams = new URLSearchParams(searchParams.toString());
     currentParams.set("page", page.toString());
     return `/guonopedia/dictionary?${currentParams.toString()}`;
-  };
-
-  const goToPage = (page: number) => {
-    router.replace(buildLink(page));
   };
 
   const pages = getPageNumbers(currentPage, totalPages);
@@ -98,43 +94,65 @@ const BrowsePagination = ({
       )}
 
       <div className="flex items-center justify-center gap-1 font-bold text-plain-gray-800 flex-wrap max-w-full overflow-x-auto no-scrollbar">
-        <button
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage <= 1}
-          aria-label={t("common.previousPage", "Previous page")}
-          className="p-1 rounded hover:bg-white/10 disabled:opacity-40 disabled:cursor-default transition-colors"
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </button>
+        {currentPage <= 1 ? (
+          <span
+            aria-label={t("common.previousPage", "Previous page")}
+            aria-disabled="true"
+            className="p-1 rounded opacity-40 cursor-default transition-colors"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </span>
+        ) : (
+          <Link
+            href={buildLink(currentPage - 1)}
+            aria-label={t("common.previousPage", "Previous page")}
+            className="p-1 rounded hover:bg-white/10 transition-colors"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Link>
+        )}
 
         {pages.map((page, i) =>
           typeof page === "string" ? (
             <span key={`ellipsis-${i}`} className="px-1 text-gray-500">
               ...
             </span>
-          ) : (
-            <button
+          ) : page === currentPage ? (
+            <span
               key={page}
-              onClick={() => goToPage(page)}
-              className={`w-8 h-8 rounded flex items-center justify-center text-sm transition-colors ${
-                page === currentPage
-                  ? "bg-foreground-50 text-base-bg"
-                  : "hover:bg-white/10 text-gray-300"
-              }`}
+              aria-current="page"
+              className="w-8 h-8 rounded flex items-center justify-center text-sm transition-colors bg-foreground-50 text-base-bg"
             >
               {page}
-            </button>
+            </span>
+          ) : (
+            <Link
+              key={page}
+              href={buildLink(page)}
+              className="w-8 h-8 rounded flex items-center justify-center text-sm transition-colors hover:bg-white/10 text-gray-300"
+            >
+              {page}
+            </Link>
           ),
         )}
 
-        <button
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage >= totalPages}
-          aria-label={t("common.nextPage", "Next page")}
-          className="p-1 rounded hover:bg-white/10 disabled:opacity-40 disabled:cursor-default transition-colors"
-        >
-          <ChevronRight className="h-5 w-5" />
-        </button>
+        {currentPage >= totalPages ? (
+          <span
+            aria-label={t("common.nextPage", "Next page")}
+            aria-disabled="true"
+            className="p-1 rounded opacity-40 cursor-default transition-colors"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </span>
+        ) : (
+          <Link
+            href={buildLink(currentPage + 1)}
+            aria-label={t("common.nextPage", "Next page")}
+            className="p-1 rounded hover:bg-white/10 transition-colors"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Link>
+        )}
       </div>
     </div>
   );

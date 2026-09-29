@@ -1,8 +1,12 @@
 import { getPOS } from "@/helpers";
 import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSingleWordView";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function useTranslationLanguage() {
   const { lang } = useSingleWordView();
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
 
   const formatLang = () => {
     const lowLang = lang.toLowerCase();
@@ -17,7 +21,11 @@ export function useTranslationLanguage() {
   return {
     lang,
     pos,
-    title: isKorean ? "Korean Translation" : "English Translation",
-    examplesTitle: isKorean ? "Korean Examples" : "English Examples",
+    title: isKorean
+      ? t("common.dictionary.koreanTranslation", "Korean Translation")
+      : t("common.dictionary.englishTranslation", "English Translation"),
+    examplesTitle: isKorean
+      ? t("common.dictionary.koreanExamples", "Korean Examples")
+      : t("common.dictionary.englishExamples", "English Examples"),
   };
 }

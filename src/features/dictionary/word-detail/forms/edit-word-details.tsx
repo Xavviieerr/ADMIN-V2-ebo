@@ -8,6 +8,8 @@ import ModalLayout from "@/features/shared/modal-layout";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const EditWordDetails = ({
   word,
@@ -27,6 +29,8 @@ const EditWordDetails = ({
   const [loading, setLoading] = useState(false);
   const [editWord] = useEditWordMutation();
   const router = useRouter();
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
 
   const [error, setError] = useState("");
 
@@ -42,25 +46,25 @@ const EditWordDetails = ({
           creationReason: data.creationReason,
           erevwe: data.erevwe,
         }).unwrap(),
-      successMessage: "Word updated successfully!",
-      errorMessage: "Failed to update word details",
+      successMessage: t("common.dictionary.wordUpdated", "Word updated successfully!"),
+      errorMessage: t("common.dictionary.failedToUpdateWord", "Failed to update word details"),
       onSuccess: () => {
         onClose();
         router.refresh();
       },
     });
     if (!ok) {
-      setError("Failed to update word details. Please try again.");
+      setError(t("common.dictionary.updateFailed", "Failed to update word details. Please try again."));
     }
     setLoading(false);
   };
 
   return (
-    <ModalLayout size="3xl">
+    <ModalLayout size="xl">
       <div className="flex flex-col w-full">
         <div className="flex items-center justify-between gap-4">
           <h2 className="text-white font-medium text-base">
-            Edit Word Details
+            {t("common.dictionary.editWordDetails", "Edit Word Details")}
           </h2>
         </div>
 
@@ -70,31 +74,40 @@ const EditWordDetails = ({
           <div className="flex max-md:flex-col md:items-start gap-10">
             <div className="grid md:grid-cols-2 grid-cols-1 w-full mt-5 gap-4">
               <BaseInput
-                placeholder="Enter the Urhobo Word"
+                label={t("common.dictionary.urhoboWordLabel", "Urhobo word")}
+                placeholder={t("common.dictionary.enterUrhoboWord", "Enter the Urhobo Word")}
                 value={data.ota}
                 setValue={(value) => setData({ ...data, ota: value as string })}
               />
 
-              <select
-                value={data.erevwe}
-                onChange={(e) => setData({ ...data, erevwe: e.target.value })}
-                id="dialect"
-                className="input h-12 capitalize"
-              >
-                {dialects.map((dialect) => (
-                  <option
-                    key={dialect.id}
-                    value={dialect.name}
-                    className="text-white bg-secondary-bg capitalize"
-                  >
-                    {dialect.name}
-                  </option>
-                ))}
-              </select>
+              <div className="flex flex-col gap-2 w-full flex-1">
+                <label htmlFor="edit-word-dialect" className="text-sm">
+                  {t("common.dictionary.dialectLabel", "Dialect")}
+                </label>
+                <select
+                  value={data.erevwe}
+                  onChange={(e) =>
+                    setData({ ...data, erevwe: e.target.value })
+                  }
+                  id="edit-word-dialect"
+                  className="input h-12 capitalize"
+                >
+                  {dialects.map((dialect) => (
+                    <option
+                      key={dialect.id}
+                      value={dialect.name}
+                      className="text-white bg-secondary-bg capitalize"
+                    >
+                      {dialect.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               {data.otaOkpopko && (
                 <BaseTextArea
-                  placeholder="Enter the explanation for this new word"
+                  label={t("common.dictionary.reasonNewWord", "Reason for new word")}
+                  placeholder={t("common.dictionary.enterExplanation", "Enter the explanation for this new word")}
                   value={data.creationReason}
                   setValue={(value) =>
                     setData({ ...data, creationReason: value })
@@ -105,7 +118,7 @@ const EditWordDetails = ({
 
               <div className="flex items-center gap-6 md:justify-self-start">
                 <label htmlFor="newlyCoined" className="text-sm">
-                  Is this a newly coined word?
+                  {t("common.dictionary.newlyCoined", "Is this a newly coined word?")}
                 </label>
 
                 <input
@@ -126,21 +139,21 @@ const EditWordDetails = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-4 mt-5 justify-center">
+          <div className="flex flex-wrap items-center gap-4 mt-5 justify-center">
             <button
               disabled={loading}
               onClick={onClose}
               className="secondary-btn"
             >
-              Cancel
+              {t("common.cancel", "Cancel")}
             </button>
 
             <button
               disabled={loading}
               onClick={handleSubmit}
-              className="primary-btn px-16"
+              className="primary-btn px-8 md:px-16"
             >
-              {loading ? <Loader2 className="animate-spin" /> : "Continue"}
+              {loading ? <Loader2 className="animate-spin" /> : t("common.submit", "Submit")}
             </button>
           </div>
         </div>

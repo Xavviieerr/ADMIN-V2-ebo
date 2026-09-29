@@ -20,7 +20,7 @@ const SensesSection = ({
 }) => {
   return (
     <div className="flex flex-col md:px-8 px-2 md:py-6 py-2 bg-gray-txt-100 md:my-5 max-md:mb-5 md:rounded-md w-full relative">
-      <div className="flex max-md:flex-col max-md:gap-6 max-w-full overflow-x-scroll gap-4 md:mt-6">
+      <div className="flex max-md:flex-col max-md:gap-6 max-w-full overflow-x-scroll custom-scrollbar gap-4 md:mt-6">
         <SenseCard data={urhData} setData={setUrhData} />
         <SenseCard
           data={engData}

@@ -10,11 +10,11 @@ import { BaseInput } from "@/features/shared";
 import { useDebounce } from "@/hooks/use-debounce";
 
 const filters = [
-  { label: "All", value: "all" },
-  { label: "Has Audio", value: "hasAudio" },
-  { label: "No Audio", value: "noAudio" },
-  { label: "Has Image", value: "hasImage" },
-  { label: "No Image", value: "noImage" },
+  { key: "common.dictionary.all", fallback: "All", value: "all" },
+  { key: "common.dictionary.hasAudio", fallback: "Has Audio", value: "hasAudio" },
+  { key: "common.dictionary.noAudio", fallback: "No Audio", value: "noAudio" },
+  { key: "common.dictionary.hasImage", fallback: "Has Image", value: "hasImage" },
+  { key: "common.dictionary.noImage", fallback: "No Image", value: "noImage" },
 ];
 
 const WordsFilter = ({ filter }: { filter: string }) => {
@@ -34,6 +34,7 @@ const WordsFilter = ({ filter }: { filter: string }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   // const [showKeyboard, setShowKeyboard] = useState(false);
   const debouncedValue = useDebounce(query, 300);
+  const firstRun = useRef(true);
 
   useEffect(() => {
     if (!showOptions) return;
@@ -66,8 +67,14 @@ const WordsFilter = ({ filter }: { filter: string }) => {
   }, [searchParams, router]);
 
   useEffect(() => {
-    handleSearch(debouncedValue);
-  }, [debouncedValue, handleSearch]);
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    if (debouncedValue !== searchTerm) {
+      handleSearch(debouncedValue);
+    }
+  }, [debouncedValue, handleSearch, searchTerm]);
 
   const handleFilter = (filterValue: string) => {
     setType(filterValue);
@@ -87,11 +94,11 @@ const WordsFilter = ({ filter }: { filter: string }) => {
   };
 
   return (
-    <div className="flex max-sm:flex-col gap-4 md:w-fit w-full shrink-0">
-      <div className="relative flex-1 md:w-96 w-full z-10 ">
+    <div className="contents">
+      <div className="relative w-full md:w-96 md:flex-none basis-full md:basis-auto z-10 ">
         <BaseInput
           type="text"
-          placeholder={t("common.searchWords")}
+          placeholder={t("common.searchWords", "Search words...")}
           value={query}
           setValue={(e) => setQuery(e as string)}
         />
@@ -102,7 +109,7 @@ const WordsFilter = ({ filter }: { filter: string }) => {
               type="button"
               onClick={() => setQuery("")}
               className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 hover:text-gray-200 transition-colors"
-              aria-label="Clear search"
+              aria-label={t("common.dictionary.clearSearch", "Clear search")}
             >
               <X className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
@@ -133,14 +140,14 @@ const WordsFilter = ({ filter }: { filter: string }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-5 text-sm">
+      <div className="flex items-center gap-5 text-sm flex-1 min-w-0">
         <div
           ref={dropdownRef}
           role="button"
           tabIndex={0}
           aria-haspopup="listbox"
           aria-expanded={showOptions}
-          aria-label="Filter words"
+          aria-label={t("common.dictionary.filterWords", "Filter words")}
           onClick={() => setShowOptions(!showOptions)}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -151,9 +158,9 @@ const WordsFilter = ({ filter }: { filter: string }) => {
               setShowOptions(false);
             }
           }}
-          className="flex items-center justify-between gap-4 min-w-30 relative bg-gray-txt-100 focus:ring-1 ring-foreground-50 px-5 py-3 rounded-lg outline-none cursor-pointer"
+          className="flex items-center justify-between gap-2 md:gap-4 min-w-0 md:min-w-30 relative bg-gray-txt-100 focus:ring-1 ring-foreground-50 px-3 md:px-5 py-3 rounded-lg outline-none cursor-pointer"
         >
-          <p>Filter</p>
+          <p>{t("common.dictionary.filter", "Filter")}</p>
           <ChevronDown
             className={`h-4 w-4 sm:h-5 sm:w-5 transition-transform ${showOptions ? "rotate-180" : ""}`}
           />
@@ -161,8 +168,8 @@ const WordsFilter = ({ filter }: { filter: string }) => {
           {showOptions && (
             <div
               role="listbox"
-              aria-label="Filter options"
-              className="absolute top-full left-0 mt-2 w-full min-w-52 max-h-72 overflow-y-auto z-20 transition-all ease-in-out bg-secondary-bg rounded-lg shadow-lg"
+              aria-label={t("common.dictionary.filterOptions", "Filter options")}
+              className="absolute top-full left-0 mt-2 w-full min-w-52 max-h-72 overflow-y-auto custom-scrollbar z-20 transition-all ease-in-out bg-secondary-bg rounded-lg shadow-lg"
             >
               {filters.map((item) => (
                 <button
@@ -172,7 +179,7 @@ const WordsFilter = ({ filter }: { filter: string }) => {
                   onClick={() => handleFilter(item.value)}
                   className={`w-full text-left px-5 py-3 hover:bg-gray-txt-100 cursor-pointer ${type === item.value ? "text-foreground-50 font-medium" : ""}`}
                 >
-                  {item.label}
+                  {t(item.key, item.fallback)}
                 </button>
               ))}
             </div>

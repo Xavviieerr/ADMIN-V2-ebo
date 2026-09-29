@@ -7,8 +7,12 @@ import { useSingleWordView } from "@/features/dictionary/word-detail/hooks/useSi
 import PermissionGate from "@/features/shared/permission-gate";
 import { TranslationForm } from "./forms";
 import TranslationCard from "./translation-card";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const TranslationList = ({ data }: { data: SingleWord }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const { lang } = useSingleWordView();
   const [view, setView] = useState<"view" | "add">("view");
   const [selected, setSelected] = useState<SingleWord["efaEng"][number]>();
@@ -25,6 +29,8 @@ const TranslationList = ({ data }: { data: SingleWord }) => {
         selected={selected}
         type={selected ? "edit" : "add"}
         transIndex={transIndex}
+        sense={data.oho.find((s) => s.kere === transIndex)}
+        ota={data.ota}
         onClose={() => {
           setSelected(undefined);
           setView("view");
@@ -48,12 +54,13 @@ const TranslationList = ({ data }: { data: SingleWord }) => {
           className="flex flex-col items-center justify-center input py-7 gap-4 my-10"
         >
           <p>
-            No {lang} translations found for Kere {transIndex + 1}
+            {t("common.dictionary.noTranslations", `No ${lang} translations found for “${data.oho[transIndex]?.oto || `Kere ${transIndex + 1}`}”`).replace("{lang}", lang).replace("{kere}", String(transIndex + 1)).replace("{sense}", data.oho[transIndex]?.oto || `Kere ${transIndex + 1}`)}
           </p>
           <PermissionGate permission="add_word">
             <button
               onClick={() => {
                 if (!translation) {
+                  setTransIndex(transIndex + 1);
                   setView("add");
                   return;
                 }
@@ -63,7 +70,7 @@ const TranslationList = ({ data }: { data: SingleWord }) => {
               }}
               className="secondary-btn px-10 flex items-center gap-3 py-2"
             >
-              <PenBox width={16} /> Add
+              <PenBox width={16} /> {t("common.add", "Add")}
             </button>
           </PermissionGate>
         </div>,
@@ -75,6 +82,11 @@ const TranslationList = ({ data }: { data: SingleWord }) => {
           translation={translation}
           transIndex={transIndex}
           lang={lang}
+          sense={
+            data.oho.find((s) => s.kere === translation.kere) ??
+            data.oho[transIndex]
+          }
+          ota={data.ota}
           onEdit={() => {
             setSelected(translation);
             setTransIndex(transIndex + 1);

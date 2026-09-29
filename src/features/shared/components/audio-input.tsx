@@ -4,6 +4,9 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { getAccessToken } from "@/features/auth/utils/tokenStorage";
 import { uploadAudio } from "@/features/shared/api";
+import { playAudio } from "@/helpers";
+import MediaPreviewModal from "@/features/shared/components/media-preview-modal";
+import { useStagedMediaFile } from "@/features/shared/hooks/useStagedMediaFile";
 import { useKeyboard } from "./keyboard-context";
 
 const AudioInput = ({
@@ -35,6 +38,8 @@ const AudioInput = ({
 
   const [url, setUrl] = useState(audioUrl);
 
+  const { staged, stage, clear } = useStagedMediaFile();
+
   const [file, setFile] = useState<{
     id: string;
     url: string;
@@ -48,8 +53,6 @@ const AudioInput = ({
   const formData = new FormData();
 
   const handleFilePicker = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true);
-
     if (!e.target.files || e.target.files.length <= 0)
       return toast.error(
         "You did not select any file. Kindly select one to proceed",
@@ -76,14 +79,14 @@ const AudioInput = ({
     setFile(singleFile);
     e.target.value = "";
 
-    handleUpload({ file });
+    stage(file);
   };
 
   const handleUpload = async ({ file }: { file: File }) => {
     formData.append("audioFile", file);
 
     const token = getAccessToken();
-    if (!token) return;
+    if (!token) return false;
 
     const res = await uploadAudio({ token, formData });
 
@@ -91,31 +94,32 @@ const AudioInput = ({
       setAudio(res.original);
     }
     setLoading(false);
+    return Boolean(res);
+  };
+
+  const handleApprove = async () => {
+    if (!staged) return;
+    setLoading(true);
+    try {
+      const ok = await handleUpload({ file: staged.file });
+      if (ok) clear();
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClick = () => {
     if (!file && !url) return;
 
     const audioSource = file?.url || url;
+    if (!audioSource) return;
 
-    if (audioPlayerRef.current && playing) {
-      audioPlayerRef.current.pause();
-      audioPlayerRef.current = null;
-      setPlaying(false);
-      return;
-    }
-
-    const audio = new Audio(audioSource);
-
-    audio.onended = () => {
-      setPlaying(false);
-      audioPlayerRef.current = null;
-      return;
-    };
-    audioPlayerRef.current = audio;
-
-    audio.play();
-    setPlaying(true);
+    playAudio({
+      url: audioSource,
+      audioPlayerRef,
+      playing,
+      setPlaying,
+    });
   };
 
   useEffect(() => {
@@ -179,7 +183,8 @@ const AudioInput = ({
           <button
             onClick={showAudioPicker}
             type="button"
-            className="md:secondary-btn font-medium"
+            aria-label="Upload audio"
+            className="secondary-btn font-medium min-h-11 min-w-11 flex items-center justify-center"
           >
             <input
               type="file"
@@ -199,7 +204,8 @@ const AudioInput = ({
             <button
               onClick={handleClick}
               type="button"
-              className="md:secondary-btn font-medium"
+              aria-label={playing ? "Stop audio" : "Play audio"}
+              className="secondary-btn font-medium min-h-11 min-w-11 flex items-center justify-center"
             >
               {playing ? (
                 <StopCircle strokeWidth={1.4} />
@@ -210,15 +216,31 @@ const AudioInput = ({
           )}
 
           {showDelete && (
-            <Trash2
+            <button
               onClick={handleDelete}
-              className="text-red-500 cursor-pointer"
-              strokeWidth={1.4}
-              size={20}
-            />
+              type="button"
+              aria-label="Delete audio"
+              className="min-h-11 min-w-11 flex items-center justify-center cursor-pointer"
+            >
+              <Trash2
+                className="text-red-500"
+                strokeWidth={1.4}
+                size={20}
+              />
+            </button>
           )}
         </div>
       </div>
+
+      <MediaPreviewModal
+        open={Boolean(staged)}
+        kind="audio"
+        previewUrl={staged?.url ?? ""}
+        fileName={staged?.file.name}
+        approving={loading}
+        onApprove={handleApprove}
+        onClear={clear}
+      />
     </div>
   );
 };

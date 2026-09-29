@@ -1,5 +1,5 @@
 import React from "react";
-import { GoBackButton, PermissionGate } from "@/features/shared";
+import { GoBackButton, LocaleWrapper, PermissionGate } from "@/features/shared";
 import {
   RatingsSection,
   ReviewsList,
@@ -25,26 +25,30 @@ import { fetchDialects } from "../shared/api";
 
 const SingleWordFeature = async ({ id }: { id: string }) => {
   const token = await getServerAccessToken();
-  const dialects: { id: string; name: string }[] = await fetchDialects({
-    token: token as string,
-  });
-  const { data }: { data: SingleWord } =
-    await fetchSingleWord({
+  const [dialects, { data }]: [
+    { id: string; name: string }[],
+    { data: SingleWord },
+  ] = await Promise.all([
+    fetchDialects({
+      token: token as string,
+    }),
+    fetchSingleWord({
       token: token as string,
       id,
-    });
+    }),
+  ]);
 
   if (!data)
     return (
       <div className="min-h-screen max-w-6xl mx-auto p-3 sm:p-4 md:p-6 lg:p-8 text-white">
         <div className="flex flex-col items-center justify-center input py-7 gap-4 my-10">
           <Info size={52} className="text-base-red" strokeWidth={1.2} />
-          <p className="text-lg">OOPS! We were unable to find this word...</p>
+          <p className="text-lg"><LocaleWrapper item="common.dictionary.notFoundTitle" /></p>
           <Link
             href={"/guonopedia/dictionary"}
             className="primary-btn px-10 flex items-center gap-3 py-2"
           >
-            <ArrowLeftCircle width={16} /> Go Back
+            <ArrowLeftCircle width={16} /> <LocaleWrapper item="common.dictionary.goBack" />
           </Link>
         </div>
       </div>
@@ -83,13 +87,13 @@ const SingleWordFeature = async ({ id }: { id: string }) => {
           {data.otaOkpopko && (
             <TabGate condition="senses">
               <section className="flex flex-col w-full mt-7 gap-3">
-                <h3 className="text-lg font-medium">More Information</h3>
+                <h3 className="text-lg font-medium"><LocaleWrapper item="common.dictionary.moreInformation" /></h3>
 
                 <div
                   id="creation-reason"
                   className="flex flex-col gap-2 px-5 py-3 text-gray-txt-50 text-sm border border-gray-txt-50 bg-gray-txt-50/5 border-dashed rounded-md"
                 >
-                  <p className="">Creation Reason</p>
+                  <p className=""><LocaleWrapper item="common.dictionary.creationReasonTitle" /></p>
                   <p>{data.creationReason}</p>
                 </div>
               </section>

@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useDeleteSenseMutation } from "@/slice/requestSlice";
 import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { ConfirmPopover } from "@/features/dictionary/word-detail/shared";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const DeleteSenseButton = ({
   payload,
@@ -13,6 +15,8 @@ const DeleteSenseButton = ({
   payload: { senseId: string; senseIndex: number };
   size?: number;
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const [show, setShow] = useState(false);
   const [deleteSense, { isLoading: loading }] = useDeleteSenseMutation();
 
@@ -27,8 +31,8 @@ const DeleteSenseButton = ({
           senseId: payload.senseId,
           senseIndex: payload.senseIndex,
         }).unwrap(),
-      successMessage: "Word Sense deleted successfully",
-      errorMessage: "Failed to delete sense",
+      successMessage: t("common.dictionary.senseDeleted", "Word Sense deleted successfully"),
+      errorMessage: t("common.dictionary.failedToDeleteSense", "Failed to delete sense"),
       onSuccess: () => {
         router.refresh();
       },
@@ -42,19 +46,19 @@ const DeleteSenseButton = ({
         onClick={() => setShow(!show)}
         type="button"
         disabled={loading}
-        title="Delete Sense"
+        title={t("common.dictionary.deleteSense", "Delete Sense")}
         className="cursor-pointer font-medium bg-base-red text-white py-2 px-8 text-sm rounded-md border border-base-red"
       >
         {loading ? (
           <Loader2 className="animate-spin" size={size} />
         ) : (
-          <span>Delete</span>
+          <span>{t("common.delete", "Delete")}</span>
         )}
       </button>
 
       <ConfirmPopover
         open={show}
-        message="Are you sure your want to delete this sense?"
+        message={t("common.dictionary.confirmDeleteSense", "Are you sure you want to delete this sense?")}
         loading={loading}
         onConfirm={handleDelete}
         onCancel={() => setShow(false)}

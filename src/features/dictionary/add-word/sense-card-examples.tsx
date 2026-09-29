@@ -1,7 +1,13 @@
+"use client";
+
 import React from "react";
-import { AudioInput } from "@/features/shared";
+import { BaseInput } from "@/features/shared";
 import { Trash2 } from "lucide-react";
 import { SenseData } from "@/features/dictionary/lib";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
+import StagedMediaButton from "./preview/StagedMediaButton";
+import PlayAudioButton from "@/features/dictionary/word-detail/play-audio";
 
 const SenseCardExamples = ({
   lang,
@@ -14,14 +20,16 @@ const SenseCardExamples = ({
   setData: React.Dispatch<React.SetStateAction<SenseData>>;
   urhExamples?: SenseData["examples"];
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   return (
     <>
       <h2>
         {lang === "urh"
-          ? "Urhobo Examples"
+          ? t("common.dictionary.examples", "Urhobo Examples")
           : lang === "kor"
-            ? "Korean Examples"
-            : "English Examples"}
+            ? t("common.dictionary.examples", "Korean Examples")
+            : t("common.dictionary.examples", "English Examples")}
       </h2>
 
       {data.examples.map((example, index) => (
@@ -32,42 +40,57 @@ const SenseCardExamples = ({
             </p>
           )}
 
-          <div key={index} className="flex items-center gap-4 w-full">
-            <AudioInput
+          <div key={index} className="flex flex-col gap-2 w-full">
+            <BaseInput
               key={index}
-              placeholder={`Example ${index + 1}`}
-              input={example.sentence}
-              setValue={(value) =>
+              placeholder={`${t("common.dictionary.example", "Example")} ${index + 1}`}
+              value={example.sentence}
+              setValue={(value: string | number) =>
                 setData((prev) => ({
                   ...prev,
                   examples: prev.examples.map((ex, i) =>
-                    i === index ? { ...ex, sentence: value } : ex,
-                  ),
-                }))
-              }
-              setAudio={(value) =>
-                setData((prev) => ({
-                  ...prev,
-                  examples: prev.examples.map((ex, i) =>
-                    i === index ? { ...ex, audioUrl: value } : ex,
+                    i === index ? { ...ex, sentence: value as string } : ex,
                   ),
                 }))
               }
             />
 
-            {data.examples.length > 1 && (
-              <Trash2
-                onClick={() => {
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <StagedMediaButton
+                kind="audio"
+                label={
+                  example.audioUrl
+                    ? t("common.dictionary.updateAudio", "Update Audio")
+                    : t("common.dictionary.uploadAudio", "Upload Audio")
+                }
+                onUploaded={(value) =>
                   setData((prev) => ({
                     ...prev,
-                    examples: prev.examples.filter((_, i) => i !== index),
-                  }));
-                }}
-                className="text-red-500 cursor-pointer"
-                strokeWidth={1.4}
-                size={20}
+                    examples: prev.examples.map((ex, i) =>
+                      i === index ? { ...ex, audioUrl: value } : ex,
+                    ),
+                  }))
+                }
               />
-            )}
+
+              {example.audioUrl && (
+                <PlayAudioButton audioUrl={example.audioUrl} />
+              )}
+
+              {data.examples.length > 1 && (
+                <Trash2
+                  onClick={() => {
+                    setData((prev) => ({
+                      ...prev,
+                      examples: prev.examples.filter((_, i) => i !== index),
+                    }));
+                  }}
+                  className="text-red-500 cursor-pointer"
+                  strokeWidth={1.4}
+                  size={20}
+                />
+              )}
+            </div>
           </div>
         </div>
       ))}
@@ -81,7 +104,7 @@ const SenseCardExamples = ({
         }}
         className="secondary-btn px-10"
       >
-        Add another example
+        {t("common.dictionary.addAnotherExample", "Add another example")}
       </button>
     </>
   );

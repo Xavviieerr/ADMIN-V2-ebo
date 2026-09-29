@@ -3,6 +3,8 @@
 import { useKeyboard } from "@/features/shared/components/keyboard-context";
 import { Plus, X } from "lucide-react";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const SynonymInput = ({
   values,
@@ -10,12 +12,16 @@ const SynonymInput = ({
   removeValue,
   label,
   placeholder,
+  selectedLabel,
+  lang,
 }: {
   values: string[];
   addValue: (v: { ota: string; egba: string }) => void;
   removeValue: (v: string) => void;
   label?: string;
   placeholder: string;
+  selectedLabel?: string;
+  lang?: "urh" | "eng" | "kor";
 }) => {
   const [input, setInput] = useState({
     ota: "",
@@ -27,6 +33,8 @@ const SynonymInput = ({
   const pendingCaretRef = useRef<number | null>(null);
   const inputElRef = useRef<HTMLInputElement>(null);
   const { setActiveField } = useKeyboard();
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
 
   useEffect(() => {
     valueRef.current = input.ota;
@@ -57,7 +65,13 @@ const SynonymInput = ({
   return (
     <div className="flex flex-col gap-4">
       {values.length > 0 && (
-        <div className="flex max-w-full overflow-x-scroll custom-scrollbar items-center gap-3 text-sm">
+        <>
+          {selectedLabel && (
+            <p className="text-sm font-medium text-gray-txt-50">
+              {selectedLabel}:
+            </p>
+          )}
+          <div className="flex max-w-full overflow-x-scroll custom-scrollbar items-center gap-3 text-sm">
           {values.map((item, index) => (
             <div
               key={item + index}
@@ -72,11 +86,12 @@ const SynonymInput = ({
               />
             </div>
           ))}
-        </div>
+          </div>
+        </>
       )}
 
       <div className="flex flex-col gap-2">
-        {label && <label htmlFor={label}>{label}</label>}
+          {label && <label htmlFor={label}>{label}</label>}
 
         <div className="flex items-end gap-4">
           <div className="flex-1 relative">
@@ -109,23 +124,53 @@ const SynonymInput = ({
                 });
               }}
               // onBlur={() => setActiveField(null)}
-              className="input"
+              className="input min-h-[84px] pr-32"
             />
 
-            <div className="absolute top-1 right-1">
+            <div className="absolute top-1 right-1 flex flex-col gap-1">
+              <label htmlFor="synonym-variety" className="text-xs text-gray-txt-50">
+                {t("common.dictionary.synonymStrength", "Synonym strength")}
+                {lang === "urh"
+                  ? ` (${t("common.dictionary.urhoboLang", "Urhobo")})`
+                  : lang === "kor"
+                    ? ` (${t("common.dictionary.koreanLang", "Korean")})`
+                    : lang === "eng"
+                      ? ` (${t("common.dictionary.englishLang", "English")})`
+                      : ""}
+              </label>
               <select
                 value={input.egba}
                 onChange={(e) => setInput({ ...input, egba: e.target.value })}
-                id="dialect"
+                id="synonym-variety"
+                aria-label={t("common.dictionary.synonymVariety", "Synonym variety")}
                 className="input h-10 py-2 bg-secondary-bg text-sm capitalize"
               >
-                {["guo", "gan"].map((pos) => (
+                {[
+                  {
+                    value: "gan",
+                    label:
+                      lang === "urh"
+                        ? "gan"
+                        : lang === "kor"
+                          ? t("common.dictionary.strongOptionKo", "강한")
+                          : t("common.dictionary.strongOption", "strong"),
+                  },
+                  {
+                    value: "guo",
+                    label:
+                      lang === "urh"
+                        ? "guo"
+                        : lang === "kor"
+                          ? t("common.dictionary.weakOptionKo", "약한")
+                          : t("common.dictionary.weakOption", "weak"),
+                  },
+                ].map((pos) => (
                   <option
-                    key={pos}
-                    value={pos}
+                    key={pos.value}
+                    value={pos.value}
                     className="text-white bg-secondary-bg capitalize"
                   >
-                    {pos}
+                    {pos.label}
                   </option>
                 ))}
               </select>

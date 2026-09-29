@@ -7,8 +7,12 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useSingleWordReviewContext } from "../contexts/SingleWordReviewContext";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const AddReviewForm = () => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const { setReviewView } = useSingleWordReviewContext();
   const [formData, setFormData] = useState({
     rating: 0,
@@ -36,8 +40,8 @@ const AddReviewForm = () => {
           rating: formData.rating,
           review: formData.review,
         }).unwrap(),
-      successMessage: "Word review added successfully!",
-      errorMessage: "Failed to add review",
+      successMessage: t("common.dictionary.reviewAdded", "Word review added successfully!"),
+      errorMessage: t("common.dictionary.failedToAddReview", "Failed to add review"),
       onSuccess: () => {
         handleClose();
         router.refresh();
@@ -55,7 +59,7 @@ const AddReviewForm = () => {
       />
 
       <BaseTextArea
-        placeholder="Add a review to this word..."
+        placeholder={t("common.dictionary.reviewPlaceholder", "Add a review to this word...")}
         value={formData.review}
         setValue={(val) => setFormData({ ...formData, review: val })}
         rows={6}
@@ -68,14 +72,14 @@ const AddReviewForm = () => {
           disabled={loading}
           onClick={handleClose}
         >
-          Cancel
+          {t("common.cancel", "Cancel")}
         </button>
         <button
           onClick={handleSubmit}
           className="primary-btn"
           disabled={loading}
         >
-          {loading ? <Loader2 className="animate-spin" /> : "Submit"}
+          {loading ? <Loader2 className="animate-spin" /> : t("common.submit", "Submit")}
         </button>
       </div>
     </div>

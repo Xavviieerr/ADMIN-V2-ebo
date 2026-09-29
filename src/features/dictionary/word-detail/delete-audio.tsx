@@ -12,6 +12,8 @@ import {
   DeleteTranslationAudioPayload,
 } from "@/features/dictionary/lib";
 import { useParams, useRouter } from "next/navigation";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const DeleteAudioButton = ({
   type,
@@ -22,6 +24,8 @@ const DeleteAudioButton = ({
   payload: DeleteSenseAudioPayload | DeleteTranslationAudioPayload;
   size?: number;
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const [show, setShow] = useState(false);
   const [deleteSenseAudio, { isLoading: isDeletingSense }] =
     useDeleteSenseAudioMutation();
@@ -56,8 +60,8 @@ const DeleteAudioButton = ({
           }).unwrap();
         }
       },
-      successMessage: "Audio deleted successfully!",
-      errorMessage: "Failed to delete audio",
+      successMessage: t("common.dictionary.audioDeleted", "Audio deleted successfully!"),
+      errorMessage: t("common.dictionary.failedToDeleteAudio", "Failed to delete audio"),
       onSuccess: () => {
         router.refresh();
       },
@@ -71,19 +75,23 @@ const DeleteAudioButton = ({
         onClick={() => setShow(!show)}
         type="button"
         disabled={loading}
-        title="Delete Audio"
-        className="cursor-pointer font-medium text-base-red"
+        title={t("common.dictionary.deleteAudio", "Delete Audio")}
+        aria-label={t("common.dictionary.deleteAudio", "Delete Audio")}
+        className="cursor-pointer font-medium text-base-red flex items-center gap-1"
       >
         {loading ? (
           <Loader2 className="animate-spin" size={size} />
         ) : (
-          <Trash2 size={size} />
+          <>
+            <Trash2 size={size} />
+            <span className="text-xs font-medium">{t("common.delete", "Delete")}</span>
+          </>
         )}
       </button>
 
       <ConfirmPopover
         open={show}
-        message="Are you sure your want to delete this audio file?"
+        message={t("common.dictionary.confirmDeleteAudio", "Are you sure you want to delete this audio file?")}
         loading={loading}
         align="left"
         className="top-7"

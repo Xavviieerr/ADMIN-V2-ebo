@@ -1,9 +1,13 @@
+"use client";
+
 import React from "react";
 import { SingleWord } from "@/features/dictionary/lib";
 import { User2, User } from "lucide-react";
 import moment from "moment";
 import CommentSection from "./comment-section";
 import { Stars } from "@/features/shared";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const ReviewCard = ({
   rating,
@@ -12,6 +16,8 @@ const ReviewCard = ({
   rating: SingleWord["wordRatings"][number];
   replies: SingleWord["wordRatings"] | undefined;
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   return (
     <div key={rating.id} className="input flex flex-col gap-3 py-5 font-normal">
       <div className="flex justify-between items-start">
@@ -41,7 +47,7 @@ const ReviewCard = ({
 
       {replies && replies.length > 0 && (
         <div className="flex flex-col gap-2 w-full px-5 text-sm">
-          Replies ({replies?.length}):
+          {t("common.dictionary.replies", "Replies")} ({replies?.length}):
           {replies?.map((reply) => (
             <div
               key={reply.id}

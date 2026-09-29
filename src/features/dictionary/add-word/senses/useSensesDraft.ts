@@ -3,12 +3,13 @@
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { SenseData } from "@/features/dictionary/lib";
-import { validateSenseDetails } from "@/features/dictionary/add-word/validate-word";
+import { validateSenseDetails } from "@/features/dictionary/add-word/lib/validate-word";
 import { useAddWordWizard } from "../contexts/AddWordWizardContext";
 
 const defaultVal: SenseData = {
   headWord: "",
   audioUrl: "",
+  imageUrl: "",
   partOfSpeech: "",
   meaning: "",
   pronunciation: "",
@@ -31,15 +32,12 @@ export function useSensesDraft({ ota }: { ota: string }) {
   const [urhData, setUrhData] = useState({
     ...defaultVal,
     headWord: ota,
-    partOfSpeech: "Odẹ",
   });
   const [engData, setEngData] = useState({
     ...defaultVal,
-    partOfSpeech: "Noun",
   });
   const [korData, setKorData] = useState({
     ...defaultVal,
-    partOfSpeech: "명사",
   });
 
   const saveSense = () => {
@@ -56,9 +54,9 @@ export function useSensesDraft({ ota }: { ota: string }) {
 
     setError("");
     setSenses([...senses, { urhData, engData, korData }]);
-    setUrhData({ ...defaultVal, headWord: ota, partOfSpeech: "Odẹ" });
-    setEngData({ ...defaultVal, partOfSpeech: "Noun" });
-    setKorData({ ...defaultVal, partOfSpeech: "명사" });
+    setUrhData({ ...defaultVal, headWord: ota });
+    setEngData({ ...defaultVal });
+    setKorData({ ...defaultVal });
   };
 
   const editSense = (

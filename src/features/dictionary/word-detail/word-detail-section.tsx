@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { ApproveWordButton, EditWordButton, RejectWordButton } from "./buttons";
 import { SetInReviewButton } from "./buttons";
@@ -13,6 +15,8 @@ import { SingleWord } from "../lib";
 import { Info } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const WordDetailSection = ({
   data,
@@ -24,6 +28,8 @@ const WordDetailSection = ({
     name: string;
   }[];
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex max-md:flex-col items-start justify-between gap-4 pb-5 border-b border-gray-txt-50/20">
@@ -60,15 +66,15 @@ const WordDetailSection = ({
           <>
             <div className="flex items-center gap-4">
               <KeyValueParagraph
-                item="Senses"
+                item={t("common.dictionary.sensesHeader", "Senses")}
                 value={data.oho.length}
                 isDense
               />
-              <KeyValueParagraph item="Dialect" value={data.erevwe} isDense />
+              <KeyValueParagraph item={t("common.dictionary.dialectLabel", "Dialect")} value={data.erevwe} isDense />
             </div>
 
             <KeyValueParagraph
-              item="Added By"
+              item={t("common.dictionary.addedBy", "Added By")}
               value={`${data.createdBy.username} on ${moment(data.createdAt).format("DD/MM/YYYY")}`}
               isDense
             />
@@ -76,7 +82,7 @@ const WordDetailSection = ({
 
           {data.oho.length > 0 && (
             <div className="flex max-md:justify-between max-md:items-center gap-2 rounded-full max-md:w-full">
-              <p className="text-sm font-medium">Audio:</p>
+              <p className="text-sm font-medium">{t("common.dictionary.audioLabel", "Audio:")}</p>
 
               <div className="flex items-center gap-4">
                 {data.oho[0].omra?.length > 0 && (
@@ -88,7 +94,7 @@ const WordDetailSection = ({
                     type="sense"
                     payload={{
                       senseId: data.oho[0].id,
-                      senseIndex: 1,
+                      senseIndex: data.oho[0].kere,
                     }}
                   />
                 )}
@@ -98,7 +104,7 @@ const WordDetailSection = ({
                   type="sense"
                   payload={{
                     senseId: data.oho[0].id,
-                    senseIndex: 1,
+                    senseIndex: data.oho[0].kere,
                     url: data.oho[0].omra[0],
                   }}
                 />
@@ -108,7 +114,7 @@ const WordDetailSection = ({
           )}
         </div>
 
-        <div className="flex md:flex-col gap-3 w-fit shrink-0">
+        <div className="flex md:flex-col flex-wrap gap-3 w-fit max-w-full shrink-0">
           <ApproveWordButton data={data} />
 
           <SetInReviewButton data={data} />
@@ -119,7 +125,7 @@ const WordDetailSection = ({
 
       {data.status == "rejected" && (
         <div className="flex flex-col gap-2 px-5 py-3 text-gray-txt-50 text-sm border border-base-red bg-base-red/5 border-dashed rounded-md">
-          <p className="">Rejection Reason</p>
+          <p className="">{t("common.dictionary.rejectionReasonTitle", "Rejection Reason")}</p>
           <p>{data.rejectionReason}</p>
         </div>
       )}

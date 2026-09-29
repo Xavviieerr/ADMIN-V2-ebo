@@ -20,12 +20,13 @@ const SenseCard = ({
   const { data: wordData } = useAddWordWizard();
 
   return (
-    <div className="dark-box px-4 md:w-[47%] w-full shrink-0">
+    <div className="dark-box px-4 py-5 md:w-[47%] w-full shrink-0">
       <SenseCardMeta lang={lang} data={data} setData={setData} ota={wordData.ota} />
 
       <div className="flex flex-col w-full gap-4 mt-4">
         {/* Plurals, Synonyms, Antonyms, Related Words */}
         <LexicalFields
+          lang={lang}
           values={{
             ibuebu: data.plurals,
             okpo: data.synonyms,

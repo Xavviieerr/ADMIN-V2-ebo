@@ -1,6 +1,6 @@
 import React from "react";
 import { SingleWord } from "../lib";
-import { Stars, StatusCard } from "@/features/shared";
+import { LocaleWrapper, Stars, StatusCard } from "@/features/shared";
 import moment from "moment";
 import Link from "next/link";
 
@@ -8,7 +8,9 @@ const EntriesList = ({ data }: { data: SingleWord[] }) => {
   if (!data || data.length == 0) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 my-10">
-        <p>No matches found</p>
+        <p>
+          <LocaleWrapper item="common.dictionary.noMatches" fallback="No matches found" />
+        </p>
       </div>
     );
   }
@@ -30,7 +32,8 @@ const EntriesList = ({ data }: { data: SingleWord[] }) => {
                       {(entry.ota ?? "").toLowerCase()}
                     </h3>
                     <span className="text-gray-txt-50 text-sm whitespace-nowrap shrink-0">
-                      {(entry.oho ?? []).length} sense(s)
+                      {(entry.oho ?? []).length}{" "}
+                      <LocaleWrapper item="common.dictionary.senses" fallback="sense" />
                       {(entry.oho ?? []).length > 0 &&
                         ` | ${entry.oho[0].ekerota}`}
                     </span>
@@ -58,7 +61,8 @@ const EntriesList = ({ data }: { data: SingleWord[] }) => {
 
                 <div className="flex w-full items-center gap-6 text-sm text-gray-txt-50 max-md:hidden">
                   <p className=" text-white/90">
-                    Created By: {entry.createdBy?.username ?? ""}
+                    <LocaleWrapper item="common.dictionary.createdBy" fallback="Created By" />:{" "}
+                    {entry.createdBy?.username ?? ""}
                   </p>
 
                   <span className="text-gray-txt-50 ">
@@ -78,7 +82,7 @@ const EntriesList = ({ data }: { data: SingleWord[] }) => {
                 <StatusCard size="md" status={entry.status} />
 
                 <div className="secondary-btn rounded-full py-2 text-sm w-fit shrink-0">
-                  View
+                  <LocaleWrapper item="common.dictionary.view" fallback="View" />
                 </div>
               </div>
             </Link>

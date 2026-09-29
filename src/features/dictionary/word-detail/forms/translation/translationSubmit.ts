@@ -14,6 +14,7 @@ export async function submitTranslationForm({
   updateTranslation,
   onClose,
   router,
+  t,
 }: {
   type: "add" | "edit";
   id: string;
@@ -22,13 +23,14 @@ export async function submitTranslationForm({
   updateTranslation: TranslationMutationTrigger;
   onClose: () => void;
   router: { refresh: () => void };
+  t: (key: string, fallback: string) => string;
 }) {
   if (type == "edit") {
     await runDictionaryMutation({
       run: () =>
         updateTranslation({ wordId: id, translationData: form }).unwrap(),
-      successMessage: "Word translation edited successfully!",
-      errorMessage: "Failed to edit translation",
+      successMessage: t("common.dictionary.translationEdited", "Word translation edited successfully!"),
+      errorMessage: t("common.dictionary.failedToEditTranslation", "Failed to edit translation"),
       onSuccess: () => {
         onClose();
         router.refresh();
@@ -37,11 +39,11 @@ export async function submitTranslationForm({
     return;
   }
 
-  await runDictionaryMutation({
-    run: () =>
-      createTranslation({ wordId: id, translationData: form }).unwrap(),
-    successMessage: "Word translation added successfully!",
-    errorMessage: "Failed to add translation",
+    await runDictionaryMutation({
+      run: () =>
+        createTranslation({ wordId: id, translationData: form }).unwrap(),
+      successMessage: t("common.dictionary.translationAdded", "Word translation added successfully!"),
+      errorMessage: t("common.dictionary.failedToAddTranslation", "Failed to add translation"),
     onSuccess: () => {
       onClose();
       router.refresh();

@@ -6,6 +6,8 @@ import { useDeleteSenseImageMutation } from "@/slice/requestSlice";
 import { runDictionaryMutation } from "@/features/dictionary/lib/run-dictionary-mutation";
 import { DeleteSenseImagePayload } from "@/features/dictionary/lib";
 import { ConfirmPopover } from "@/features/dictionary/word-detail/shared";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const DeleteImageButton = ({
   payload,
@@ -14,6 +16,8 @@ const DeleteImageButton = ({
   payload: DeleteSenseImagePayload;
   size?: number;
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const [show, setShow] = useState(false);
   const [deleteSenseImage, { isLoading: loading }] =
     useDeleteSenseImageMutation();
@@ -31,8 +35,8 @@ const DeleteImageButton = ({
           url: payload.url,
           imageType: payload.imageType,
         }).unwrap(),
-      successMessage: "Image deleted successfully",
-      errorMessage: "Failed to delete image",
+      successMessage: t("common.dictionary.imageDeleted", "Image deleted successfully"),
+      errorMessage: t("common.dictionary.failedToDeleteImage", "Failed to delete image"),
       onSuccess: () => {
         router.refresh();
       },
@@ -46,19 +50,23 @@ const DeleteImageButton = ({
         onClick={() => setShow(!show)}
         type="button"
         disabled={loading}
-        title="Delete Image"
-        className="cursor-pointer font-medium text-base-red"
+        title={t("common.dictionary.deleteImage", "Delete Image")}
+        aria-label={t("common.dictionary.deleteImage", "Delete Image")}
+        className="cursor-pointer font-medium text-base-red flex items-center gap-1"
       >
         {loading ? (
           <Loader2 className="animate-spin" size={size} />
         ) : (
-          <Trash2 size={size} />
+          <>
+            <Trash2 size={size} />
+            <span className="text-xs font-medium">{t("common.delete", "Delete")}</span>
+          </>
         )}
       </button>
 
       <ConfirmPopover
         open={show}
-        message="Are you sure your want to delete this image?"
+        message={t("common.dictionary.confirmDeleteImage", "Are you sure you want to delete this image?")}
         loading={loading}
         className="top-7"
         onConfirm={handleDelete}

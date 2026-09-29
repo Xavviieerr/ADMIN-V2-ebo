@@ -1,4 +1,8 @@
+"use client";
+
 import { AudioInput } from "@/features/shared";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export type ExampleValue = {
   sentence: string;
@@ -14,6 +18,8 @@ const ExampleFields = ({
   idje: ExampleValue[];
   onChange: (idje: ExampleValue[]) => void;
 }) => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   return (
     <div className="flex flex-col  md:col-span-2 gap-4">
       <h2>{title}</h2>
@@ -23,7 +29,7 @@ const ExampleFields = ({
           <div key={index} className="flex flex-col w-full">
             <div className="flex items-center gap-4 w-full">
               <AudioInput
-                placeholder={`Example ${index + 1}`}
+                placeholder={`${t("common.dictionary.example", "Example")} ${index + 1}`}
                 input={example.sentence}
                 audioUrl={example.audioUrl}
                 showDelete={idje.length > 1}
@@ -56,7 +62,7 @@ const ExampleFields = ({
         }}
         className="secondary-btn px-10"
       >
-        Add another example
+        {t("common.dictionary.addAnotherExample", "Add another example")}
       </button>
     </div>
   );

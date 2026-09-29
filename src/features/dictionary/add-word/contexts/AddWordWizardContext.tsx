@@ -8,8 +8,9 @@ const payloadData: PayloadData = {
   oka: 1,
   otaOkpopko: false,
   creationReason: "",
-  erevwe: "Agbarho",
+  erevwe: "",
   image: "",
+  audio: "",
   oho: [],
 };
 

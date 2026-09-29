@@ -3,16 +3,20 @@
 import { ChevronDown } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const statusOptions = [
-  { label: "All", value: "all" },
-  { label: "Pending", value: "pending" },
-  { label: "Approved", value: "approved" },
-  { label: "In-Review", value: "in-review" },
-  { label: "Rejected", value: "rejected" },
+  { key: "common.dictionary.all", fallback: "All", value: "all" },
+  { key: "common.dictionary.pending", fallback: "Pending", value: "pending" },
+  { key: "common.dictionary.approved", fallback: "Approved", value: "approved" },
+  { key: "common.dictionary.inReview", fallback: "In-Review", value: "in-review" },
+  { key: "common.dictionary.rejected", fallback: "Rejected", value: "rejected" },
 ];
 
 const StatusDropdown = () => {
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -54,14 +58,14 @@ const StatusDropdown = () => {
   };
 
   return (
-    <div className="flex items-center gap-5 text-sm">
+    <div className="flex items-center gap-5 text-sm flex-1 min-w-0">
       <div
         ref={dropdownRef}
         role="button"
         tabIndex={0}
         aria-haspopup="listbox"
         aria-expanded={showOptions}
-        aria-label="Filter by status"
+        aria-label={t("common.dictionary.filterByStatus", "Filter by status")}
         onClick={() => setShowOptions(!showOptions)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -72,9 +76,9 @@ const StatusDropdown = () => {
             setShowOptions(false);
           }
         }}
-        className="flex items-center justify-between gap-4 min-w-30 relative bg-gray-txt-100 focus:ring-1 ring-foreground-50 px-5 py-3 rounded-lg outline-none cursor-pointer"
+        className="flex items-center justify-between gap-2 md:gap-4 min-w-0 md:min-w-30 relative bg-gray-txt-100 focus:ring-1 ring-foreground-50 px-3 md:px-5 py-3 rounded-lg outline-none cursor-pointer"
       >
-        <p>Status</p>
+        <p>{t("common.dictionary.status", "Status")}</p>
         <ChevronDown
           className={`h-4 w-4 sm:h-5 sm:w-5 transition-transform ${showOptions ? "rotate-180" : ""}`}
         />
@@ -82,8 +86,8 @@ const StatusDropdown = () => {
         {showOptions && (
           <div
             role="listbox"
-            aria-label="Status options"
-            className="absolute top-full left-0 mt-2 w-full min-w-52 max-h-72 overflow-y-auto z-20 transition-all ease-in-out bg-secondary-bg rounded-lg shadow-lg"
+            aria-label={t("common.dictionary.statusOptions", "Status options")}
+            className="absolute top-full left-0 mt-2 w-full min-w-52 max-h-72 overflow-y-auto custom-scrollbar z-20 transition-all ease-in-out bg-secondary-bg rounded-lg shadow-lg"
           >
             {statusOptions.map((item) => {
               const selected =
@@ -98,7 +102,7 @@ const StatusDropdown = () => {
                   onClick={() => handleStatus(item.value)}
                   className={`w-full text-left px-5 py-3 hover:bg-gray-txt-100 cursor-pointer ${selected ? "text-foreground-50 font-medium" : ""}`}
                 >
-                  {item.label}
+                  {t(item.key, item.fallback)}
                 </button>
               );
             })}

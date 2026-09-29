@@ -1,15 +1,17 @@
 export const MAX_AUDIO_BYTES = 5 * 1024 * 1024;
 
+export type AudioValidationError = "invalid-type" | "too-large";
+
 export function validateAudioFile(
   file: File,
   maxBytes: number = MAX_AUDIO_BYTES,
-): string | null {
+): AudioValidationError | null {
   if (!file.type.startsWith("audio/")) {
-    return "Please select a valid audio file";
+    return "invalid-type";
   }
 
   if (file.size > maxBytes) {
-    return "Size Limit Reached! You cannot attach an audio file larger than 5mb.";
+    return "too-large";
   }
 
   return null;

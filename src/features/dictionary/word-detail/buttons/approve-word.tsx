@@ -20,7 +20,7 @@ const ApproveWordBtn = ({ data }: { data: SingleWord }) => {
   const userId = currentUser?.id ?? "";
 
   const canApprove =
-    isSuperAdmin || (userId !== data.createdBy.id && hasPermission("add_word"));
+    isSuperAdmin || (userId !== data.createdBy.id && hasPermission("moderate_word"));
 
   const router = useRouter();
 

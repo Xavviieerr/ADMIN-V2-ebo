@@ -573,7 +573,10 @@
       "updateImage": "Update Image",
       "strongOptionKo": "강한",
       "weakOptionKo": "약한",
-      "selectDialectPlaceholder": "Select a dialect"
+      "selectDialectPlaceholder": "Select a dialect",
+      "wordAudioHint": "Add a recording of the word so learners can hear how it sounds",
+      "audioAdded": "Added",
+      "translatingFrom": "URH"
     }
   },
   "figures": {

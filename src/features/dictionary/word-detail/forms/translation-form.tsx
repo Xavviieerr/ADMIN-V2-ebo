@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import ExampleFields from "./shared/ExampleFields";
 import FormMetaFields from "./shared/FormMetaFields";
+import TranslatingFrom from "./shared/TranslatingFrom";
 import { LexicalFields } from "@/features/dictionary/shared";
 import { useTranslationForm } from "./translation/useTranslationForm";
 import { useTranslationLanguage } from "./translation/translationLanguage";
@@ -75,42 +76,39 @@ const AddTranslationForm = ({
         <h2 className="capitalize">{title}</h2>
       </button>
 
-      {sense && (
-        <div className="input flex flex-col gap-1 py-4 mt-4">
-          <span className="rounded-full bg-yellow-500/15 text-yellow-400 px-3 py-1 text-xs font-medium w-fit uppercase">
-            {t("common.dictionary.senseCount", "Sense")} {sense.kere}
-          </span>
-          {ota && <p className="text-lg font-medium mt-2">{ota}</p>}
-          {sense.oto && (
-            <p className="text-sm text-gray-txt-50">“{sense.oto}”</p>
-          )}
-          {(sense.ekerota?.[0] || sense.upho) && (
-            <p className="text-xs text-gray-txt-50 capitalize">
-              {sense.ekerota?.[0] ?? ""}
-              {sense.ekerota?.[0] && sense.upho ? " · " : ""}
-              {sense.upho ? `[${sense.upho}]` : ""}
-            </p>
-          )}
-        </div>
-      )}
-
       <div className="grid md:grid-cols-2 grid-cols-1 items-end w-full gap-4 mt-4">
-        <BaseInput
-          placeholder={t("common.dictionary.wordTranslationLabel", "Word translation")}
-          value={form.ota}
-          setValue={(value) => setForm({ ...form, ota: value as string })}
-        />
+        <div className="flex flex-col gap-2 w-full">
+          <TranslatingFrom value={ota} />
+          <BaseInput
+            placeholder={t("common.dictionary.wordTranslationLabel", "Word translation")}
+            value={form.ota}
+            setValue={(value) => setForm({ ...form, ota: value as string })}
+          />
+        </div>
 
         <FormMetaFields
           values={form}
           onChange={(patch) => setForm({ ...form, ...patch })}
           posOptions={pos}
+          source={{
+            ekerota: sense?.ekerota?.[0],
+            upho: sense?.upho,
+            uphoesio: sense?.uphoesio,
+            odeUfue: sense?.odeUfue?.[0],
+            oto: sense?.oto,
+          }}
         />
 
         {/* Plurals, Synonyms, Antonyms, Related Words */}
         <LexicalFields
           values={form}
           onChange={(patch) => setForm({ ...form, ...patch })}
+          source={{
+            ibuebu: sense?.ibuebu?.join(", "),
+            okpo: sense?.okpo?.map((o) => o.ota).join(", "),
+            orhan: sense?.orhan?.join(", "),
+            ekaeruo: sense?.ekaeruo?.join(", "),
+          }}
         />
 
         <hr className="border border-gray-txt-100/50 h-px my-4 md:col-span-2" />
@@ -120,6 +118,7 @@ const AddTranslationForm = ({
           title={examplesTitle}
           idje={form.idje}
           onChange={(idje) => setForm({ ...form, idje })}
+          sourceIdje={sense?.idje}
         />
       </div>
 

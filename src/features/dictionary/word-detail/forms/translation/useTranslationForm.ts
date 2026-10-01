@@ -23,6 +23,7 @@ export type TranslationFormInitial = {
   languageType: string;
   translationIndex?: number;
   translationId?: string;
+  kere?: number;
 };
 
 export function useTranslationForm({
@@ -52,6 +53,7 @@ export function useTranslationForm({
     uphoesio: "",
     odeUfue: [] as string[],
     languageType: lang.toLowerCase(),
+    kere: transIndex,
   };
 
   const [form, setForm] = useState<TranslationFormInitial>(() => {

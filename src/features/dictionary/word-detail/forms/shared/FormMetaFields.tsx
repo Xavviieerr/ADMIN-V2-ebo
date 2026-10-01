@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { BaseInput, BaseTextArea } from "@/features/shared";
+import TranslatingFrom from "./TranslatingFrom";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -18,10 +19,18 @@ const FormMetaFields = ({
   values,
   onChange,
   posOptions,
+  source,
 }: {
   values: MetaValues;
   onChange: (patch: Partial<MetaValues>) => void;
   posOptions: string[];
+  source?: {
+    ekerota?: string;
+    upho?: string;
+    uphoesio?: string;
+    odeUfue?: string;
+    oto?: string;
+  };
 }) => {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
@@ -46,6 +55,8 @@ const FormMetaFields = ({
 
   return (
     <>
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.ekerota} />
       <div
         ref={posDropdownRef}
         role="button"
@@ -109,32 +120,45 @@ const FormMetaFields = ({
           </div>
         )}
       </div>
+      </div>
 
-      <BaseInput
-        placeholder={t("common.dictionary.pronunciation", "Pronunciation")}
-        value={values.upho}
-        setValue={(value) => onChange({ upho: value as string })}
-      />
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.upho} />
+        <BaseInput
+          placeholder={t("common.dictionary.pronunciation", "Pronunciation")}
+          value={values.upho}
+          setValue={(value) => onChange({ upho: value as string })}
+        />
+      </div>
 
-      <BaseInput
-        placeholder={t("common.dictionary.ipa", "IPA")}
-        value={values.uphoesio}
-        setValue={(value) => onChange({ uphoesio: value as string })}
-      />
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.uphoesio} />
+        <BaseInput
+          placeholder={t("common.dictionary.ipa", "IPA")}
+          value={values.uphoesio}
+          setValue={(value) => onChange({ uphoesio: value as string })}
+        />
+      </div>
 
-      <BaseInput
-        placeholder={t("common.dictionary.scientificName", "Scientific Name")}
-        value={values.odeUfue[0] ?? ""}
-        setValue={(value) => onChange({ odeUfue: [value as string] })}
-      />
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.odeUfue} />
+        <BaseInput
+          placeholder={t("common.dictionary.scientificName", "Scientific Name")}
+          value={values.odeUfue[0] ?? ""}
+          setValue={(value) => onChange({ odeUfue: [value as string] })}
+        />
+      </div>
 
-      <BaseTextArea
-        placeholder={t("common.dictionary.meaning", "Meaning of the word")}
-        rows={3}
-        value={values.oto}
-        setValue={(value) => onChange({ oto: value })}
-        styling="md:col-span-2"
-      />
+      <div className="flex flex-col gap-2 w-full md:col-span-2">
+        <TranslatingFrom value={source?.oto} />
+        <BaseTextArea
+          placeholder={t("common.dictionary.meaning", "Meaning of the word")}
+          rows={3}
+          value={values.oto}
+          setValue={(value) => onChange({ oto: value })}
+          styling="md:col-span-2"
+        />
+      </div>
     </>
   );
 };

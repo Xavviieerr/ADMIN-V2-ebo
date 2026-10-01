@@ -7,6 +7,7 @@ import { uploadAudio } from "@/features/shared/api";
 import { playAudio } from "@/helpers";
 import MediaPreviewModal from "@/features/shared/components/media-preview-modal";
 import { useStagedMediaFile } from "@/features/shared/hooks/useStagedMediaFile";
+import PermissionGate from "@/features/shared/permission-gate";
 import { useKeyboard } from "./keyboard-context";
 
 const AudioInput = ({
@@ -180,6 +181,7 @@ const AudioInput = ({
         />
 
         <div className="flex items-center gap-4 max-md:w-full justify-between">
+          <PermissionGate permission="add_media">
           <button
             onClick={showAudioPicker}
             type="button"
@@ -199,6 +201,7 @@ const AudioInput = ({
               <Upload strokeWidth={1.4} />
             )}
           </button>
+          </PermissionGate>
 
           {(file || url) && (
             <button

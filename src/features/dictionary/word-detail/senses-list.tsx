@@ -80,6 +80,7 @@ const SensesList = ({ senses }: { senses: SingleWord["oho"] }) => {
                       <PlayAudioButton audioUrl={ex.audioUrl} size={22} />
                     )}
 
+                    <PermissionGate permission="add_media">
                     <AudioUploader
                       type="senseExample"
                       payload={{
@@ -88,6 +89,7 @@ const SensesList = ({ senses }: { senses: SingleWord["oho"] }) => {
                         senseIndex: sense.kere,
                       }}
                     />
+                    </PermissionGate>
                   </div>
                 </div>
               ))}
@@ -96,7 +98,7 @@ const SensesList = ({ senses }: { senses: SingleWord["oho"] }) => {
         </div>
 
         <div className="flex flex-col items-end gap-4 max-md:w-full w-fit pl-5 shrink-0">
-          <PermissionGate permission="add_word">
+          <PermissionGate permission="edit_word">
             <div className="flex items-center gap-2 border-b md:w-fit pb-2 border-gray-txt-50/50 w-full justify-end">
               <EditSenseButton
                 sense={sense}

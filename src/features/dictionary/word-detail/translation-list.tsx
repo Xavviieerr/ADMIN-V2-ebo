@@ -56,7 +56,7 @@ const TranslationList = ({ data }: { data: SingleWord }) => {
           <p>
             {t("common.dictionary.noTranslations", `No ${lang} translations found for “${data.oho[transIndex]?.oto || `Kere ${transIndex + 1}`}”`).replace("{lang}", lang).replace("{kere}", String(transIndex + 1)).replace("{sense}", data.oho[transIndex]?.oto || `Kere ${transIndex + 1}`)}
           </p>
-          <PermissionGate permission="add_word">
+          <PermissionGate permission="edit_word">
             <button
               onClick={() => {
                 if (!translation) {
@@ -86,7 +86,6 @@ const TranslationList = ({ data }: { data: SingleWord }) => {
             data.oho.find((s) => s.kere === translation.kere) ??
             data.oho[transIndex]
           }
-          ota={data.ota}
           onEdit={() => {
             setSelected(translation);
             setTransIndex(transIndex + 1);

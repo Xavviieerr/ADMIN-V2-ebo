@@ -29,7 +29,7 @@ const Tabs = () => {
         ))}
       </div>
 
-      <PermissionGate permission="add_word">
+      <PermissionGate permission="edit_word">
         {tab === "senses" && (
           <button
             onClick={() => setSenseView("add")}

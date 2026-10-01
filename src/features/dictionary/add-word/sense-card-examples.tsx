@@ -8,6 +8,7 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import StagedMediaButton from "./preview/StagedMediaButton";
 import PlayAudioButton from "@/features/dictionary/word-detail/play-audio";
+import PermissionGate from "@/features/shared/permission-gate";
 
 const SenseCardExamples = ({
   lang,
@@ -56,6 +57,7 @@ const SenseCardExamples = ({
             />
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <PermissionGate permission="add_media">
               <StagedMediaButton
                 kind="audio"
                 label={
@@ -72,6 +74,7 @@ const SenseCardExamples = ({
                   }))
                 }
               />
+              </PermissionGate>
 
               {example.audioUrl && (
                 <PlayAudioButton audioUrl={example.audioUrl} />

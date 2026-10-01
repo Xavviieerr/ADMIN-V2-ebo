@@ -90,6 +90,7 @@ const WordDetailSection = ({
                 )}
 
                 {(!data.oho[0].omra || data.oho[0].omra.length == 0) && (
+                  <PermissionGate permission="add_media">
                   <AudioUploader
                     type="sense"
                     payload={{
@@ -97,9 +98,11 @@ const WordDetailSection = ({
                       senseIndex: data.oho[0].kere,
                     }}
                   />
+                  </PermissionGate>
                 )}
 
               {data.oho[0].omra?.length > 0 && (
+                <PermissionGate permission="delete_media">
                 <DeleteAudioButton
                   type="sense"
                   payload={{
@@ -108,6 +111,7 @@ const WordDetailSection = ({
                     url: data.oho[0].omra[0],
                   }}
                 />
+                </PermissionGate>
               )}
               </div>
             </div>
@@ -117,7 +121,9 @@ const WordDetailSection = ({
         <div className="flex md:flex-col flex-wrap gap-3 w-fit max-w-full shrink-0">
           <ApproveWordButton data={data} />
 
-          <SetInReviewButton data={data} />
+          <PermissionGate permission="moderate_word">
+            <SetInReviewButton data={data} />
+          </PermissionGate>
 
           <RejectWordButton data={data} />
         </div>

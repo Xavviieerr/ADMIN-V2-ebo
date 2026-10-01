@@ -1,5 +1,6 @@
 import { MultiInput } from "@/features/shared";
 import SynonymInput from "./synonym-input";
+import TranslatingFrom from "@/features/dictionary/word-detail/forms/shared/TranslatingFrom";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -10,20 +11,31 @@ export type LexicalValues = {
   ekaeruo: string[];
 };
 
+export type LexicalSource = {
+  ibuebu?: string;
+  okpo?: string;
+  orhan?: string;
+  ekaeruo?: string;
+};
+
 const LexicalFields = ({
   values,
   onChange,
   lang,
+  source,
 }: {
   values: LexicalValues;
   onChange: (patch: Partial<LexicalValues>) => void;
   lang?: "urh" | "eng" | "kor";
+  source?: LexicalSource;
 }) => {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
 
   return (
     <>
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.ibuebu} />
       <MultiInput
         placeholder={t("common.dictionary.plurals", "Plural forms of the word")}
         selectedLabel={t("common.dictionary.selectedPlurals", "Selected plurals")}
@@ -35,7 +47,10 @@ const LexicalFields = ({
           onChange({ ibuebu: [...values.ibuebu, value] })
         }
       />
+      </div>
 
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.okpo} />
       <SynonymInput
         placeholder={t("common.dictionary.synonyms", "Synonyms of the word")}
         lang={lang}
@@ -46,7 +61,10 @@ const LexicalFields = ({
         }
         addValue={(value) => onChange({ okpo: [...values.okpo, value] })}
       />
+      </div>
 
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.orhan} />
       <MultiInput
         placeholder={t("common.dictionary.antonyms", "Antonyms of the word")}
         selectedLabel={t("common.dictionary.selectedAntonyms", "Selected antonyms")}
@@ -56,7 +74,10 @@ const LexicalFields = ({
         }
         addValue={(value) => onChange({ orhan: [...values.orhan, value] })}
       />
+      </div>
 
+      <div className="flex flex-col gap-2 w-full">
+        <TranslatingFrom value={source?.ekaeruo} />
       <MultiInput
         placeholder={t("common.dictionary.relatedWords", "Related words")}
         selectedLabel={t("common.dictionary.selectedRelated", "Selected related words")}
@@ -68,6 +89,7 @@ const LexicalFields = ({
           onChange({ ekaeruo: [...values.ekaeruo, value] })
         }
       />
+      </div>
     </>
   );
 };

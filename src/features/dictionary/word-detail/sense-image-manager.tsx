@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { SingleWord } from "@/features/dictionary/lib";
 import DeleteImageButton from "./delete-image";
 import SenseImageUploader from "./sense-image-uploader";
+import PermissionGate from "@/features/shared/permission-gate";
 import Image from "next/image";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -43,14 +44,17 @@ const SenseImageManager = ({
         {url && <p className="text-sm font-medium">{t("common.dictionary.imageLabel", "Image:")}</p>}
 
         <div className="flex items-center gap-4">
-          <SenseImageUploader
-            payload={{
-              senseId: oho.id,
-              senseIndex,
-            }}
-            large={!Boolean(url)}
-          />
+          <PermissionGate permission="add_media">
+            <SenseImageUploader
+              payload={{
+                senseId: oho.id,
+                senseIndex,
+              }}
+              large={!Boolean(url)}
+            />
+          </PermissionGate>
           {url && (
+            <PermissionGate permission="delete_media">
             <DeleteImageButton
               payload={{
                 senseId: oho.id,
@@ -60,6 +64,7 @@ const SenseImageManager = ({
               }}
               size={url ? 20 : 24}
             />
+            </PermissionGate>
           )}
         </div>
       </div>

@@ -17,14 +17,12 @@ const TranslationCard = ({
   lang,
   onEdit,
   sense,
-  ota,
 }: {
   translation: SingleWord["efaEng"][number];
   transIndex: number;
   lang: string;
   onEdit: () => void;
   sense?: SingleWord["oho"][number];
-  ota?: string;
 }) => {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
@@ -38,18 +36,10 @@ const TranslationCard = ({
           <span className="rounded-full bg-yellow-500/15 text-yellow-400 px-3 py-1 text-xs font-medium uppercase">
             {t("common.dictionary.senseCount", "Sense")} {sense.kere}
           </span>
-          {ota && <span className="font-medium">{ota}</span>}
-          {sense.oto && (
-            <span className="text-sm text-gray-txt-50">“{sense.oto}”</span>
-          )}
         </div>
       )}
       <div className="flex max-md:flex-col-reverse items-center  justify-between gap-2">
         <div className="flex justify-between max-md:w-full max-md:mt-4 items-center gap-6 text-lg md:text-2xl leading-none">
-          <p className="">
-            <span>{translation.otaWord}</span>
-          </p>
-
           <div className="flex items-center gap-4">
             {translation.details?.omra?.length > 0 && (
               <PlayAudioButton
@@ -60,6 +50,7 @@ const TranslationCard = ({
 
             {(!translation.details?.omra ||
               translation.details.omra.length == 0) && (
+              <PermissionGate permission="add_media">
               <AudioUploader
                 type="translation"
                 payload={{
@@ -68,9 +59,11 @@ const TranslationCard = ({
                   languageType: lang.toLowerCase(),
                 }}
               />
+              </PermissionGate>
             )}
 
             {translation.details?.omra?.length > 0 && (
+              <PermissionGate permission="delete_media">
               <DeleteAudioButton
                 type="translation"
                 payload={{
@@ -80,12 +73,13 @@ const TranslationCard = ({
                   removeUrl: translation.details.omra[0],
                 }}
               />
+              </PermissionGate>
             )}
           </div>
         </div>
 
         <div className="flex max-md:justify-between items-center gap-2 border-b md:w-fit pb-2 border-gray-txt-50/50 w-full justify-end">
-          <PermissionGate permission="add_word">
+          <PermissionGate permission="edit_word">
             <button
               title={t("common.dictionary.editTranslation", "Edit Translation")}
               aria-label={t("common.dictionary.editTranslation", "Edit Translation")}
@@ -101,6 +95,10 @@ const TranslationCard = ({
 
       <div className="flex flex-col md:flex-row w-full items-start justify-between gap-4">
         <div className="w-full md:w-1/2 flex flex-col gap-3 md:pr-5">
+          <KeyValueParagraph
+            item={t("common.dictionary.wordTranslationLabel", "Word translation")}
+            value={translation.otaWord}
+          />
           <KeyValueParagraph
             item={t("common.dictionary.pronunciation", "Pronunciation")}
             value={`[${translation.details?.upho ?? ""}]`}
@@ -167,6 +165,7 @@ const TranslationCard = ({
                     <PlayAudioButton audioUrl={ex.audioUrl} size={22} />
                   )}
 
+                  <PermissionGate permission="add_media">
                   <AudioUploader
                     type="translationExample"
                     payload={{
@@ -176,6 +175,7 @@ const TranslationCard = ({
                       exampleSentenceIndex: i + 1,
                     }}
                   />
+                  </PermissionGate>
                 </div>
               </div>
             ))}

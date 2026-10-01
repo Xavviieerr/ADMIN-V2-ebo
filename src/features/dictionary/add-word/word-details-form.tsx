@@ -16,6 +16,7 @@ import {
 } from "@/features/shared";
 import StagedMediaButton from "./preview/StagedMediaButton";
 import PlayAudioButton from "@/features/dictionary/word-detail/play-audio";
+import PermissionGate from "@/features/shared/permission-gate";
 
 const WordDetails = ({
   dialects,
@@ -188,11 +189,9 @@ const WordDetails = ({
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <span className="text-sm">
-              {t("common.dictionary.wordAudioLabel", "Word audio")}
-            </span>
-            <div className="flex items-center gap-4">
+          <div className="rounded-xl border border-gray-txt-50/20 bg-secondary-bg/50 p-4 flex flex-col gap-3 md:col-span-2">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <PermissionGate permission="add_media">
               <StagedMediaButton
                 kind="audio"
                 label={
@@ -202,6 +201,7 @@ const WordDetails = ({
                 }
                 onUploaded={(val) => setData({ ...data, audio: val })}
               />
+              </PermissionGate>
               {data.audio && (
                 <>
                   <PlayAudioButton audioUrl={data.audio} />
@@ -216,6 +216,9 @@ const WordDetails = ({
                 </>
               )}
             </div>
+            <p className="text-xs text-gray-txt-50">
+              {t("common.dictionary.wordAudioHint", "Add a recording of the word so learners can hear how it sounds")}
+            </p>
           </div>
 
           {/*

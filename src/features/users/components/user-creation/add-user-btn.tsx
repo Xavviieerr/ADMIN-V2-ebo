@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react";
 import React from "react";
 import { useState } from "react";
-import { LocaleWrapper } from "@/features/shared";
+import { LocaleWrapper, PermissionGate } from "@/features/shared";
 import InviteAdmin from "./invite-admin";
 import CreateAdmin from "./create-admin";
 
@@ -11,6 +11,7 @@ const AddUserBtn = () => {
   const [inviteUser, setInviteUser] = useState(false);
   const [createAdmin, setCreateAdmin] = useState(false);
   return (
+    <PermissionGate permission="create_user">
     <div className="flex items-center gap-2">
       <InviteAdmin show={inviteUser} setShow={setInviteUser} />
 
@@ -35,6 +36,7 @@ const AddUserBtn = () => {
         </span>
       </button>
     </div>
+    </PermissionGate>
   );
 };
 

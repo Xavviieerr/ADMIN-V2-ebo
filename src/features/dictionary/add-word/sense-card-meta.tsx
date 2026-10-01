@@ -1,6 +1,7 @@
 "use client";
 
 import { BaseInput, BaseTextArea } from "@/features/shared";
+import PermissionGate from "@/features/shared/permission-gate";
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
@@ -47,16 +48,10 @@ const SenseCardMeta = ({ lang, data, setData, ota }: SenseCardMetaProps) => {
 			<div className="flex items-center gap-3 text-base font-medium mb-2">
 				<h2>
 					{lang === "urh"
-						? t("common.dictionary.senses", "Urhobo Sense")
+						? `${t("common.dictionary.senseCount", "Sense")} (${t("common.dictionary.urhoboLang", "Urhobo")})`
 						: lang === "kor"
-							? t(
-									"common.dictionary.wordTranslationLabel",
-									"Korean Translation",
-								)
-							: t(
-									"common.dictionary.wordTranslationLabel",
-									"English Translation",
-								)}
+							? `${t("common.dictionary.wordTranslationLabel", "Word translation")} (${t("common.dictionary.koreanLang", "Korean")})`
+							: `${t("common.dictionary.wordTranslationLabel", "Word translation")} (${t("common.dictionary.englishLang", "English")})`}
 				</h2>
 				{lang === "urh" && (
 					<span className="rounded-full bg-yellow-500/15 text-yellow-400  px-2 py-0.5 text-xs font-medium">
@@ -86,6 +81,7 @@ const SenseCardMeta = ({ lang, data, setData, ota }: SenseCardMetaProps) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <PermissionGate permission="add_media">
           <StagedMediaButton
             kind="audio"
             label={
@@ -95,11 +91,13 @@ const SenseCardMeta = ({ lang, data, setData, ota }: SenseCardMetaProps) => {
             }
             onUploaded={(value) => setData({ ...data, audioUrl: value })}
           />
+          </PermissionGate>
 
           {data.audioUrl && <PlayAudioButton audioUrl={data.audioUrl} />}
         </div>
 
         {lang === "urh" && (
+          <PermissionGate permission="add_media">
           <div className="flex flex-wrap items-center gap-4">
             {!data.imageUrl && (
               <StagedMediaButton
@@ -144,6 +142,7 @@ const SenseCardMeta = ({ lang, data, setData, ota }: SenseCardMetaProps) => {
               </div>
             )}
           </div>
+          </PermissionGate>
         )}
 					{/* Translations do not support images for now.
           Re-enable the block below when they do:

@@ -1,6 +1,7 @@
 "use client";
 
 import { AudioInput } from "@/features/shared";
+import TranslatingFrom from "./TranslatingFrom";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -13,10 +14,12 @@ const ExampleFields = ({
   title,
   idje,
   onChange,
+  sourceIdje,
 }: {
   title: string;
   idje: ExampleValue[];
   onChange: (idje: ExampleValue[]) => void;
+  sourceIdje?: { sentence: string }[];
 }) => {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
@@ -26,7 +29,8 @@ const ExampleFields = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {idje.map((example, index) => (
-          <div key={index} className="flex flex-col w-full">
+          <div key={index} className="flex flex-col gap-2 w-full">
+            <TranslatingFrom value={sourceIdje?.[index]?.sentence} />
             <div className="flex items-center gap-4 w-full">
               <AudioInput
                 placeholder={`${t("common.dictionary.example", "Example")} ${index + 1}`}

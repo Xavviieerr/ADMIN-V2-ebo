@@ -146,7 +146,7 @@ const AudioUploader = ({
         ) : (
           <>
             <Upload strokeWidth={1.4} size={20} />
-            <span className="text-xs font-medium">{t("common.dictionary.upload", "Upload")}</span>
+            <span className="text-xs font-medium">{t("common.dictionary.uploadAudio", "Upload Audio")}</span>
           </>
         )}
       </button>

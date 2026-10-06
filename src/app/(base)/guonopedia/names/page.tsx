@@ -1,13 +1,9 @@
-import { GuonopediaNamesFeature } from "@/features/names-pedia";
+import { GuonopediaNamesFeature, type NamesSearchParams } from "@/features/names";
 
 const GuonopediaNamesPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{
-    page?: string;
-    search?: string;
-    type?: string;
-  }>;
+  searchParams: Promise<NamesSearchParams>;
 }) => {
   const params = await searchParams;
   return <GuonopediaNamesFeature searchParams={params} />;

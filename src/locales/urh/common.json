@@ -576,7 +576,9 @@
       "selectDialectPlaceholder": "Yan Ẹrẹvwe",
       "wordAudioHint": "Add a recording of the word so learners can hear how it sounds",
       "audioAdded": "E mare",
-      "translatingFrom": "URH"
+      "translatingFrom": "URH",
+      "totalWords": "Total Words",
+      "totalWordsCaption": "Total number of words"
     },
     "moveKeyboard": "Move Keyboard"
   },
@@ -874,5 +876,143 @@
     "ticketNotFound": "Tikiti vbe o vba di",
     "userInformation": "Uhonwa ọma",
     "backToTickets": "Gwa tikiti"
+  },
+  "names": {
+    "list": {
+      "emptyFiltered": "Edẹ ihiẹnhọ na erọọ",
+      "notAuthorized": "Ọ nọ gha ẹrhọvwa edẹ",
+      "empty": "Edẹ na erọọ",
+      "loadFailed": "Ọ nọ gha ẹrhọvwa edẹ",
+      "subtitle": "Edẹ Urhobo Eje",
+      "validationHint": "Rhẹrhe iroro"
+    },
+    "detail": {
+      "viewDetails": "Mrẹ Odẹ {name}",
+      "bearers": "Eshare",
+      "composition": "Eta Odẹ",
+      "loadFailed": "Ọ nọ gha ẹrhọvwa odẹ",
+      "nameCaption": "Odẹ",
+      "nicknames": "Odẹ Ofa",
+      "pronunciation": "Ota",
+      "pronunciationLabel": "Ota",
+      "summary": "Otọ",
+      "syllableCount": "Ekpọ",
+      "type": "Oka"
+    },
+    "form": {
+      "addTitle": "Bruba Odẹ Okpokpọ",
+      "editTitle": "Rhuẹrẹ Odẹ",
+      "detailsHeading": "Odẹ Eta",
+      "abbreviationsLabel": "Fọfọ Odẹ",
+      "abbreviationsPlaceholder": "Kere Fọfọ Odẹ",
+      "altSpellingsLabel": "Ekere Ofa",
+      "altSpellingsPlaceholder": "Kere Ekere Ofa",
+      "bearersLabel": "Eshare",
+      "bearersPlaceholder": "Kere Eshare",
+      "compositionPlaceholder": "Kere Eta Odẹ",
+      "compositionTitle": "Eta Odẹ",
+      "compositionTitleOptional": "Eta Odẹ",
+      "countSuffix": "Se",
+      "descriptionLabel": "Emiẹ",
+      "descriptionPlaceholder": "Kere Emiẹ odẹ na",
+      "dialectOptionalLabel": "Ẹrẹvwe",
+      "editTranslationAria": "Rhuẹrẹ Ewene",
+      "namePlaceholder": "Kere odẹ nana",
+      "neutralOption": "Ofa",
+      "nicknamesLabel": "Odẹ Ofa",
+      "nicknamesPlaceholder": "Kere Odẹ Ofa",
+      "notesLabel": "Ebe",
+      "notesPlaceholder": "Kere Ebe",
+      "otherDetails": "Eta Ofa",
+      "otherDetailsOptional": "Eta Ofa",
+      "otherOption": "Ofa",
+      "pronunciationPlaceholder": "Kere Ota",
+      "relatedLabel": "Eka Edẹ",
+      "relatedPlaceholder": "Kere Eka Edẹ",
+      "removeTranslationAria": "Phoro Ewene",
+      "syllablePlaceholder": "Kere Ekpọ",
+      "translationLabel": "Ewene",
+      "translationPlaceholder": "Kere ẹfa Inglishi nana",
+      "translationsTitle": "Ewene",
+      "typeLabel": "Oka Odẹ"
+    },
+    "moderation": {
+      "approveTitle": "Rhọvwe Odẹ",
+      "approveBody": "Ọ guọnọre nẹ ọ rọ rhọvwe odẹ yi?",
+      "rejectTitle": "Siọ Odẹ",
+      "rejectBody": "Ọ guọnọre nẹ ọ rọ siọ odẹ yi?",
+      "reasonLabel": "Irori",
+      "deleteTitle": "Phoro Odẹ",
+      "deleteBody": "Ọ guọnọre nẹ ọ rọ phoro odẹ yi? Ọ nọ gha rhuẹ phoro.",
+      "reasonRequired": "Irori Guọnọre",
+      "approvedSuccess": "Odẹ rhọvwe na rueghe!",
+      "rejectedSuccess": "Odẹ siọ na rueghe!",
+      "deletedSuccess": "Odẹ phoro na rueghe!",
+      "approveFailed": "Ọ nọ gha rhọvwe odẹ",
+      "rejectFailed": "Ọ nọ gha siọ odẹ",
+      "deleteFailed": "Ọ nọ gha phoro odẹ",
+      "updatedSuccess": "Odẹ rhuẹ na rueghe!",
+      "createdSuccess": "Bruba Odẹ na rueghe!",
+      "noChanges": "Ọrhọ ovo",
+      "noChangesUpdate": "Ọrhọ ovo",
+      "reasonPlaceholder": "Bwidọ irori ne ọ siọ odẹ yi..."
+    },
+    "translation": {
+      "addedSuccess": "Bruba Ewene na rueghe!",
+      "deleteAria": "Phoro Ewene (Uvweran)",
+      "unavailable": "Uvweran Ewene"
+    },
+    "notfound": {
+      "title": "Odẹ Erọọ",
+      "back": "Rhuẹ Edẹ",
+      "body": "Odẹ na erọọ"
+    },
+    "filter": {
+      "firstNames": "given name",
+      "lastNames": "surname",
+      "nicknames": "nickname"
+    },
+    "analytics": {
+      "allNames": "Edẹ Eje",
+      "pendingLabel": "Ravwọya",
+      "pendingCaption": "Edẹ Ravwọya Eje",
+      "allCaption": "Edẹ Eje ne Guono",
+      "firstCaption": "Edẹ Erhi ne Guono",
+      "lastCaption": "Edẹ Orua ne Guono",
+      "nicknamesCaption": "Odẹ Ofa ne Guono",
+      "approvedCaption": "Edẹ Rhọvwehọ Eje",
+      "givenLabel": "Edẹ Erhi",
+      "surnameLabel": "Edẹ Orua",
+      "nicknameLabel": "Odẹ Ofa"
+    },
+    "validation": {
+      "nameRequired": "Odẹ Guọnọre",
+      "genderRequired": "Oghoma Guọnọre",
+      "dialectRequired": "Ẹrẹvwe Guọnọre",
+      "draftRequired": "Ewene Guọnọre",
+      "nameTypeRequired": "Oka Guọnọre",
+      "compositionRequired": "Eta Odẹ Guọnọre",
+      "descriptionRequired": "Emiẹ Guọnọre",
+      "draftMin": "Ewene: 2",
+      "genderEnum": "Oghoma Guọnọre: male, female, neutral",
+      "nameTypeEnum": "Oka Guọnọre: given name, surname, nickname, other",
+      "translationsMin": "Ewene: 2"
+    },
+    "a11y": {
+      "searching": "Ro ihiẹnhọ...",
+      "toggleKeyboard": "Keyboard Urhobo"
+    },
+    "carousel": {
+      "nameLabel": "Odẹ",
+      "notesLabel": "Ebe",
+      "title": "Ewene",
+      "prev": "Rhuẹ",
+      "next": "Ovuẹ"
+    },
+    "pager": {
+      "goTo": "Rhuẹ {num}",
+      "next": "Ovuẹ",
+      "prev": "Rhuẹ"
+    }
   }
 }

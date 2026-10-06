@@ -54,6 +54,7 @@ export function getTranslation(
 export type TranslationKey =
   | `sidebar.${string}`
   | `common.${string}`
+  | `names.${string}`
   | `users.${string}`
   | `messages.${string}`
   | `login.${string}`

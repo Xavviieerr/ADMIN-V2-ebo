@@ -576,7 +576,9 @@
       "selectDialectPlaceholder": "Select a dialect",
       "wordAudioHint": "Add a recording of the word so learners can hear how it sounds",
       "audioAdded": "Added",
-      "translatingFrom": "URH"
+      "translatingFrom": "URH",
+      "totalWords": "Total Words",
+      "totalWordsCaption": "Total number of words"
     }
   },
   "figures": {
@@ -879,5 +881,143 @@
     "ticketNotFound": "Ticket not found",
     "userInformation": "User Information",
     "backToTickets": "Back to tickets"
+  },
+  "names": {
+    "list": {
+      "subtitle": "Manage Urhobo names on the platform.",
+      "empty": "No names found",
+      "emptyFiltered": "No names match your search",
+      "loadFailed": "Failed to load names",
+      "validationHint": "Try clearing the active filters above.",
+      "notAuthorized": "You are not authorized to view names"
+    },
+    "detail": {
+      "loadFailed": "Failed to load name",
+      "type": "Type",
+      "summary": "Summary",
+      "pronunciation": "Pronunciation",
+      "syllableCount": "Syllable Count",
+      "composition": "Name Composition",
+      "nicknames": "Nick Names",
+      "bearers": "Notable Bearers",
+      "viewDetails": "View details for {name}",
+      "pronunciationLabel": "Pronunciation",
+      "nameCaption": "Name"
+    },
+    "carousel": {
+      "title": "Translations",
+      "nameLabel": "Name",
+      "notesLabel": "Notes",
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "form": {
+      "addTitle": "Add a New Name",
+      "editTitle": "Edit Name",
+      "typeLabel": "Type of name",
+      "namePlaceholder": "Enter the name in Urhobo",
+      "abbreviationsPlaceholder": "Type an abbreviation to add to the name",
+      "pronunciationPlaceholder": "Enter the pronunciation",
+      "syllablePlaceholder": "Enter the syllable count",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Enter the description of the name",
+      "compositionTitle": "Name Composition",
+      "compositionTitleOptional": "Name Composition (optional)",
+      "compositionPlaceholder": "Type a word to add to the names composition",
+      "translationsTitle": "Translations",
+      "translationPlaceholder": "Enter the english translation of the name",
+      "notesPlaceholder": "Enter any notes about the translation",
+      "otherDetails": "Other Details",
+      "otherDetailsOptional": "Other Details (optional)",
+      "altSpellingsLabel": "Alternative Spellings",
+      "altSpellingsPlaceholder": "Type an alternative spelling to add to the name",
+      "nicknamesLabel": "Nicknames",
+      "nicknamesPlaceholder": "Type a nickname to add to the name",
+      "bearersLabel": "Notable Bearers",
+      "bearersPlaceholder": "Type a notable bearer to add to the name",
+      "relatedLabel": "Related names",
+      "relatedPlaceholder": "Type a related name to add to the name",
+      "translationLabel": "Translation",
+      "notesLabel": "Notes (optional)",
+      "otherOption": "other",
+      "abbreviationsLabel": "Abbreviations (optional)",
+      "neutralOption": "neutral",
+      "countSuffix": "Count",
+      "detailsHeading": "Name Details",
+      "dialectOptionalLabel": "Dialect (optional)",
+      "editTranslationAria": "Edit translation",
+      "removeTranslationAria": "Remove translation"
+    },
+    "validation": {
+      "nameTypeRequired": "Name type is required",
+      "nameTypeEnum": "Name type must be one of: given name, surname, nickname, other",
+      "nameRequired": "Name is required",
+      "genderRequired": "Gender is required",
+      "genderEnum": "Gender must be one of: male, female, neutral",
+      "descriptionRequired": "Description is required",
+      "dialectRequired": "Dialect is required",
+      "compositionRequired": "Composition is required",
+      "translationsMin": "Translations must be at least 2 characters",
+      "draftRequired": "Translation is required",
+      "draftMin": "Translation must be at least 2 characters"
+    },
+    "moderation": {
+      "approveTitle": "Approve This Name",
+      "approveBody": "Are you sure you want to approve this name? Kindly confirm before proceeding.",
+      "rejectTitle": "Reject Name",
+      "rejectBody": "Are you sure you want to reject this name? You cant undo this action.",
+      "reasonPlaceholder": "Enter reason for rejecting name",
+      "deleteTitle": "Delete This Name",
+      "deleteBody": "Are you sure you want to delete this name? You cant undo this action.",
+      "reasonRequired": "Reason for rejection is required",
+      "approvedSuccess": "Name approved successfully",
+      "rejectedSuccess": "Name rejected successfully",
+      "deletedSuccess": "Name deleted successfully",
+      "approveFailed": "Failed to approve name",
+      "rejectFailed": "Failed to reject name",
+      "deleteFailed": "Failed to delete name",
+      "noChanges": "No changes to save",
+      "noChangesUpdate": "No changes to update",
+      "reasonLabel": "Reason",
+      "createdSuccess": "Name added successfully",
+      "updatedSuccess": "Name updated successfully"
+    },
+    "translation": {
+      "addedSuccess": "Translation added successfully",
+      "unavailable": "Translation deletion is not available yet",
+      "deleteAria": "Delete translation (unavailable)"
+    },
+    "notfound": {
+      "title": "Name not found",
+      "body": "The requested name does not exist or may have been deleted.",
+      "back": "Back to names"
+    },
+    "filter": {
+      "firstNames": "given name",
+      "lastNames": "surname",
+      "nicknames": "nickname"
+    },
+    "analytics": {
+      "pendingLabel": "Pending Approval",
+      "pendingCaption": "Names pending approval",
+      "allCaption": "All indexed names on Guono",
+      "firstCaption": "given name entries on Guono",
+      "lastCaption": "surname entries on Guono",
+      "allNames": "All Names",
+      "nicknamesCaption": "nickname entries on Guono",
+      "approvedCaption": "Approved names on Guono",
+      "givenLabel": "given name",
+      "surnameLabel": "surname",
+      "nicknameLabel": "nickname"
+    },
+    "pager": {
+      "prev": "Previous page",
+      "next": "Next page",
+      "goTo": "Go to page {num}"
+    },
+    "a11y": {
+      "toggleKeyboard": "Toggle keyboard",
+      "searching": "Searching"
+    }
   }
 }

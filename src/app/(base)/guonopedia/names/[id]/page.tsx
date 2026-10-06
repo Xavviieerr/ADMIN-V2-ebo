@@ -1,4 +1,4 @@
-import { SingleNameFeature } from "@/features/names-pedia";
+import { SingleNameFeature } from "@/features/names";
 import React from "react";
 
 const SingleNamePage = async ({

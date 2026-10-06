@@ -1,4 +1,4 @@
-import { AddNameFeature } from "@/features/names-pedia";
+import { AddNameFeature } from "@/features/names";
 
 const AddNamesPage = () => {
   return <AddNameFeature />;

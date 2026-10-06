@@ -1,4 +1,4 @@
-import { EditNameFeature } from "@/features/names-pedia";
+import { EditNameFeature } from "@/features/names";
 
 const EditNamesPage = async ({
   searchParams,

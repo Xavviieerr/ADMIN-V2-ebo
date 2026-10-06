@@ -22,6 +22,11 @@ const DictionaryAnalytics = ({
     const currentParams = new URLSearchParams(searchParams.toString());
     currentParams.delete("page");
 
+    if (v === "all") {
+      currentParams.delete("status");
+      return `/guonopedia/dictionary?${currentParams.toString()}`;
+    }
+
     if (v === status) {
       currentParams.delete("status");
       const newPath = `/guonopedia/dictionary?${currentParams.toString()}`;
@@ -69,8 +74,20 @@ const DictionaryAnalytics = ({
         </PermissionGate>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
         {[
+          {
+            statusValue: "all",
+            labelKey: "common.dictionary.totalWords",
+            labelFallback: "Total Words",
+            value:
+              (data?.approved ?? 0) +
+              (data?.pending ?? 0) +
+              (data?.["in-review"] ?? 0) +
+              (data?.rejected ?? 0),
+            captionKey: "common.dictionary.totalWordsCaption",
+            captionFallback: "Total number of words",
+          },
           {
             statusValue: "approved",
             labelKey: "common.dictionary.approved",
@@ -108,7 +125,7 @@ const DictionaryAnalytics = ({
             href={`${handleClick(stat.statusValue)}`}
             key={stat.statusValue}
             className={`w-full md:gap-5 gap-3 rounded-md md:p-5 p-3 bg-secondary-bg flex flex-col justify-between shadow ${
-              status === stat.statusValue
+              (stat.statusValue === "all" && !status) || status === stat.statusValue
                 ? "ring-1 ring-foreground-50 "
                 : "hover:border border-gray-txt-50"
             } transition-colors duration-300 ease-in`}

@@ -1,7 +1,7 @@
 import { GoBackButton, ImageGallery } from "@/features/shared";
 import React, { Fragment } from "react";
-import { content } from "./content";
-import { ButtonRow, ContentSection } from "./components/view";
+import { content } from "../content";
+import { ButtonRow, ContentSection } from "./view";
 
 const SinglePlaceFeature = () => {
   return (

@@ -4,6 +4,7 @@ import { PlaceInfoStage, LocaleWrapper } from "@/features/shared";
 import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAddPlaceDraft } from "./context";
 
 const STAGES: PlaceInfoStage[] = [
   "basicInfo",
@@ -14,6 +15,25 @@ const STAGES: PlaceInfoStage[] = [
 
 const StagesTable = ({ stage }: { stage: PlaceInfoStage }) => {
   const router = useRouter();
+  const { basic, history, sources } = useAddPlaceDraft();
+
+  const rows = [
+    {
+      label: "Basic Information",
+      status: basic.name.trim() ? "In Progress" : "Not Started",
+      value: "basicInfo",
+    },
+    {
+      label: "History",
+      status: history.length > 0 ? "In Progress" : "Not Started",
+      value: "history",
+    },
+    {
+      label: "Sources & Links",
+      status: sources.length > 0 ? "In Progress" : "Not Started",
+      value: "metadata",
+    },
+  ];
   return (
     <>
       {!STAGES.includes(stage) && (
@@ -52,23 +72,7 @@ const StagesTable = ({ stage }: { stage: PlaceInfoStage }) => {
               </thead>
 
               <tbody className="divide-y divide-white/10">
-                {[
-                  {
-                    label: "Basic Information",
-                    status: "Not Started",
-                    value: "basicInfo",
-                  },
-                  {
-                    label: "History",
-                    status: "Not Started",
-                    value: "history",
-                  },
-                  {
-                    label: "Sources & Links",
-                    status: "Not Started",
-                    value: "metadata",
-                  },
-                ].map((item) => (
+                {rows.map((item) => (
                   <tr
                     key={item.value}
                     onClick={() => router.push(`?stage=${item.value}`)}

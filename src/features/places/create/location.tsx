@@ -1,16 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useAddPlaceDraft } from "./context";
 
 const LocationForm = () => {
-  const [formData, setFormData] = useState({
-    state: "",
-    LGA: "",
-    lat: "",
-    long: "",
-    googleMap: "",
-    province: "",
-  });
+  const { location: formData, setLocation: setFormData } = useAddPlaceDraft();
 
   return (
     <div className=" flex flex-col px-8 py-6 bg-gray-txt-100 rounded-md w-full h-fit">

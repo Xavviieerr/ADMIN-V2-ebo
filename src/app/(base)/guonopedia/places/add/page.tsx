@@ -1,4 +1,4 @@
-import { AddPlaceFeature } from "@/features/places-pedia";
+import { AddPlaceFeature } from "@/features/places";
 import { PlaceInfoStage } from "@/features/shared";
 import React from "react";
 

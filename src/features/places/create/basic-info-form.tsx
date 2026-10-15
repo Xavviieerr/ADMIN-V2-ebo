@@ -1,19 +1,11 @@
 "use client";
 
 import { MultiInput } from "@/features/shared";
-import React, { useState } from "react";
+import React from "react";
+import { useAddPlaceDraft } from "./context";
 
 const BasicInfoForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    alternativeNames: [] as string[],
-    type: "",
-    foundedOn: "",
-    founders: [] as string[],
-    figures: [] as string[],
-    ruler: "",
-    summary: "",
-  });
+  const { basic: formData, setBasic: setFormData } = useAddPlaceDraft();
 
   return (
     <div className=" flex flex-col px-8 py-6 bg-gray-txt-100 rounded-md w-full">

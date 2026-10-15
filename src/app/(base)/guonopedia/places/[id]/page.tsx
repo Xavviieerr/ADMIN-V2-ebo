@@ -1,4 +1,4 @@
-import { SinglePlaceFeature } from "@/features/places-pedia";
+import { SinglePlaceFeature } from "@/features/places";
 import React from "react";
 
 const SinglePlacePage = () => {

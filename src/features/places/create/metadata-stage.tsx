@@ -4,32 +4,13 @@ import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { PlaceInfoStage } from "@/features/shared";
+import { PlaceSource, useAddPlaceDraft } from "./context";
 
-type FormData = {
-  id: string;
-  type: "article" | "book" | "interview" | "oral history" | "website";
-
-  //articles & books
-  title: string;
-  author: string;
-  publishedBy: string;
-  publishedOn: string;
-
-  //for websites
-  url: string;
-  accessDate: string;
-
-  //for interviews & oral history
-  speaker: string;
-  date: string;
-
-  context: string;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MetadataStage = ({ stage }: { stage: "metadata" | any }) => {
-  const [sourceAdded, setSourceAdded] = useState<FormData[]>([]);
-  const [formData, setFormData] = useState<FormData>({
+const MetadataStage = ({ stage }: { stage: PlaceInfoStage }) => {
+  const { sources: sourceAdded, setSources: setSourceAdded } =
+    useAddPlaceDraft();
+  const [formData, setFormData] = useState<PlaceSource>({
     id: "",
     type: "article",
 
@@ -134,7 +115,7 @@ const MetadataStage = ({ stage }: { stage: "metadata" | any }) => {
 
             <div className="flex items-center gap-4">
               <Link
-                href={`/guonopedia/figures/add?status=3`}
+                href={`/guonopedia/places/add`}
                 className="primary-btn font-medium"
               >
                 Done
@@ -157,7 +138,7 @@ const MetadataStage = ({ stage }: { stage: "metadata" | any }) => {
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        type: e.target.value as FormData["type"],
+                        type: e.target.value as PlaceSource["type"],
                       })
                     }
                     id="type"

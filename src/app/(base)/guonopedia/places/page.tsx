@@ -1,4 +1,4 @@
-import { GuonopediaPlacesFeature } from "@/features/places-pedia";
+import { GuonopediaPlacesFeature } from "@/features/places";
 import React from "react";
 
 const GuonopediaPlacesPage = () => {

@@ -11,7 +11,7 @@ import { CheckCheck } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { content } from "../content";
 
-const PreviewFigure = ({ stage }: { stage: PlaceInfoStage }) => {
+const PreviewPlace = ({ stage }: { stage: PlaceInfoStage }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const params = useSearchParams();
   const _status = params.get("status");
@@ -118,4 +118,4 @@ const PreviewFigure = ({ stage }: { stage: PlaceInfoStage }) => {
   );
 };
 
-export default PreviewFigure;
+export default PreviewPlace;

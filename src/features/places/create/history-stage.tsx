@@ -3,11 +3,10 @@ import { PlaceInfoStage, SingleAccordionEntry } from "@/features/shared";
 import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { useAddPlaceDraft } from "./context";
 
 const HistoryStage = ({ stage }: { stage: PlaceInfoStage }) => {
-  const [bio, setBio] = useState<{ id: string; title: string; body: string }[]>(
-    [],
-  );
+  const { history: bio, setHistory: setBio } = useAddPlaceDraft();
 
   const [singleHistory, setSingleHistory] = useState<{
     id: string;
@@ -82,7 +81,7 @@ const HistoryStage = ({ stage }: { stage: PlaceInfoStage }) => {
 
             <div className="flex items-center gap-4">
               <Link
-                href={`/guonopedia/figures/add?status=2`}
+                href={`/guonopedia/places/add`}
                 className="primary-btn font-medium"
               >
                 Done

@@ -6,6 +6,7 @@ import {
   HistoryIcon,
   BrainCog,
   Music,
+  MapPin,
   LayoutDashboardIcon,
   UserIcon,
   BookOpenIcon,
@@ -65,6 +66,12 @@ export const navigation: NavItem[] = [
         href: "/guonopedia/figures",
         icon: HistoryIcon,
         permission: null,
+      },
+      {
+        translationKey: "sidebar.places",
+        href: "/guonopedia/places",
+        icon: MapPin,
+        permission: "view_place",
       },
       {
         translationKey: "sidebar.proverbsAndIdioms",

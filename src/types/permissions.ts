@@ -116,6 +116,33 @@ export interface Permission {
       category: 'province',
       title: 'Delete Provinces',
       description: 'Can remove provinces and towns'
+    },
+
+    // Place management permissions
+    'create_place': {
+      category: 'place',
+      title: 'Add Places',
+      description: 'Can create new guonopedia places'
+    },
+    'view_place': {
+      category: 'place',
+      title: 'View Places',
+      description: 'Can view guonopedia place information'
+    },
+    'edit_place': {
+      category: 'place',
+      title: 'Edit Places',
+      description: 'Can modify guonopedia place details'
+    },
+    'delete_place': {
+      category: 'place',
+      title: 'Delete Places',
+      description: 'Can remove guonopedia places'
+    },
+    'moderate_place': {
+      category: 'place',
+      title: 'Moderate Places',
+      description: 'Can approve and reject guonopedia places'
     }
   };
 

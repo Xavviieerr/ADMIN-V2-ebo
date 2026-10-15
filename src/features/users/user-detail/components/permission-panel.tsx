@@ -17,7 +17,7 @@ type PermissionPanelProps = {
 export default function PermissionPanel({
   userId,
   categories,
-  className = "flex flex-col w-full dark-box max-md:mt-10 item-start gap-5",
+  className = "flex flex-col w-full max-w-full min-w-0 dark-box max-md:mt-10 item-start gap-5 overflow-x-clip",
 }: PermissionPanelProps) {
   const { locale } = useLocale();
   const { t } = useTranslation(locale);
@@ -73,11 +73,18 @@ export default function PermissionPanel({
         </p>
       </div>
 
-      <div className="flex max-w-full w-full max-md:flex-col lg:overflow-x-scroll no-scrollbar gap-4">
+      {/* The row is the only scroller on both axes: cards size to their
+          full content, so no scrollbars live inside the cards. */}
+      <div
+        role="region"
+        aria-label={t("common.allPermissions", "All Permissions")}
+        tabIndex={0}
+        className="flex items-start w-full max-w-full min-w-0 max-md:flex-col gap-4 overflow-auto overscroll-contain custom-scrollbar snap-x snap-proximity p-1 pb-3 max-h-[70vh] focus-visible:outline-2 focus-visible:outline-offset-2"
+      >
         {categories.map((category) => (
           <div
-            key={category.title}
-            className="bg-[#1E1E1E] rounded-xl py-6 px-4 md:p-6 border border-gray-700 lg:w-1/3 w-full shrink-0"
+            key={`${category.key}-${category.title}`}
+            className="bg-[#1E1E1E] rounded-xl py-6 px-4 md:p-6 border border-gray-700 w-full lg:min-w-[340px] lg:max-w-[400px] lg:basis-[360px] shrink-0 snap-start"
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg max-md:text-base font-semibold text-white">

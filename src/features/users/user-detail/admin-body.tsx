@@ -19,7 +19,7 @@ const AdminBody = ({ adminData }: { adminData: AdminData }) => {
     }
   }, [searchParams]);
   return (
-    <div className="w-full pb-20">
+    <div className="w-full min-w-0 overflow-x-clip pb-20">
       {adminData.user.suspensionReason && (
         <div className="flex flex-col px-5 py-2 border border-base-red border-dashed rounded-md text-gray-txt-50 mb-5 gap-1 md:w-fit w-full text-sm">
           <p>Reason for suspension:</p>

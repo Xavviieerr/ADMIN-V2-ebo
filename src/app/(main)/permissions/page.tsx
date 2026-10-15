@@ -51,77 +51,51 @@ export default function PermissionsPage() {
         </p>
       </div>
 
-      {/* Permissions Section */}
+      {/* Permissions Section — one card per category. Empty categories
+          render nothing so the grid never shows hollow cards. */}
       <div className="space-y-6 sm:space-y-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {/* User Management */}
-        <div className="bg-[#1E1E1E] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-white">User Management</h3>
-          </div>
-          <div className="space-y-3 sm:space-y-4">
-            {getPermissionsByCategory('user').map((permission) => (
-              <div key={permission.uiName} className="p-3 sm:p-4 bg-[#2a2a2a] rounded-lg border border-white/10">
-                <h4 className="text-sm sm:text-base text-white font-medium mb-1 sm:mb-2">
-                  {permission.mapping.title}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-400">{permission.mapping.description}</p>
+        {(
+          [
+            { key: "user", title: "User Management" },
+            { key: "province", title: "Province Management" },
+            { key: "dictionary", title: "Dictionary Management" },
+            { key: "town", title: "Town Management" },
+            { key: "place", title: "Place Management" },
+            { key: "figure", title: "Figure Management" },
+            { key: "name", title: "Name Management" },
+            { key: "admin", title: "Admin Management" },
+          ] as const
+        ).map((category) => {
+          const items = getPermissionsByCategory(category.key);
+          if (items.length === 0) return null;
+          return (
+            <div
+              key={category.key}
+              className="bg-[#1E1E1E] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10"
+            >
+              <div className="mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg font-semibold text-white">
+                  {category.title}
+                </h3>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Province Management */}
-        <div className="bg-[#1E1E1E] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-white">Province Management</h3>
-          </div>
-          <div className="space-y-3 sm:space-y-4">
-            {getPermissionsByCategory('province').map((permission) => (
-              <div key={permission.uiName} className="p-3 sm:p-4 bg-[#2a2a2a] rounded-lg border border-white/10">
-                <h4 className="text-sm sm:text-base text-white font-medium mb-1 sm:mb-2">
-                  {permission.mapping.title}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-400">{permission.mapping.description}</p>
+              <div className="space-y-3 sm:space-y-4 max-h-[440px] overflow-y-auto custom-scrollbar pr-1">
+                {items.map((permission) => (
+                  <div
+                    key={permission.uiName}
+                    className="p-3 sm:p-4 bg-[#2a2a2a] rounded-lg border border-white/10"
+                  >
+                    <h4 className="text-sm sm:text-base text-white font-medium mb-1 sm:mb-2">
+                      {permission.mapping.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-400">
+                      {permission.mapping.description}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Dictionary Management */}
-        <div className="bg-[#1E1E1E] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-white">Dictionary Management</h3>
-          </div>
-          <div className="space-y-3 sm:space-y-4">
-            {getPermissionsByCategory('dictionary').map((permission) => (
-              <div key={permission.uiName} className="p-3 sm:p-4 bg-[#2a2a2a] rounded-lg border border-white/10">
-                <h4 className="text-sm sm:text-base text-white font-medium mb-1 sm:mb-2">
-                  {permission.mapping.title}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-400">{permission.mapping.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Town Management */}
-        {getPermissionsByCategory('town').length > 0 && (
-          <div className="bg-[#1E1E1E] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
-            <div className="mb-4 sm:mb-6">
-              <h3 className="text-base sm:text-lg font-semibold text-white">Town Management</h3>
             </div>
-            <div className="space-y-3 sm:space-y-4">
-              {getPermissionsByCategory('town').map((permission) => (
-                <div key={permission.uiName} className="p-3 sm:p-4 bg-[#2a2a2a] rounded-lg border border-white/10">
-                  <h4 className="text-sm sm:text-base text-white font-medium mb-1 sm:mb-2">
-                    {permission.mapping.title}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-gray-400">{permission.mapping.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          );
+        })}
       </div>
     </div>
   );

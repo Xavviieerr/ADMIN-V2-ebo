@@ -85,6 +85,11 @@ export const ADMIN_PERMISSION_CATEGORIES: PermissionCategory[] = [
   { key: "user", title: "common.userManagement" },
   { key: "province", title: "common.provinceManagement" },
   { key: "dictionary", title: "common.dictionaryManagement" },
+  { key: "town", title: "common.townManagement" },
+  { key: "place", title: "common.placeManagement" },
+  { key: "figure", title: "common.figureManagement" },
+  { key: "name", title: "common.nameManagement" },
+  { key: "admin", title: "common.adminManagement" },
 ];
 
 export const CONTRIBUTOR_PERMISSION_CATEGORIES: PermissionCategory[] = [

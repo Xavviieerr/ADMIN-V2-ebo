@@ -40,7 +40,7 @@ const SingleUserFeature = ({
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-6 text-white">
+    <div className="min-h-screen min-w-0 overflow-x-clip p-4 md:p-6 text-white">
       <GoBackButton link="/users" />
 
       <div className="dark-box rounded-xl px-6 py-6 md:px-8 md:py-8 mb-8">

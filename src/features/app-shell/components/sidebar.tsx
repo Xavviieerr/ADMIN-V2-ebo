@@ -82,7 +82,7 @@ export default function Sidebar() {
 					</button>
 				</div>
 
-				<nav className="flex flex-col gap-2 mb-8 mt-5 h-[calc(100vh-200px)] max-h-[600px] overflow-y-auto overflow-x-hidden pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#23232a] [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#2a2a2a]">
+				<nav className="flex flex-col gap-2 mb-8 mt-5 h-[calc(100vh-200px)] max-h-[600px] overflow-y-auto overflow-x-hidden pr-2 custom-scrollbar">
 					{navigation.map((item) => {
 						const shouldShow =
 							(item.superAdminOnly ? isSuperAdmin : true) &&

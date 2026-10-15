@@ -143,6 +143,85 @@ export interface Permission {
       category: 'place',
       title: 'Moderate Places',
       description: 'Can approve and reject guonopedia places'
+    },
+    // Figure management permissions
+    'create_figure': {
+      category: 'figure',
+      title: 'Add Figures',
+      description: 'Can create new guonopedia figures'
+    },
+    'view_figure': {
+      category: 'figure',
+      title: 'View Figures',
+      description: 'Can view guonopedia figure information'
+    },
+    'edit_figure': {
+      category: 'figure',
+      title: 'Edit Figures',
+      description: 'Can modify guonopedia figure details'
+    },
+    'delete_figure': {
+      category: 'figure',
+      title: 'Delete Figures',
+      description: 'Can remove guonopedia figures'
+    },
+    'moderate_figure': {
+      category: 'figure',
+      title: 'Moderate Figures',
+      description: 'Can approve and reject guonopedia figures'
+    },
+    // Town management permissions
+    'create_town': {
+      category: 'town',
+      title: 'Add Towns',
+      description: 'Can create new towns'
+    },
+    'view_town': {
+      category: 'town',
+      title: 'View Towns',
+      description: 'Can view town information'
+    },
+    'edit_town': {
+      category: 'town',
+      title: 'Edit Towns',
+      description: 'Can modify town details'
+    },
+    'delete_town': {
+      category: 'town',
+      title: 'Delete Towns',
+      description: 'Can remove towns'
+    },
+    // Admin management permissions
+    'create_admin': {
+      category: 'admin',
+      title: 'Add Admins',
+      description: 'Can create new admin accounts'
+    },
+    // Name management permissions
+    'create_name': {
+      category: 'name',
+      title: 'Add Names',
+      description: 'Can create new guonopedia names'
+    },
+    'view_name': {
+      category: 'name',
+      title: 'View Names',
+      description: 'Can view guonopedia name information'
+    },
+    'edit_name': {
+      category: 'name',
+      title: 'Edit Names',
+      description: 'Can modify guonopedia name details'
+    },
+    'delete_name': {
+      category: 'name',
+      title: 'Delete Names',
+      description: 'Can remove guonopedia names'
+    },
+    'moderate_name': {
+      category: 'name',
+      title: 'Moderate Names',
+      description: 'Can approve and reject guonopedia names'
     }
   };
 

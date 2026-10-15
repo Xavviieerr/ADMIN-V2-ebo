@@ -16,6 +16,9 @@ export type PlaceBasicDraft = {
   figures: string[];
   ruler: string;
   summary: string;
+  tags: string[];
+  coverImage: string;
+  images: string[];
 };
 
 export type PlaceLocationDraft = {
@@ -25,6 +28,18 @@ export type PlaceLocationDraft = {
   long: string;
   googleMap: string;
   province: string;
+  city: string;
+  country: string;
+  address: string;
+};
+
+export type PlaceProfileDraft = {
+  phoneNumber: string;
+  email: string;
+  website: string;
+  category: string;
+  logo: string;
+  openingHours: Record<string, { open?: string; close?: string; closed?: boolean }>;
 };
 
 export type PlaceHistoryEntry = {
@@ -63,6 +78,9 @@ const defaultBasic: PlaceBasicDraft = {
   figures: [],
   ruler: "",
   summary: "",
+  tags: [],
+  coverImage: "",
+  images: [],
 };
 
 const defaultLocation: PlaceLocationDraft = {
@@ -72,6 +90,9 @@ const defaultLocation: PlaceLocationDraft = {
   long: "",
   googleMap: "",
   province: "",
+  city: "",
+  country: "",
+  address: "",
 };
 
 type PlaceDraftContextValue = {
@@ -79,6 +100,8 @@ type PlaceDraftContextValue = {
   setBasic: React.Dispatch<React.SetStateAction<PlaceBasicDraft>>;
   location: PlaceLocationDraft;
   setLocation: React.Dispatch<React.SetStateAction<PlaceLocationDraft>>;
+  profile: PlaceProfileDraft | null;
+  setProfile: React.Dispatch<React.SetStateAction<PlaceProfileDraft | null>>;
   history: PlaceHistoryEntry[];
   setHistory: React.Dispatch<React.SetStateAction<PlaceHistoryEntry[]>>;
   sources: PlaceSource[];
@@ -91,6 +114,8 @@ const defaultValue: PlaceDraftContextValue = {
   setBasic: () => {},
   location: defaultLocation,
   setLocation: () => {},
+  profile: null,
+  setProfile: () => {},
   history: [],
   setHistory: () => {},
   sources: [],
@@ -105,18 +130,22 @@ const freshBasic = (): PlaceBasicDraft => ({
   alternativeNames: [],
   founders: [],
   figures: [],
+  tags: [],
+  images: [],
 });
 
 const AddPlaceProvider = ({ children }: { children: React.ReactNode }) => {
   const [basic, setBasic] = useState<PlaceBasicDraft>(freshBasic);
   const [location, setLocation] =
     useState<PlaceLocationDraft>(defaultLocation);
+  const [profile, setProfile] = useState<PlaceProfileDraft | null>(null);
   const [history, setHistory] = useState<PlaceHistoryEntry[]>([]);
   const [sources, setSources] = useState<PlaceSource[]>([]);
 
   const resetDraft = () => {
     setBasic(freshBasic());
     setLocation(defaultLocation);
+    setProfile(null);
     setHistory([]);
     setSources([]);
   };
@@ -128,6 +157,8 @@ const AddPlaceProvider = ({ children }: { children: React.ReactNode }) => {
         setBasic,
         location,
         setLocation,
+        profile,
+        setProfile,
         history,
         setHistory,
         sources,

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PlaceInfoStage } from "@/features/shared";
 import BasicInfoForm from "./basic-info-form";
 import LocationForm from "./location";
+import BusinessProfileForm from "./business-profile-form";
 
 const BasicInfoStage = ({ stage }: { stage: PlaceInfoStage }) => {
   return (
@@ -21,10 +22,12 @@ const BasicInfoStage = ({ stage }: { stage: PlaceInfoStage }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 w-full gap-6  mt-8">
+          <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-6 mt-8">
             <BasicInfoForm />
 
             <LocationForm />
+
+            <BusinessProfileForm />
           </div>
         </div>
       )}

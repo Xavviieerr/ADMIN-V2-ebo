@@ -2,10 +2,16 @@
 
 import { MultiInput } from "@/features/shared";
 import React from "react";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useAddPlaceDraft } from "./context";
+import ImageField from "./image-field";
+import { PLACE_TYPE_OPTIONS } from "../model/filter-options";
 
 const BasicInfoForm = () => {
   const { basic: formData, setBasic: setFormData } = useAddPlaceDraft();
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
 
   return (
     <div className=" flex flex-col px-8 py-6 bg-gray-txt-100 rounded-md w-full">
@@ -17,11 +23,11 @@ const BasicInfoForm = () => {
       <div className="flex flex-col w-full mt-6 gap-4">
         {/* Name */}
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">{t("places.form.nameLabel", "Name")}</label>
           <input
             type="text"
             id="name"
-            placeholder="Enter the place's name"
+            placeholder={t("places.form.namePh", "Enter the place's name")}
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="input"
@@ -48,21 +54,25 @@ const BasicInfoForm = () => {
           }
         />
 
-        {/* Type */}
+        {/* Type — backend enum values are sent verbatim */}
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="type">Type</label>
+          <label htmlFor="type">{t("places.form.typeLabel", "Type")}</label>
           <select
+            value={formData.type}
             onChange={(e) => setFormData({ ...formData, type: e.target.value })}
             id="type"
-            className="input h-12"
+            className="input h-12 capitalize"
           >
-            {["Town", "Village", "Kingdom", "Landmark"].map((type) => (
+            <option value="" className="text-white bg-secondary-bg">
+              {t("places.form.typeLabel", "Type")}
+            </option>
+            {PLACE_TYPE_OPTIONS.filter((option) => option.value !== "").map((option) => (
               <option
-                key={type}
-                value={type}
+                key={option.value}
+                value={option.value}
                 className="text-white bg-secondary-bg"
               >
-                {type}
+                {t(option.labelKey ?? "", option.label)}
               </option>
             ))}
           </select>
@@ -134,11 +144,11 @@ const BasicInfoForm = () => {
         />
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="summary">Summary</label>
+          <label htmlFor="summary">{t("places.form.descriptionLabel", "Description")}</label>
           <textarea
             id="summary"
             rows={4}
-            placeholder="Enter a summary of the figure"
+            placeholder={t("places.form.descriptionPh", "Enter a description (minimum 10 characters)")}
             value={formData.summary}
             onChange={(e) =>
               setFormData({ ...formData, summary: e.target.value })
@@ -146,6 +156,37 @@ const BasicInfoForm = () => {
             className="input"
           />
         </div>
+
+        <MultiInput
+          label={t("places.form.tagsLabel", "Tags")}
+          placeholder={t("places.form.tagsPh", "Enter a tag")}
+          values={formData.tags}
+          removeValue={(value) =>
+            setFormData({
+              ...formData,
+              tags: formData.tags.filter((tag) => tag !== value),
+            })
+          }
+          addValue={(value) =>
+            setFormData({
+              ...formData,
+              tags: [...formData.tags, value],
+            })
+          }
+        />
+
+        <ImageField
+          label={t("places.form.coverLabel", "Cover image")}
+          value={formData.coverImage}
+          onChange={(value) => setFormData({ ...formData, coverImage: value as string })}
+        />
+
+        <ImageField
+          label={t("places.form.imagesLabel", "Gallery images")}
+          value={formData.images}
+          multiple
+          onChange={(value) => setFormData({ ...formData, images: value as string[] })}
+        />
       </div>
     </div>
   );

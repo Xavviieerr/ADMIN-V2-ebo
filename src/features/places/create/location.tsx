@@ -1,10 +1,14 @@
 "use client";
 
 import React from "react";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useAddPlaceDraft } from "./context";
 
 const LocationForm = () => {
   const { location: formData, setLocation: setFormData } = useAddPlaceDraft();
+  const { locale } = useLocale();
+  const { t } = useTranslation(locale);
 
   return (
     <div className=" flex flex-col px-8 py-6 bg-gray-txt-100 rounded-md w-full h-fit">
@@ -16,24 +20,17 @@ const LocationForm = () => {
       <div className="flex flex-col w-full mt-6 gap-4">
         {/* State */}
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="state">State</label>
-          <select
+          <label htmlFor="state">{t("places.form.stateLabel", "State")}</label>
+          <input
+            type="text"
+            id="state"
+            placeholder={t("places.form.statePh", "Enter the state")}
+            value={formData.state}
             onChange={(e) =>
               setFormData({ ...formData, state: e.target.value })
             }
-            id="state"
-            className="input h-12"
-          >
-            {["Delta"].map((type) => (
-              <option
-                key={type}
-                value={type}
-                className="text-white bg-secondary-bg"
-              >
-                {type}
-              </option>
-            ))}
-          </select>
+            className="input"
+          />
         </div>
 
         <div className="flex flex-col gap-2 w-full">
@@ -79,11 +76,11 @@ const LocationForm = () => {
         {/* Coord */}
         <div className="flex items-center gap-4 w-full">
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="long">Longitude</label>
+            <label htmlFor="long">{t("places.form.longLabel", "Longitude")}</label>
             <input
               type="text"
               id="long"
-              placeholder="Enter Longitude"
+              placeholder={t("places.form.longPh", "Enter longitude")}
               value={formData.long}
               onChange={(e) =>
                 setFormData({ ...formData, long: e.target.value })
@@ -92,11 +89,11 @@ const LocationForm = () => {
             />
           </div>
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="lat">Latitude</label>
+            <label htmlFor="lat">{t("places.form.latLabel", "Latitude")}</label>
             <input
               type="text"
               id="lat"
-              placeholder="Enter Latitude"
+              placeholder={t("places.form.latPh", "Enter latitude")}
               value={formData.lat}
               onChange={(e) =>
                 setFormData({ ...formData, lat: e.target.value })
@@ -104,6 +101,48 @@ const LocationForm = () => {
               className="input"
             />
           </div>
+        </div>
+
+        <div className="flex flex-col gap-2 w-full">
+          <label htmlFor="city">{t("places.form.cityLabel", "City")}</label>
+          <input
+            type="text"
+            id="city"
+            placeholder={t("places.form.cityPh", "Enter the city")}
+            value={formData.city}
+            onChange={(e) =>
+              setFormData({ ...formData, city: e.target.value })
+            }
+            className="input"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2 w-full">
+          <label htmlFor="country">{t("places.form.countryLabel", "Country")}</label>
+          <input
+            type="text"
+            id="country"
+            placeholder={t("places.form.countryPh", "Enter the country")}
+            value={formData.country}
+            onChange={(e) =>
+              setFormData({ ...formData, country: e.target.value })
+            }
+            className="input"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2 w-full">
+          <label htmlFor="address">{t("places.form.addressLabel", "Address")}</label>
+          <input
+            type="text"
+            id="address"
+            placeholder={t("places.form.addressPh", "Enter the street address")}
+            value={formData.address}
+            onChange={(e) =>
+              setFormData({ ...formData, address: e.target.value })
+            }
+            className="input"
+          />
         </div>
       </div>
     </div>

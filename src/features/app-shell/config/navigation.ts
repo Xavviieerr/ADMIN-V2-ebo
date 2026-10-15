@@ -65,7 +65,7 @@ export const navigation: NavItem[] = [
         translationKey: "sidebar.historicalFigures",
         href: "/guonopedia/figures",
         icon: HistoryIcon,
-        permission: null,
+        permission: "view_figure",
       },
       {
         translationKey: "sidebar.places",

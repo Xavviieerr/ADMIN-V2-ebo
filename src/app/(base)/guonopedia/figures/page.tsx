@@ -1,4 +1,4 @@
-import { GuonopediaFiguresFeature } from "@/features/figures-pedia";
+import { FiguresListFeature } from "@/features/figures";
 import React from "react";
 
 const GuonopediaFiguresPage = async ({
@@ -8,12 +8,15 @@ const GuonopediaFiguresPage = async ({
     page?: string;
     search?: string;
     status?: string;
+    occupation?: string;
     category?: string;
     createdBy?: string;
+    sortBy?: string;
+    sortDir?: string;
   }>;
 }) => {
   const query = await searchParams;
-  return <GuonopediaFiguresFeature query={query} />;
+  return <FiguresListFeature searchParams={query} />;
 };
 
 export default GuonopediaFiguresPage;

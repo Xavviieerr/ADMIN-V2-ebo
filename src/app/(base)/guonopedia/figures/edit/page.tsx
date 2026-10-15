@@ -1,34 +1,17 @@
-import EditFigureFeature from "@/features/figures-pedia/edit-figure/main";
-import { Figure } from "@/features/figures-pedia/lib";
-import { fetchSingleFigure } from "@/features/figures-pedia/lib/api/fetch-single-figure";
-import { Loader2 } from "lucide-react";
-import { getServerAccessToken } from "@/features/auth/utils/serverTokenStorage";
-import React, { Suspense } from "react";
+import { notFound, redirect } from "next/navigation";
 
-const EditFigurePage = async ({
+// Legacy query-param route: /guonopedia/figures/edit?id=...
+// Preserved for old links; canonical edit lives at /guonopedia/figures/[id]/edit.
+const LegacyEditFigurePage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ id: string }>;
+  searchParams: Promise<{ id?: string }>;
 }) => {
-  const resolvedParams = await searchParams;
-  const token = (await getServerAccessToken()) ?? "";
-
-  const response: Promise<{ data: Figure }> = fetchSingleFigure({
-    token,
-    id: resolvedParams.id,
-  });
-
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-[80vh] flex items-center justify-center p-3 sm:p-4 md:p-6 lg:p-8 bg-[#18191f] text-white pb-20 font-plus-sans">
-          <Loader2 size={48} className="animate-spin text-foreground-50" />
-        </div>
-      }
-    >
-      <EditFigureFeature data={response} />
-    </Suspense>
-  );
+  const { id } = await searchParams;
+  if (!id) notFound();
+  const trimmed = id.trim();
+  if (!trimmed) notFound();
+  redirect(`/guonopedia/figures/${trimmed}/edit`);
 };
 
-export default EditFigurePage;
+export default LegacyEditFigurePage;

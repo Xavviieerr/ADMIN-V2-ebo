@@ -1,13 +1,13 @@
-import { AddFiguresFeature } from "@/features/figures-pedia/add-figures";
+import { AddFigureFeature } from "@/features/figures";
+import { PermissionGate } from "@/features/shared";
 import React from "react";
 
-const AddFiguresPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ stage: string; status: string }>;
-}) => {
-  const { stage = "", status } = await searchParams;
-  return <AddFiguresFeature stage={stage} status={status} />;
+const AddFigurePage = () => {
+  return (
+    <PermissionGate permission="create_figure">
+      <AddFigureFeature />
+    </PermissionGate>
+  );
 };
 
-export default AddFiguresPage;
+export default AddFigurePage;

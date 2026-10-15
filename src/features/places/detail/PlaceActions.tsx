@@ -13,7 +13,7 @@ import PlaceDeleteDialog from '../moderation/PlaceDeleteDialog';
 
 // Action row for a place. Every action is permission-gated; the backend
 // remains authoritative and 403s surface as toasts from the dialogs.
-const PlaceActions = ({ status, placeId }: { status: string, placeId: string }) => {
+const PlaceActions = ({ status, placeId, verificationStatus }: { status: string, placeId: string, verificationStatus?: string }) => {
     const { locale } = useLocale();
     const { t } = useTranslation(locale);
     const [showReject, setShowReject] = useState(false);
@@ -91,6 +91,7 @@ const PlaceActions = ({ status, placeId }: { status: string, placeId: string }) 
                 placeId={placeId}
                 show={showVerify}
                 setShow={setShowVerify}
+                current={verificationStatus}
             />
 
             <PlaceDeleteDialog

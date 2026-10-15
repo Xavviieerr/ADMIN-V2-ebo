@@ -1046,6 +1046,7 @@
     "pagerNext": "Next page",
     "notFoundTitle": "Place not found",
     "notFoundBody": "The requested place does not exist or may have been deleted.",
+    "rejectionHeading": "Reason For Rejection",
     "backToList": "Back to places",
     "typeLabel": "Type",
     "statusLabel": "Status",

@@ -161,7 +161,7 @@ const ClaimsSection = ({
                           setRejecting(claim);
                           setReason("");
                         }}
-                        className="secondary-btn py-1.5 px-4 text-sm hover:!border-base-red hover:!text-base-red"
+                        className="secondary-btn py-1.5 px-4 text-sm hover:border-base-red! hover:text-base-red!"
                       >
                         {t("places.actions.reject", "Reject")}
                       </button>
